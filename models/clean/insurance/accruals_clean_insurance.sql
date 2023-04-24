@@ -15,3 +15,4 @@ select
     end as _infx_is_active
 
 from {{ source("insurance", "accruals") }}
+-- 
