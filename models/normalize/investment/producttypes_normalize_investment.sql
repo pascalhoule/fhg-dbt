@@ -1,0 +1,39 @@
+ {{  config(alias='producttypes', database='normalize', schema='investment')  }} 
+
+
+SELECT 
+ accounttype as investment_fund_producttypes_accounttype
+,cdc_operation as investment_fund_producttypes_cdc_operation
+,changedby as investment_fund_producttypes_changedby
+,changedon as investment_fund_producttypes_changedon
+,commit_timestamp as investment_fund_producttypes_commit_timestamp
+,datalake_end_ts as investment_fund_producttypes_datalake_end_ts
+,datalake_start_ts as investment_fund_producttypes_datalake_start_ts
+,datalake_timestamp as investment_fund_producttypes_datalake_timestamp
+,dbx_prodtype as investment_fund_producttypes_dbx_prodtype
+,displaying_index as investment_fund_producttypes_displaying_index
+,forceclose_numofdays as investment_fund_producttypes_forceclose_numofdays
+,fund_subtype as investment_fund_producttypes_fund_subtype
+,fund_type as investment_fund_producttypes_fund_type
+,istype as investment_fund_producttypes_istype
+,is_first_known_record as investment_fund_producttypes_is_first_known_record
+,is_last_known_record as investment_fund_producttypes_is_last_known_record
+,producttypename as investment_fund_producttypes_producttypename
+,product_allocation as investment_fund_producttypes_product_allocation
+,product_assetindex as investment_fund_producttypes_product_assetindex
+,product_offbookflag as investment_fund_producttypes_product_offbookflag
+,proposedclose_numofdays as investment_fund_producttypes_proposedclose_numofdays
+,stage_id as investment_fund_producttypes_stage_id
+,stream_position as investment_fund_producttypes_stream_position
+,subtypename as investment_fund_producttypes_subtypename
+,subtypenamefr as investment_fund_producttypes_subtypenamefr
+,tradeapproval_flag as investment_fund_producttypes_tradeapproval_flag
+,tradecompliance_flag as investment_fund_producttypes_tradecompliance_flag
+,transact_id as investment_fund_producttypes_transact_id 
+,_infx_loaded_ts_utc 
+,_infx_active_from_ts_utc 
+,_infx_active_to_ts_utc  
+,_infx_is_active 
+
+
+from {{ ref ('producttypes_clean_investment')  }}
