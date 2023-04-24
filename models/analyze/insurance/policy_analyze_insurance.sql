@@ -56,10 +56,6 @@ p.policycode
 FROM dev_integrate.insurance.policy p
 LEFT JOIN {{ ref ('ic_integrate_insurance')  }} ic ON ic.iccode = p.iccode
 LEFT JOIN {{ ref ('policystatus_integrate_insurance')  }} ps ON ps.statusvalue ilike p.STATUS
--- LEFT JOIN {{ ref ('policysplit_integrate_insurance')  }} sp ON sp.policycode = p.policycode AND p.hassplit ilike 'y' AND sp.STATUS ilike 'a'
--- LEFT JOIN {{ ref ('mga_integrate_insurance')  }} mga ON mga.mgacode = p.mgacode
--- INNER JOIN dev_integrate.insurance.policygrouplinking pgl ON p.policycode = pgl.policycode
--- INNER JOIN dev_integrate.insurance.policygroup pg ON pgl.policygroupcode = pg.policygroupcode
 
 LEFT JOIN (
 	SELECT policycode
