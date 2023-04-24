@@ -1,0 +1,29 @@
+
+version: 2
+
+sources:
+  - name: investment
+    database: "{{ target.name }}_ingest"
+    tables:
+      - name: clients
+      - name: sponsor
+      - name: fund_products
+      - name: producttypes
+      - name: state
+      - name: registration
+      - name: trailing_fee
+      - name: fundaccount
+      - name: transactiontypes
+      - name: paycommission
+      - name: representatives
+      - name: branch
+      - name: transactions
+      - name: region
+      - name: dealer   
+      - name: constants
+      - name: jointrepresentatives_vl
+      - name: processedcommissions_vl
+      - name: transactions_vl
+      - name: representatives_vl
+      - name: beneficiaries
+      - name: accountholder
