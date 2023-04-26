@@ -1,0 +1,41 @@
+
+version: 2
+
+sources:
+  - name: insurance
+    database: ingest
+    tables:
+      - name: clients
+      - name: state
+      - name: constants
+      - name: ic
+      - name: agent
+      - name: icplan
+      - name: policy
+      - name: policygroup
+      - name: policygrouplinking
+      - name: policysplit
+      - name: aga
+      - name: mga
+      - name: tags
+      - name: policystatus
+      - name: hierarchytags
+      - name: indirecthierarchyrelationship
+      - name: brokertags
+      - name: clienttags
+      - name: clientagentlinking
+      - name: policytags
+      - name: policyclientlinking
+      - name: policyagentlinking
+      - name: accruals
+      - name: importednbpolicy
+      - name: broker_vl
+      - name: mga_vl
+      - name: commission_vl
+      - name: agent_combined_integrate_insurance
+      - name: brokeremail_vl
+      - name: hierarchy_vl
+      - name: brokeraddress_vl
+      - name: brokertags_vl
+      - name: brokeradvanced_vl
+      
