@@ -22,3 +22,4 @@ INVESTMENT_TRANSACTIONS_TRADE_DATE as "Trade Date",
 INVESTMENT_TRANSACTIONS_UNIT_PRICE as "Unit Price",
 INVESTMENT_TRANSACTIONTYPES_DISPLAY_NAME as "Transactiontypes Display Name"
 from {{ ref ('transactions_analyze_investment')  }} 
+where INVESTMENT_TRANSACTIONS_TRADE_DATE > dateadd('MONTH', -6, current_date())
