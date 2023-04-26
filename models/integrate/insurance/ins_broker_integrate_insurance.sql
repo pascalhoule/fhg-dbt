@@ -5,7 +5,7 @@ with cte_tags as (
     select
         agentcode, listagg(tagname, ', ') tags
     from
-        fh_prod.wealthserv_ins_curated_secure.brokertags_vl
+        fh_prod.wealthserv_ins_curated_secure.brokertags_vc
     group by agentcode
 )
 
@@ -28,10 +28,10 @@ concat( adr.address, ' ', adr.city, ' ',  adr.province, ' ',  adr.postal_code, '
 phone.number as bus_phone,
 email.emailaddress as bus_email,
 t.tags
-from fh_prod.wealthserv_ins_curated_secure.broker_vl b
-inner join fh_prod.wealthserv_ins_curated_secure.HIERARCHY_VL h on h.hierarchycode = b.agacode
-left join fh_prod.wealthserv_ins_curated_secure.brokeradvanced_vl ba on ba.agentcode = b.agentcode
-left join fh_prod.wealthserv_ins_curated_secure.brokeraddress_vl adr on adr.agentcode = b.agentcode and adr.type = 'business'
-left join fh_prod.wealthserv_ins_curated_secure.brokerphone_vl phone on phone.agentcode = b.agentcode and phone.type = 'Business'
-left join fh_prod.wealthserv_ins_curated_secure.brokeremail_vl email on email.agentcode = b.agentcode and email.type = 'business'
+from fh_prod.wealthserv_ins_curated_secure.broker_vc b
+inner join fh_prod.wealthserv_ins_curated_secure.HIERARCHY_vc h on h.hierarchycode = b.agacode
+left join fh_prod.wealthserv_ins_curated_secure.brokeradvanced_vc ba on ba.agentcode = b.agentcode
+left join fh_prod.wealthserv_ins_curated_secure.brokeraddress_vc adr on adr.agentcode = b.agentcode and adr.type = 'business'
+left join fh_prod.wealthserv_ins_curated_secure.brokerphone_vc phone on phone.agentcode = b.agentcode and phone.type = 'Business'
+left join fh_prod.wealthserv_ins_curated_secure.brokeremail_vc email on email.agentcode = b.agentcode and email.type = 'business'
 left join cte_tags t on t.agentcode = b.agentcode

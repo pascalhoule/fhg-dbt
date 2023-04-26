@@ -3,7 +3,7 @@ version: 2
 
 sources:
   - name: investment
-    database: "{{ target.name }}_ingest"
+    database: ingest
     tables:
       - name: clients
       - name: sponsor
