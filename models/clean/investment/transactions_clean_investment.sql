@@ -1,4 +1,4 @@
- {{  config(alias='transactions', database='clean', schema='investment')  }} 
+ {{  config(alias='transactions', database='clean', schema='investment', materialized='incremental')  }} 
 
 
 SELECT * 
@@ -13,3 +13,10 @@ SELECT *
 
 
 from {{ source ('investment', 'transactions')  }}
+
+{% if is_incremental() %}
+
+  -- this filter will only be applied on an incremental run
+  where _infx_loaded_ts_utc > (select max(_infx_loaded_ts_utc) from {{ this }})
+
+{% endif %}
