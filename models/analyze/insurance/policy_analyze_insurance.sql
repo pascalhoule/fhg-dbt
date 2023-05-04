@@ -25,7 +25,8 @@ p.policycode
 	,cast(p.renewaldate AS DATE) AS renewaldate
 	,cast(p.senttoicdate AS DATE) AS senttoicdate
 	,cast(p.maileddate AS DATE) AS maileddate
-	,p.STATUS
+	,ps.englishdescription as policy_status_description
+    ,ps.category as policy_status_category
 	-- ,ifnull(sp.rate, 100) / 100 AS splitrate
 	-- ,pgi.ismainpolicy * ifnull(sp.rate, 100) / 100 AS appcount
 	-- ,ifnull(fyctotals.accrualamount, 0) * ifnull(sp.rate, 100) / 100 AS fycamount
@@ -53,9 +54,10 @@ p.policycode
 	,p.SUMINSURED
 	,beneficiaries.beneficiaries
 
-FROM dev_integrate.insurance.policy p
+FROM {{ ref ('policy_integrate_insurance')  }} p
 LEFT JOIN {{ ref ('ic_integrate_insurance')  }} ic ON ic.iccode = p.iccode
-LEFT JOIN {{ ref ('policystatus_integrate_insurance')  }} ps ON ps.statusvalue ilike p.STATUS
+-- LEFT JOIN {{ ref ('policystatus_integrate_insurance')  }} ps ON ps.statusvalue ilike p.STATUS
+LEFT JOIN {{ ref ('policystatus_vc_integrate_insurance')  }} ps ON  ps.code = p.status
 
 LEFT JOIN (
 	SELECT policycode
