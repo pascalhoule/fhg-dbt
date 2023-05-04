@@ -29,9 +29,9 @@ phone.number as bus_phone,
 email.emailaddress as bus_email,
 t.tags
 from fh_prod.wealthserv_ins_curated_secure.broker_vc b
-inner join fh_prod.wealthserv_ins_curated_secure.HIERARCHY_vc h on h.hierarchycode = b.agacode
-left join fh_prod.wealthserv_ins_curated_secure.brokeradvanced_vc ba on ba.agentcode = b.agentcode
-left join fh_prod.wealthserv_ins_curated_secure.brokeraddress_vc adr on adr.agentcode = b.agentcode and adr.type = 'business'
-left join fh_prod.wealthserv_ins_curated_secure.brokerphone_vc phone on phone.agentcode = b.agentcode and phone.type = 'Business'
-left join fh_prod.wealthserv_ins_curated_secure.brokeremail_vc email on email.agentcode = b.agentcode and email.type = 'business'
+inner join {{ ref('hierarchy_vc_normalize_insurance') }} h on h.hierarchycode = b.agacode
+left join  {{ ref('brokeradvanced_vc_normalize_insurance') }} ba on ba.agentcode = b.agentcode
+left join  {{ ref('brokeraddress_vc_normalize_insurance') }} adr on adr.agentcode = b.agentcode and adr.type = 'business'
+left join  {{ ref('brokerphone_vc_normalize_insurance') }} phone on phone.agentcode = b.agentcode and phone.type = 'Business'
+left join  {{ ref('brokeremail_vc_normalize_insurance') }} email on email.agentcode = b.agentcode and email.type = 'business'
 left join cte_tags t on t.agentcode = b.agentcode
