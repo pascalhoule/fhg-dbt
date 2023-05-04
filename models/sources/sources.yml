@@ -7,7 +7,22 @@ sources:
     schema: wealthserv_ins_curated_secure
     tables:
       - name: hierarchy_vc
-    
+      - name: broker_vc
+      - name: brokeradvanced_vc
+      - name: brokeraddress_vc
+      - name: brokerphone_vc
+      - name: brokeremail_vc
+      - name: brokertags_vc
+      - name: representatives_vc
+      - name: representativeaddress_vc
+  
+  - name: investment_curated
+    database: fh_prod
+    schema: wealthserv_inv_curated_secure
+    tables:
+      - name: representatives_vc
+      - name: representativeaddress_vc
+
   - name: insurance
     database: fh_prod
     schema: wealthserv_ins_ods_current_secure
@@ -36,15 +51,8 @@ sources:
       - name: policyagentlinking
       - name: accruals
       - name: importednbpolicy
-      - name: broker_vl
-      - name: mga_vl
-      - name: commission_vl
       - name: agent_combined_integrate_insurance
-      - name: brokeremail_vl
-      - name: hierarchy_vl
-      - name: brokeraddress_vl
-      - name: brokertags_vl
-      - name: brokeradvanced_vl
+
   - name: investment
     database: fh_prod
     schema: wealthserv_inv_ods_current_secure
@@ -65,10 +73,6 @@ sources:
       - name: region
       - name: dealer   
       - name: constants
-      - name: jointrepresentatives_vl
-      - name: processedcommissions_vl
-      - name: transactions_vl
-      - name: representatives_vl
       - name: beneficiaries
       - name: accountholder
       
