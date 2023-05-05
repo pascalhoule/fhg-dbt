@@ -12,4 +12,4 @@ SELECT *
   
 
 
-from {{ source ('insurance_curated', 'hierarchy_vc')  }}
+from {{ source ('insurance_curated', 'hierarchy_vc')  }} 
