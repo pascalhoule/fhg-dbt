@@ -30,8 +30,9 @@ select
     plantype as "PLANTYPE",
     policynumber as "POLICY NUMBER",
     policy_clientcode as "POLICY CLIENT CODE",
-    policy_status_description as "POLICY STATUS DESCRIPTION",
-    policy_status_category as "POLICY STATUS CATEGORY",
+    policy_status_english_description as "STATUS ENGLISH DESCRIPTION",
+    policy_status_french_description as "STATUS FRENCH DESCRIPTION",
+    policy_status_category as "STATUS CATEGORY",
     planid as "PLANID",
     policycode as "POLICY CODE",
     beneficiaries as "BENEFICIARIES"
