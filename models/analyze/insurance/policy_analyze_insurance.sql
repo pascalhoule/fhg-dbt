@@ -25,7 +25,8 @@ p.policycode
 	,cast(p.renewaldate AS DATE) AS renewaldate
 	,cast(p.senttoicdate AS DATE) AS senttoicdate
 	,cast(p.maileddate AS DATE) AS maileddate
-	,ps.englishdescription as policy_status_description
+	,ps.englishdescription as policy_status_english_description
+    ,ps.frenchdescription as policy_status_french_description
     ,ps.category as policy_status_category
 	-- ,ifnull(sp.rate, 100) / 100 AS splitrate
 	-- ,pgi.ismainpolicy * ifnull(sp.rate, 100) / 100 AS appcount
