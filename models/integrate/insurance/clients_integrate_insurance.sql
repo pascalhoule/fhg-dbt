@@ -15,7 +15,7 @@ c.insurance_client_code
 ,c.insurance_client_other_phone
 ,c.insurance_client_dob
 ,c.insurance_client_gender_id
-,c.insurance_client_smoker_status
+,ifnull(smoker.description, 'Unknown') as insurance_client_smoker_status
 ,c.insurance_client_email
 ,c.insurance_client_email2
 ,c.insurance_client_country_id
@@ -34,3 +34,4 @@ c.insurance_client_code
 
 
 from {{ ref ('clients_normalize_insurance') }} c
+left join {{ ref ('constants_normalize_insurance') }} smoker on smoker.value = c.insurance_client_smoker_status and smoker.type = 'Quote_Smoker'
