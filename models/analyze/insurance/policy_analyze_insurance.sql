@@ -8,6 +8,13 @@ p.policycode
 	-- ,ifnull(sp.agentcode, p.commagentcode) AS agentcode
 	,ic.icname AS carrier
 	,p.policynumber
+    ,CASE p.policyrated 
+        WHEN 1 
+            THEN 'Yes' 
+        WHEN 0 
+            THEN 'No' 
+        END AS policyrated
+    ,p.policyrating
 	,p.plancode AS planid
 	,p.plantype
 	,p.planname

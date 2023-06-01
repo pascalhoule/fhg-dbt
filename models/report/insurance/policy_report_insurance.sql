@@ -29,6 +29,8 @@ select
     firstinsuredclientcode as "FIRST INSURED CLIENT CODE",
     plantype as "PLANTYPE",
     policynumber as "POLICY NUMBER",
+    policyrated as "POLICY RATED",
+    policyrating as "POLICY RATING",
     policy_clientcode as "POLICY CLIENT CODE",
     policy_status_english_description as "STATUS ENGLISH DESCRIPTION",
     policy_status_french_description as "STATUS FRENCH DESCRIPTION",
