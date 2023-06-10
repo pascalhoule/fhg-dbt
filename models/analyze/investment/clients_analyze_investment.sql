@@ -22,10 +22,12 @@ cl.investment_client_code
 ,cl.investment_client_ssn
 ,cl.investment_client_state_code
 ,ifnull(status.description, 'Unknown') as investment_client_status
+,ifnull(status.description2, 'Unknown') as investment_client_status_fr
 ,cl.investment_client_street
 ,cl.investment_client_zipcode
 ,cl.investment_client_taxid
 ,ifnull(sex.description, 'Unknown') as investment_client_sex
+,ifnull(sex.description2, 'Unknown') as investment_client_sex_fr
 ,state.investment_state_name
 
 ,cl.investment_client_email

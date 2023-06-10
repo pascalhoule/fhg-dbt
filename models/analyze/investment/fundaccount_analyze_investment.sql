@@ -23,6 +23,7 @@ select
 ,fp.investment_fund_products_cusip
 -- ,fp.investment_fund_products_load_type
 ,loadtype.description as investment_fund_products_load_type
+,loadtype.description2 as investment_fund_products_load_type_fr
 ,fp.investment_fund_products_name
 ,fp.investment_fund_products_price
 ,pt.investment_fund_producttypes_producttypename
