@@ -15,9 +15,11 @@ SELECT
 ,tr.investment_transactions_fundproduct_name
 ,tr.investment_transactions_net_amount
 ,tr.investment_transactions_paymentid
-,c_ps.description as investment_transactions_payment_status
+,c_ps.description as  investment_transactions_payment_status
+,c_ps.description2 as investment_transactions_payment_status_fr
 ,tr.investment_transactions_settlementamount
 ,c_sp.description as investment_transactions_settlement_period
+,c_sp.description2 as investment_transactions_settlement_period_fr
 ,tr.investment_transactions_shares_units
 ,tr.investment_transactions_share_balance_after
 ,tr.investment_transactions_unit_price

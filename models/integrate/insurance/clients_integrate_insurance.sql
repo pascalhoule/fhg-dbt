@@ -16,6 +16,7 @@ c.insurance_client_code
 ,c.insurance_client_dob
 ,c.insurance_client_gender_id
 ,ifnull(smoker.description, 'Unknown') as insurance_client_smoker_status
+,ifnull(smoker.descriptionfr, 'Unknown') as insurance_client_smoker_status_fr
 ,c.insurance_client_email
 ,c.insurance_client_email2
 ,c.insurance_client_country_id
