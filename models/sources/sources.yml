@@ -77,3 +77,8 @@ sources:
       - name: beneficiaries
       - name: accountholder
       
+  - name: investment_raw
+    database: fh_prod
+    schema: wealthserv_inv_ods_raw_secure
+    tables:
+      - name: transactions
