@@ -37,6 +37,7 @@ select
     policy_status_category as "STATUS CATEGORY",
     planid as "PLANID",
     policycode as "POLICY CODE",
-    beneficiaries as "BENEFICIARIES"
+    beneficiaries as "BENEFICIARIES",
+    tagname as "TAG NAME"
 
 from {{ ref("policy_analyze_insurance") }}
