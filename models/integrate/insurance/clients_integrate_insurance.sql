@@ -28,6 +28,7 @@ c.insurance_client_code
 ,c.insurance_client_main_address_state_id
 ,c.insurance_client_client_language
 ,c.insurance_client_agentcode
+,c.insurance_client_status_code
 ,c._infx_loaded_ts_utc 
 ,c._infx_active_from_ts_utc 
 ,c._infx_active_to_ts_utc 

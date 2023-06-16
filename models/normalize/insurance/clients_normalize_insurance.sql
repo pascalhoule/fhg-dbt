@@ -27,6 +27,7 @@ select
 ,c.state_code as insurance_client_main_address_state_id
 ,c.client_language as insurance_client_client_language
 ,c.agentcode as insurance_client_agentcode
+,c.status as insurance_client_status_code
 ,_infx_loaded_ts_utc 
 ,_infx_active_from_ts_utc 
 ,_infx_active_to_ts_utc 

@@ -37,6 +37,8 @@ c.insurance_client_code
 -- ,c.insurance_client_state_id
 ,cs_lang.description as insurance_client_client_language
 ,c.insurance_client_agentcode
+,cs_status.description as insurance_client_status
+,cs_status.descriptionfr as insurance_client_status_fr
 ,c._infx_loaded_ts_utc 
 ,c._infx_active_from_ts_utc 
 ,c._infx_active_to_ts_utc 
@@ -47,4 +49,4 @@ from {{ ref ('clients_integrate_insurance') }} c
 left join {{ ref ('state_integrate_insurance') }} s on c.insurance_client_main_address_state_id = s.state_id
 left join {{ ref ('constants_integrate_insurance') }} cs_sex on cs_sex.value = c.insurance_client_gender_id and cs_sex.type = 'Sex'
 left join {{ ref ('constants_integrate_insurance') }} cs_lang on cs_lang.value = c.insurance_client_client_language and cs_lang.type = 'Preferred_Language'
-
+left join {{ ref ('constants_integrate_insurance') }} cs_status on cs_status.value = c.insurance_client_status_code and cs_status.type = 'ClientStatus'
