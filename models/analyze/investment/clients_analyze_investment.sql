@@ -33,8 +33,10 @@ cl.investment_client_code
 ,cl.investment_client_email
 ,cl.investment_client_email2
 ,case when cl.investment_client_cell_phone = '(   )   -' then null else cl.investment_client_cell_phone end as investment_client_cell_phone
+,lang.description as investment_client_client_language
 
 from {{ ref ('clients_integrate_investment')  }} cl
 left join {{ ref ('state_integrate_investment')  }} state on cl.investment_client_state_code = state.investment_state_code
 left join {{ ref ('constants_integrate_investment') }} sex on sex.value = cl.investment_client_sex_id and sex.type = 'Sex'
 left join {{ ref ('constants_integrate_investment') }} status on status.value = cl.investment_client_status and status.type = 'ClientStatus'
+left join {{ ref ('constants_integrate_investment') }} lang on lang.value = cl.investment_client_languagepreference and lang.type = 'Language'
