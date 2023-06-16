@@ -61,10 +61,17 @@ p.policycode
 	,p.GROSSAMOUNT
 	,p.SUMINSURED
 	,beneficiaries.beneficiaries
+    ,pt.tagname_combined AS tagname
 
 FROM {{ ref ('policy_integrate_insurance')  }} p
 LEFT JOIN {{ ref ('ic_integrate_insurance')  }} ic ON ic.iccode = p.iccode
 -- LEFT JOIN {{ ref ('policystatus_integrate_insurance')  }} ps ON ps.statusvalue ilike p.STATUS
+LEFT JOIN (
+    SELECT tagname_combined,policycode
+    FROM {{ ref ('policytags_vc_integrate_insurance')  }} 
+    WHERE source = 'policy') pt 
+    ON  pt.policycode = p.policycode
+
 LEFT JOIN {{ ref ('policystatus_vc_integrate_insurance')  }} ps ON  ps.code = p.status
 
 LEFT JOIN (
