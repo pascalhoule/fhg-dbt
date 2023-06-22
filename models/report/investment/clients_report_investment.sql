@@ -25,5 +25,6 @@ investment_client_sex as "Gender",
 investment_client_sex_fr as "Gender Fr",
 investment_client_email as "Email",
 investment_client_email2 as "Email2",
-investment_client_cell_phone as "Cell Phone"
+investment_client_cell_phone as "Cell Phone",
+investment_client_client_language as "Client Language"
 from {{ ref ('clients_analyze_investment')  }} 
