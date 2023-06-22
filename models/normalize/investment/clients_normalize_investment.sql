@@ -132,7 +132,11 @@ SELECT
 ,sex as investment_client_sex_id
 ,ssn as investment_client_ssn
 ,stage_id as investment_client_stage_id
-,state_code as investment_client_state_code
+,   case 
+    when state_code in ('`','#','-1')
+    then '' 
+    else state_code 
+    end as investment_client_state_code
 ,status as investment_client_status
 ,stream_position as investment_client_stream_position
 ,street as investment_client_street
