@@ -133,9 +133,9 @@ SELECT
 ,ssn as investment_client_ssn
 ,stage_id as investment_client_stage_id
 ,   case 
-    when state_code in ('`','#','-1')
+    when adjusted_state_code in ('`','#','-1') or adjusted_state_code rlike '.*[A-Za-z].*[0-9].*' or len(trim(adjusted_state_code)) = 1
     then '' 
-    else state_code 
+    else adjusted_state_code 
     end as investment_client_state_code
 ,status as investment_client_status
 ,stream_position as investment_client_stream_position
