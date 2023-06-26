@@ -1,0 +1,130 @@
+
+use role useradmin;
+grant role fh_reader to role fh_writer;
+
+use role sysadmin;
+grant create database on account to role fh_reader;
+
+-- ***********************
+
+use role useradmin;
+
+create or replace user ALANRICE
+ password='***' default_role = fh_reader default_secondary_roles = ('ALL') must_change_password = true EMAIL = 'Alan.Rice@financialhorizons.com';
+ grant role fh_reader to user ALANRICE;
+
+create user ARZOOMOR 
+password='***' default_role = fh_reader default_secondary_roles = ('ALL') must_change_password = true EMAIL = 'arzoo.mor@financialhorizons.com';
+grant role fh_reader to user ARZOOMOR;
+
+create user PASCALHOULE 
+password='***' default_role = fh_reader default_secondary_roles = ('ALL') must_change_password = true EMAIL = 'pascal.houle@financierehorizons.com';
+grant role fh_reader to user PASCALHOULE;
+
+use role accountadmin;
+grant usage on warehouse compute_wh to role fh_reader;
+
+--**********************************
+use role accountadmin;
+
+-- service
+
+grant usage on database service_db to role fh_reader;
+
+grant usage on schema service_db.security to role fh_reader;
+grant select on all tables in schema service_db.security to role fh_reader;
+grant select on future tables in schema service_db.security to role fh_reader;
+grant select on all views in schema service_db.security to role fh_reader;
+grant select on future views in schema service_db.security to role fh_reader;
+
+-- clean
+grant usage on database clean to role fh_reader;
+
+grant usage on schema clean.prod_insurance to role fh_reader;
+grant select on all tables in schema clean.prod_insurance to role fh_reader;
+grant select on future tables in schema clean.prod_insurance to role fh_reader;
+grant select on all views in schema clean.prod_insurance to role fh_reader;
+grant select on future views in schema clean.prod_insurance to role fh_reader;
+
+grant usage on schema clean.prod_investment to role fh_reader;
+grant select on all tables in schema clean.prod_investment to role fh_reader;
+grant select on future tables in schema clean.prod_investment to role fh_reader;
+grant select on all views in schema clean.prod_investment to role fh_reader;
+grant select on future views in schema clean.prod_investment to role fh_reader;
+
+-- integrate
+grant usage on database integrate to role fh_reader;
+
+grant usage on schema integrate.prod_insurance to role fh_reader;
+grant select on all tables in schema integrate.prod_insurance to role fh_reader;
+grant select on future tables in schema integrate.prod_insurance to role fh_reader;
+grant select on all views in schema integrate.prod_insurance to role fh_reader;
+grant select on future views in schema integrate.prod_insurance to role fh_reader;
+
+grant usage on schema integrate.prod_investment to role fh_reader;
+grant select on all tables in schema integrate.prod_investment to role fh_reader;
+grant select on future tables in schema integrate.prod_investment to role fh_reader;
+grant select on all views in schema integrate.prod_investment to role fh_reader;
+grant select on future views in schema integrate.prod_investment to role fh_reader;
+
+-- normalize
+grant usage on database normalize to role fh_reader;
+
+grant usage on schema normalize.prod_insurance to role fh_reader;
+grant select on all tables in schema normalize.prod_insurance to role fh_reader;
+grant select on future tables in schema normalize.prod_insurance to role fh_reader;
+grant select on all views in schema normalize.prod_insurance to role fh_reader;
+grant select on future views in schema normalize.prod_insurance to role fh_reader;
+
+grant usage on schema normalize.prod_investment to role fh_reader;
+grant select on all tables in schema normalize.prod_investment to role fh_reader;
+grant select on future tables in schema normalize.prod_investment to role fh_reader;
+grant select on all views in schema normalize.prod_investment to role fh_reader;
+grant select on future views in schema normalize.prod_investment to role fh_reader;
+
+
+-- analyze
+grant usage on database analyze to role fh_reader;
+
+grant usage on schema analyze.prod_insurance to role fh_reader;
+grant select on all tables in schema analyze.prod_insurance to role fh_reader;
+grant select on future tables in schema analyze.prod_insurance to role fh_reader;
+grant select on all views in schema analyze.prod_insurance to role fh_reader;
+grant select on future views in schema analyze.prod_insurance to role fh_reader;
+
+grant usage on schema analyze.prod_investment to role fh_reader;
+grant select on all tables in schema analyze.prod_investment to role fh_reader;
+grant select on future tables in schema analyze.prod_investment to role fh_reader;
+grant select on all views in schema analyze.prod_investment to role fh_reader;
+grant select on future views in schema analyze.prod_investment to role fh_reader;
+
+
+-- report
+grant usage on database report to role fh_reader;
+
+grant usage on schema report.prod_insurance to role fh_reader;
+grant select on all tables in schema report.prod_insurance to role fh_reader;
+grant select on future tables in schema report.prod_insurance to role fh_reader;
+grant select on all views in schema report.prod_insurance to role fh_reader;
+grant select on future views in schema report.prod_insurance to role fh_reader;
+
+grant usage on schema report.prod_investment to role fh_reader;
+grant select on all tables in schema report.prod_investment to role fh_reader;
+grant select on future tables in schema report.prod_investment to role fh_reader;
+grant select on all views in schema report.prod_investment to role fh_reader;
+grant select on future views in schema report.prod_investment to role fh_reader;
+
+grant create table on schema service_db.security to role fh_writer;
+grant create view on schema service_db.security to role fh_writer;
+
+use role fh_writer;
+create database service_db;
+create schema service_db.security;
+
+create or replace service_db.security.TABLE AGENT_MAPPING (
+	AGENT_UD2 NUMBER(38,0),
+	LOGIN VARCHAR(16777216),
+	FULL_AGENT_NAME VARCHAR(16777216),
+	SNOWFLAKE_ACCOUNT VARCHAR(16777216),
+	SNOWFLAKE_USER VARCHAR(16777216)
+);
