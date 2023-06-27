@@ -12,3 +12,4 @@ SELECT
     null as _infx_is_active 
 
 from {{ source ('insurance_curated','policytags_vc')  }}
+where source = 'policy'
