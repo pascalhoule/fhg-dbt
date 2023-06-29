@@ -17,6 +17,9 @@ sources:
       - name: representativeaddress_vc
       - name: policystatus_vc
       - name: policytags_vc
+      - name: cosrole_vc
+      - name: employee_vc
+      - name: employeerole_vc
   
   - name: investment_curated
     database: fh_prod
