@@ -86,3 +86,10 @@ sources:
     schema: wealthserv_inv_ods_raw_secure
     tables:
       - name: transactions
+
+  - name: dimensions
+    database: integrate
+    schema: prod_dimensions
+    tables:
+      - name: month_names
+      - name: calendar
