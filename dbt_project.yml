@@ -38,3 +38,9 @@ models:
       materialized: table
     clean:
       materialized: table
+    integrate:
+      materialized: table
+    normalize:
+      materialized: view
+    report:
+      materialized: view
