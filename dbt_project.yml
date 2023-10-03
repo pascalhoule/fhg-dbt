@@ -40,7 +40,10 @@ models:
       materialized: table
     integrate:
       materialized: table
+      copy_grants: true
     normalize:
       materialized: view
+      copy_grants: true
     report:
       materialized: view
+      copy_grants: true
