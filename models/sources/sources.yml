@@ -91,5 +91,5 @@ sources:
     database: integrate
     schema: prod_dimensions
     tables:
-      - name: month_names
+      - name: month_name
       - name: calendar
