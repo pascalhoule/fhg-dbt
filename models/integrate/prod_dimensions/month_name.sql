@@ -3,7 +3,7 @@
         materialized="table",
         alias='month_name', 
         database='integrate', 
-        schema='prod_dimensions'
+        schema='dimensions'
     )
 }}
 
