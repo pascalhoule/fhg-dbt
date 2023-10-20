@@ -3,6 +3,7 @@
 select
     state_id
     ,state_name
+    ,'tt' as test_field
     ,_infx_loaded_ts_utc 
     ,_infx_active_from_ts_utc
     ,_infx_active_to_ts_utc 
