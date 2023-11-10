@@ -54,39 +54,47 @@ HierarchyPathSubs AS
 
 Hierarchy AS(
  SELECT 
- 		hps.PARENTNODEID,
- 		hps.NODEID,
- 		hps.HIERARCHYPATH,
+ 		hps.ParentNodeID,
+ 		hps.NodeID,
+        hps.NodeName,
+ 		hps.HierarchyPath,
         hps.HIERARCHYPATHNAME,
- 		hps.HIERARCHYLEVEL,
+ 		hps.HierarchyLevel,
  		(SELECT MIN(b.BRANCHID) FROM H1 b WHERE hps.hierarchypath LIKE CONCAT('%',b.BRANCHID,'%')) AS BRANCHID,
  		LTRIM(RTRIM((SELECT MIN(b.BRANCHNAME) FROM H1 b WHERE hps.hierarchypath LIKE CONCAT('%',b.BRANCHID,'%')))) AS BRANCHNAME
- 	FROM HIERARCHYPATHSUBS hps )
+ 	FROM HierarchyPathSubs hps )
 
 SELECT 
-b.AGENTCODE,
+b.AgentCode,
 b.AGENTNAME,
 b.AGENTSTATUS,
 b.AGENTTYPE,
 B.BROKERID,
 ba.USERDEFINED2,
-h.HIERARCHYPATH, 
-h.HIERARCHYPATHNAME, 
+h.ParentNodeID,
+h.NodeID,
+h.NodeName,
+h.HierarchyPath, 
+h.HierarchyPathName, 
 h.BRANCHNAME,
 CASE 
-WHEN SUBSTRING(h.HIERARCHYPATH, 1,4) = '^m1^' THEN 'QC'
-WHEN SUBSTRING(h.HIERARCHYPATH, 1,4) = '^m2^' THEN 'West'
-WHEN SUBSTRING(h.HIERARCHYPATH, 1,4) = '^m3^' THEN 'Ontario'
-WHEN SUBSTRING(h.HIERARCHYPATH, 1,4) = '^m4^' THEN 'Atlantic'
+WHEN h.HierarchyPathName ilike '%MAP%' THEN 'MAP'
+ELSE 'Non-MAP' 
+END AS MAP_Segment,
+CASE 
+WHEN SUBSTRING(h.HierarchyPath, 1,4) = '^m1^' THEN 'QC'
+WHEN SUBSTRING(h.HierarchyPath, 1,4) = '^m2^' THEN 'West'
+WHEN SUBSTRING(h.HierarchyPath, 1,4) = '^m3^' THEN 'Ontario'
+WHEN SUBSTRING(h.HierarchyPath, 1,4) = '^m4^' THEN 'Atlantic'
 END AS MGA,
 CASE 
-WHEN SUBSTRING(h.HIERARCHYPATH, 1,4) = '^m1^' THEN 'QC'
-WHEN SUBSTRING(h.HIERARCHYPATH, 1,4) = '^m2^' THEN 'West'
-WHEN SUBSTRING(h.HIERARCHYPATH, 1,4) = '^m3^' THEN 'Ontario'
-WHEN SUBSTRING(h.HIERARCHYPATH, 1,4) = '^m4^' THEN 'Atlantic'
+WHEN SUBSTRING(h.HierarchyPath, 1,4) = '^m1^' THEN 'QC'
+WHEN SUBSTRING(h.HierarchyPath, 1,4) = '^m2^' THEN 'West'
+WHEN SUBSTRING(h.HierarchyPath, 1,4) = '^m3^' THEN 'Ontario'
+WHEN SUBSTRING(h.HierarchyPath, 1,4) = '^m4^' THEN 'Atlantic'
 END AS REGION
 FROM {{ ref ('broker_vc_clean_insurance') }} b 
-LEFT JOIN  {{ ref ('brokeradvanced_vc_clean_insurance') }} ba on ba.AGENTCODE = b.AGENTCODE
-LEFT JOIN HIERARCHY h on CONCAT('^', b.PARENTNODEID, '^') = h.NODEID
-WHERE b.AGENTTYPE <> 'Corporate' AND (ba.USERDEFINED2 LIKE '3268%' or ba.USERDEFINED2 like '3162%')
-ORDER BY ba.USERDEFINED2
+LEFT JOIN {{ ref ('brokeradvanced_vc_clean_insurance') }} ba on ba.agentcode = b.agentcode
+LEFT JOIN HIERARCHY h on CONCAT('^', b.parentnodeid, '^') = h.NodeID
+WHERE b.agenttype <> 'Corporate' AND (ba.userdefined2 LIKE '3268%' or ba.userdefined2 like '3162%')
+ORDER BY ba.userdefined2
