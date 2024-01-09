@@ -15,6 +15,7 @@ sources:
       - name: brokertags_vc
       - name: representatives_vc
       - name: representativeaddress_vc
+      - name: policy_vc
       - name: policystatus_vc
       - name: policytags_vc
       - name: cosrole_vc
