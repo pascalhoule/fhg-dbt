@@ -10,6 +10,7 @@ sources:
       - name: broker_vc
       - name: brokeradvanced_vc
       - name: brokeraddress_vc
+      - name: brokercos_vc
       - name: brokerphone_vc
       - name: brokeremail_vc
       - name: brokertags_vc
