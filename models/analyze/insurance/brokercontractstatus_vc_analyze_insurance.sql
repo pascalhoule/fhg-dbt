@@ -3,4 +3,4 @@
 
 SELECT * 
   
-FROM {{ ref ('brokercontractstatus_vc_integrate_insurance')  }}
+FROM {{ ref ('brokercontractstatus_vc_integrate_insurance') }}
