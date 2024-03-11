@@ -1,62 +1,18 @@
 {{  config(alias='__policycategory', database='normalize', schema='insurance')  }} 
 
-    WITH POLICY_INFO as (
-        SELECT
-            POLICYCODE,
-            POLICYNUMBER,
-            'UNKNOWN' as POLICYCATEGORY,
-            APPLICATIONDATE,
-            CONTRACTDATE as EFFECTIVE_DATE,
-            FACEAMOUNT,
-            FYCPAID,
-            ICCODE,
-            ISSUEPROVINCE,
-            PLANCODE,
-            PLANNAME,
-            PLANTYPE,
-            POLICYANNUALPREMIUM,
-            POLICYFEE,
-            POLICYRATED,
-            POLICYRATING,
-            PREMIUMAMOUNT,
-            RECORDSTATUS,
-            STATUS,
-            STATUSCHANGEDATE,
-            PLACEDDATE
-        FROM
-            --CLEAN.PROD_INSURANCE.POLICY
-            {{ ref ('policy_clean_insurance') }}
-        WHERE
-            RECORDSTATUS = 'ACTIVE'
-            AND PLANTYPE IN (
-                'CI',
-                'DI',
-                'Life',
-                'Permanent',
-                'Term',
-                'UL',
-                'LTC',
-                'Health',
-                'HealthSickness',
-                'SERVICE',
-                'Travel',
-                'WL'
-            )
-            AND APPLICATIONDATE > '1920-01-01'
-    ),
+WITH 
     LIST_FOR_SERVICE AS (
         SELECT
             POL_VC.POLICYNUMBER,
             POL_VC.PLANNAME AS PLANNAME,
             POL_VC.STATUS AS STATUS,
             POL_VC.APPLICATIONDATE,
-            POLICY_INFO.EFFECTIVE_DATE,
+            POL_VC.CONTRACTDATE AS EFFECTIVE_DATE,
             POL_VC.SETTLEMENTDATE,
             'SERVICE' AS POLICYCATEGORY,
             SUM(POL_VC.APPCOUNT) AS APPCOUNT
         from
-            POLICY_INFO 
-            FULL OUTER JOIN {{ ref ('policy_vc_clean_insurance') }} POL_VC ON POLICY_INFO.POLICYCODE = POL_VC.POLICYCODE
+             {{ ref ('policy_vc_clean_insurance') }} POL_VC
         where
             POL_VC.PLANTYPE IN (
                 'CI',
@@ -139,11 +95,19 @@
         FROM
             {{ ref ('policy_vc_clean_insurance') }} POL
         WHERE
-            POL.POLICYNUMBER IN (
-                SELECT
-                    DISTINCT POLICYNUMBER
-                FROM
-                    POLICY_INFO
+            PLANTYPE IN (
+                'CI',
+                'DI',
+                'Life',
+                'Permanent',
+                'Term',
+                'UL',
+                'LTC',
+                'Health',
+                'HealthSickness',
+                'SERVICE',
+                'Travel',
+                'WL'
             )
             AND POL.APPLICATIONDATE >= '1990-01-01'
         GROUP BY
@@ -160,8 +124,7 @@
             POL_VC.ISMAINCOVERAGE,
             'UNKNOWN' as POLICYCATEGORY
         FROM
-            POLICY_INFO 
-            FULL OUTER JOIN {{ ref ('policy_vc_clean_insurance') }} POL_VC ON POLICY_INFO.POLICYCODE = POL_VC.POLICYCODE
+            {{ ref ('policy_vc_clean_insurance') }} POL_VC 
         WHERE
             POL_VC.APPLICATIONDATE >= '1990-01-01'
     ),
@@ -198,7 +161,8 @@
                     DAY,
                     FIRST_APP_DT,
                     MAPPING_BASE_W_SERVICE.APPLICATIONDATE
-                ) < 1 THEN 'NEW POLICY'
+                ) < 1 
+                THEN 'NEW POLICY'
                 WHEN (
                     POLICYCATEGORY = 'UNKNOWN'
                     OR POLICYCATEGORY IS NULL
@@ -209,10 +173,11 @@
                 WHEN (
                     POLICYCATEGORY = 'UNKNOWN'
                     OR POLICYCATEGORY IS NULL
-                ) THEN 'NEW RIDER'
+                ) 
+                THEN 'NEW RIDER'
                 ELSE POLICYCATEGORY
             END AS POLICYCATEGORY
-        from
+        FROM
             MAPPING_BASE_W_SERVICE
             LEFT JOIN LIST_NEW_POL ON LIST_NEW_POL.POLICYGROUPCODE =  MAPPING_BASE_W_SERVICE.POLICYGROUPCODE
     ),
@@ -289,3 +254,4 @@
         ISMAINCOVERAGE
     from
         DE_DUP
+     
