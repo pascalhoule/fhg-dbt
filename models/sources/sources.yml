@@ -38,6 +38,7 @@ sources:
     database: fh_prod
     schema: wealthserv_ins_ods_current_secure
     tables:
+      - name: cheque
       - name: clients
       - name: state
       - name: constants
