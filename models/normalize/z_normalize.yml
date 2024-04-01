@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  -name: __POLICYCATEGORY_insurance
+   tests:
+     - dbt_utils.unique_combination_of_columns:
+         combination_of_columns:
+           - policycode
+           - agentcode
+   columns:
+     - name: policycategory
+       description: Holds the Financial Horizons definition of NEW POLICY, NEW RIDER and SERVICE
+       tests:
+         - not_null
+     - name: appcount
+       tests: 
+         - dbt_utils.accepted_range:
+            min_value: 0
+            max_value: 1
+         
