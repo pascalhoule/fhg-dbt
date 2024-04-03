@@ -4,4 +4,4 @@
 SELECT * 
   
 
-FROM {{ ref ('fundaccount_vc_clean_investment')  }}
+FROM {{ ref ('fundaccount_vc_clean_investment') }}

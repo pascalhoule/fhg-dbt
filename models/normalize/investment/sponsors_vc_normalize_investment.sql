@@ -4,4 +4,4 @@
 SELECT * 
   
 
-FROM {{ ref ('sponsors_vc_clean_investment')  }}
+FROM {{ ref ('sponsors_vc_clean_investment') }}
