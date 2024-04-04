@@ -33,7 +33,7 @@ select
 ,accounttype.description AS accounttype
 ,b.beneficiaries as investment_fund_beneficiaries
 
-from {{ ref ('registration_integrate_investment')  }} reg 
+from {{ ref ('registration_integrate_investment_consultant')  }} reg 
 left join {{ ref ('constants_integrate_investment')  }} accounttype 
         ON reg.INVESTMENT_REGISTRATION_REGISTRATION_TYPE ilike accounttype.value 
         AND accounttype.type ilike 'accounttype'

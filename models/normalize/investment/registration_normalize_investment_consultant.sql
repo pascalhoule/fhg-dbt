@@ -1,6 +1,5 @@
  {{  config(alias='registration_consultant', database='normalize', schema='investment') }} 
 
-
 SELECT 
  accountformflag as investment_registration_accountformflag
 ,accountform_code as investment_registration_accountform_code
