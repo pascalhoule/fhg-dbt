@@ -31,9 +31,14 @@ sources:
     database: fh_prod
     schema: wealthserv_inv_curated_secure
     tables:
+      - name: branches_vc
+      - name: fundaccount_vc
+      - name: fundproducts_vc
+      - name: region_vc
       - name: representatives_vc
       - name: representativeaddress_vc
-
+      - name: sponsors_vc
+      
   - name: insurance
     database: fh_prod
     schema: wealthserv_ins_ods_current_secure
