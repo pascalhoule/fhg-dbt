@@ -1,4 +1,4 @@
- {{  config(alias='registration', database='clean', schema='investment')  }} 
+ {{  config(alias='registration', database='clean', schema='investment')   }} 
 
 
 SELECT * 
@@ -12,4 +12,4 @@ SELECT *
   
 
 
-from {{ source ('investment', 'registration')  }}
+from {{ source ('investment', 'registration') }}

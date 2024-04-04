@@ -1,4 +1,4 @@
- {{  config(alias='region_vc', database='analyze', schema='investment')  }} 
+ {{  config(alias='region_vc', database='analyze', schema='investment', materialized = "view")  }} 
 
 
 SELECT * 
