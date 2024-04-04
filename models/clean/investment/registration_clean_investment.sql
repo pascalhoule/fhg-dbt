@@ -12,4 +12,4 @@ SELECT *
   
 
 
-from {{ source ('investment', 'registration')  }}
+from {{ source ('investment', 'registration') }}

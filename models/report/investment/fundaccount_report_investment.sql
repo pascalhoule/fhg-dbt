@@ -24,4 +24,4 @@ INVESTMENT_REGISTRATION_KYC_CODE as "Registration Kyc Code",
 INVESTMENT_REGISTRATION_REGISTRATION_TYPE as "Registration Registration Type",
 accounttype,
 investment_fund_beneficiaries as "Investment Fund Beneficiaries"
-from {{ ref ('fundaccount_analyze_investment')  }} 
+from {{ ref ('fundaccount_analyze_investment_consultant')  }} 
