@@ -4,5 +4,4 @@
 SELECT * 
   
 
-
 from {{ ref ('sponsor_normalize_investment')  }}
