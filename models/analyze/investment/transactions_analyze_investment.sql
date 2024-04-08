@@ -27,7 +27,7 @@ SELECT
 ,tt.investment_transactiontypes_display_name
 
 from {{ ref ('transactions_integrate_investment')  }} tr
-inner join {{ ref ('fundaccount_integrate_investment')  }} fa on tr.investment_transactions_fundaccount_code = fa.investment_fundaccount_code
+inner join {{ ref ('fundaccount_normalize_investment_consultant')  }} fa on tr.investment_transactions_fundaccount_code = fa.investment_fundaccount_code
 left join {{ ref ('transactiontypes_integrate_investment')  }} tt on tr.investment_transactions_ext_type_code = tt.investment_transactiontypes_ext_type_code
 left join {{ ref ('constants_integrate_investment') }} c_ps on c_ps.type = 'PaymentStatus' and c_ps.value = tr.investment_transactions_payment_status
 left join {{ ref ('constants_integrate_investment') }} c_sp on c_sp.type = 'Settlement_Period' and c_sp.value = tr.investment_transactions_settlement_period
