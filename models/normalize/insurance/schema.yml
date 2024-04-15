@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: __POLICYCATEGORY_insurance
+    config:
+      database: NORMALIZE
+    tests:
+      - dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B:
+          column_A: COMMPREMIUMAMOUNT
+          column_B: FYCAMOUNT
+          or_equal: True
+          row_condition: "policycode is not null" # (Optional)
+          config:
+            store_values: true
+            database: NORMALIZE
+            schema: z_TEST_RESULTS
+            alias: COMMPREM_GT_FYC__POLICYCATEGORIES
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - policycode
+            - agentcode
+          config:
+            store_values: true
+            database: NORMALIZE
+            schema: z_TEST_RESULTS
+            alias: POL_AGT_UNIQUE__POLICYCATEGORIES
+    columns:
+      - name: policycategory
+        description: Holds the Financial Horizons definition of NEW POLICY, NEW RIDER and SERVICE
+        tests:
+         - not_null:
+             config:
+              store_failures: true
+              database: NORMALIZE
+         - accepted_values:
+             values: ['NEW POLICY', 'NEW RIDER', 'SERVICE']
+             config:
+              store_failures: true
+              database: NORMALIZE
+      - name: appcount
+        tests: 
+          - dbt_utils.accepted_range:
+             min_value: 0
+             max_value: 1
+             config:
+              store_failures: true
+              database: NORMALIZE
+      - name: splitrate
+        tests:
+          - dbt_utils.accepted_range:
+             min_value: 0
+             max_value: 1
+             config:
+              store_failures: true
+              database: NORMALIZE
