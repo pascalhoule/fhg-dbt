@@ -26,6 +26,7 @@ sources:
       - name: cosrole_vc
       - name: employee_vc
       - name: employeerole_vc
+      - name: ic_vc
   
   - name: investment_curated
     database: fh_prod
