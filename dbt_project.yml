@@ -53,3 +53,4 @@ models:
     report:
       materialized: view
       copy_grants: true
+
