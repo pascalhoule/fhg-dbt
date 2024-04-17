@@ -3,7 +3,7 @@
         materialized="view",			
         alias='broker', 			
         database='report', 			
-        schema='daily_apps'			
+        schema='itm'			
     )			
 }}	
 
