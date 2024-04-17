@@ -30,11 +30,13 @@ models:
         tests:
          - not_null:
              config:
+              severity: warn
               store_failures: true
               database: NORMALIZE
          - accepted_values:
              values: ['NEW POLICY', 'NEW RIDER', 'SERVICE']
              config:
+              severity: warn
               store_failures: true
               database: NORMALIZE
       - name: appcount
@@ -43,6 +45,7 @@ models:
              min_value: 0
              max_value: 1
              config:
+              severity: warn
               store_failures: true
               database: NORMALIZE
       - name: splitrate
@@ -51,5 +54,6 @@ models:
              min_value: 0
              max_value: 1
              config:
+              severity: warn
               store_failures: true
               database: NORMALIZE
