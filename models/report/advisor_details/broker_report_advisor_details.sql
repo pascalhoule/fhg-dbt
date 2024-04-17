@@ -1,8 +1,8 @@
 {{			
     config (			
         materialized="view",			
-        alias='employee_vc', 			
+        alias='broker', 			
         database='report', 			
-        schema='insurance'			
+        schema='advisor_details'			
     )			
 }}	
