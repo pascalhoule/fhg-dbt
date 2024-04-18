@@ -25,7 +25,7 @@ models:
             schema: z_TEST_RESULTS
             alias: POL_AGT_UNIQUE__POLICYCATEGORIES
     columns:
-      - name: policycategory
+      - name: fh_policycategory
         description: Holds the Financial Horizons definition of NEW POLICY, NEW RIDER and SERVICE
         tests:
          - not_null:

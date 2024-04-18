@@ -1,10 +1,12 @@
-{{		config (			
+{{			
+    config (			
         materialized="view",			
         alias='broker', 			
         database='report', 			
-        schema='advisor_details',
-        tags="advisor_details"			
-    )			}}	
+        schema='daily_apps',
+        tags=["daily_apps"]			
+    )			
+}}	
 
 SELECT
     PARENTNODEID,
