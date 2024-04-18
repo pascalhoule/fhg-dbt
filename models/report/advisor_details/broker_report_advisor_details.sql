@@ -3,7 +3,7 @@
         alias='broker', 			
         database='report', 			
         schema='advisor_details',
-        tags=["advisor_details"]			
+        tags="advisor_details"			
     )			}}	
 
 SELECT
