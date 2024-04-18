@@ -3,7 +3,8 @@
         materialized="view",			
         alias='broker', 			
         database='report', 			
-        schema='advisor_details'			
+        schema='advisor_details',
+        tags=["advisor_details"]			
     )			
 }}	
 
