@@ -1,4 +1,4 @@
-{{  config(alias='__postdate', database='normalize', schema='insurance')  }} 
+{{  config(alias='__postdate', database='normalize', schema='insurance', tags=["policy_fh"])  }} 
 
 WITH
 FIN_FIRST_POSTDATE AS (

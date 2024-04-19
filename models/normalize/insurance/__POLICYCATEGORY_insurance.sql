@@ -1,4 +1,4 @@
-{{  config(alias='__policycategory', database='normalize', schema='insurance')  }} 
+{{  config(alias='__policycategory', database='normalize', schema='insurance', tags=["policy_fh"])  }} 
 
 WITH 
     LIST_FOR_SERVICE AS (

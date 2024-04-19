@@ -1,4 +1,4 @@
- {{  config(alias='policystatus_vc', database='clean', schema='insurance')  }} 
+ {{  config(alias='policystatus_vc', database='clean', schema='insurance', tags = ["policy_fh"])  }} 
 
 
 SELECT * 

@@ -1,4 +1,4 @@
-{{  config(alias='__comm_agt_mapped_corrected', database='normalize', schema='insurance')  }}
+{{  config(alias='__comm_agt_mapped_corrected', database='normalize', schema='insurance', tags=["policy_fh"])  }}
 
 WITH POSSIBLE_ERRORS AS (
     SELECT

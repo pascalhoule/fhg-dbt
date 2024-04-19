@@ -1,4 +1,4 @@
-{{  config(alias='__comm_wgts', database='normalize', schema='insurance')  }} 
+{{  config(alias='__comm_wgts', database='normalize', schema='insurance', tags=["policy_fh"])  }} 
 
     WITH FIN_TOTAL_PAID AS (
         SELECT
