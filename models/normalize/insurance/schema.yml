@@ -84,7 +84,7 @@ models:
           group_by: [APPLICATIONDATE]
           compare_group_by: [APPLICATIONDATE]
           row_condition: APPLICATIONDATE >= '2018-01-01'
-          compare_row_condition: APPLICATIONDATE >= '2018-01-01' AND PLANTYPE IN ('CI', 'DI', 'Life', 'Permanent', 'Term', 'UL', 'LTC', 'HealthSickness', 'SERVICE', 'Travel', 'WL')
+          compare_row_condition: APPLICATIONDATE >= '2018-01-01' AND PLANTYPE IN ('CI', 'DI', 'Life', 'Permanent', 'Term', 'UL', 'LTC', 'Health', 'HealthSickness', 'SERVICE', 'Travel', 'WL')
           tolerance_percent: 0.01 
           config:
             store_values: true
