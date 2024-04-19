@@ -74,6 +74,18 @@ models:
         tests:
           - not_null
   - name: __POSTDATE_insurance
+    config:
+      database: NORMALIZE
+    tests:
+      - dbt_expectations.expect_table_aggregation_to_equal_other_table:
+          expression: SUM(FYCAMOUNT)
+          compare_model: ref("policy_vc_normalize_insurance")
+          compare_expression: SUM(FYCAMOUNT)
+          group_by: APPLICATIONDATE
+          compare_group_by: APPLICATIONDATE
+          row_condition: APPLICATIONDATE >= '2018-01-01'
+          compare_row_condition: APPLICATIONDATE >= '2018-01-01' AND PLANTYPE IN ('CI', 'DI', 'Life', 'Permanent', 'Term', 'UL', 'LTC', 'HealthSickness', 'SERVICE', 'Travel', 'WL')
+          tolerance_percent: 0.01 
   - name: __FH_FORMAT_insurance
   - name: __COMM_AGT_MAPPED_insurance
   - name: __POLICY_FH
