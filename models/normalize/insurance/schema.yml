@@ -59,3 +59,19 @@ models:
               severity: warn
               store_failures: true
               database: NORMALIZE
+      - name: policycode
+        tests:
+         - relationships:
+             field: policycode
+             to: ref('policy_vc_clean_insurance')
+      - name: policygroupcode
+        tests:
+          - not_null
+      - name: commpremiumamount
+        tests:
+          - not_null
+      - name: fycamount
+        tests:
+          - not_null
+              
+             
