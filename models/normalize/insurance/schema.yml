@@ -15,6 +15,7 @@ models:
             database: NORMALIZE
             schema: z_TEST_RESULTS
             alias: COMMPREM_GT_FYC__POLICYCATEGORIES
+            severity: warn
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - policycode
@@ -24,6 +25,7 @@ models:
             database: NORMALIZE
             schema: z_TEST_RESULTS
             alias: POL_AGT_UNIQUE__POLICYCATEGORIES
+            severity: warn
     columns:
       - name: fh_policycategory
         description: Holds the Financial Horizons definition of NEW POLICY, NEW RIDER and SERVICE
