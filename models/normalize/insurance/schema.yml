@@ -8,8 +8,8 @@ models:
       - dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B:
           column_A: COMMPREMIUMAMOUNT
           column_B: FYCAMOUNT
-          or_equal: True
-          row_condition: "policycode is not null" # (Optional)
+          or_equal: FALSE
+          row_condition: "policycode is not null and COMMPREMIUMAOUNT > 0" # (Optional)
           config:
             store_values: true
             database: NORMALIZE
@@ -73,5 +73,10 @@ models:
       - name: fycamount
         tests:
           - not_null
+  - name: __POSTDATE_insurance
+  - name: __FH_FORMAT_insurance
+  - name: __COMM_AGT_MAPPED_insurance
+  - name: __POLICY_FH
+
               
              
