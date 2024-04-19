@@ -81,11 +81,15 @@ models:
           expression: SUM(FYCAMOUNT)
           compare_model: ref("policy_vc_normalize_insurance")
           compare_expression: SUM(FYCAMOUNT)
-          group_by: APPLICATIONDATE
-          compare_group_by: APPLICATIONDATE
+          group_by: [APPLICATIONDATE]
+          compare_group_by: [APPLICATIONDATE]
           row_condition: APPLICATIONDATE >= '2018-01-01'
           compare_row_condition: APPLICATIONDATE >= '2018-01-01' AND PLANTYPE IN ('CI', 'DI', 'Life', 'Permanent', 'Term', 'UL', 'LTC', 'HealthSickness', 'SERVICE', 'Travel', 'WL')
           tolerance_percent: 0.01 
+          config:
+            store_values: true
+            database: NORMALIZE
+            severity: warn
   - name: __FHFORMAT_insurance
   - name: __COMM_AGT_MAPPED_insurance
   - name: policy_fh_normalize_insurance
