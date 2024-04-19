@@ -1,4 +1,4 @@
-{{  config(alias='policy_vc', database='clean', schema='insurance')  }} 
+{{  config(alias='policy_vc', database='clean', schema='insurance', tags = ["policy_fh"])  }} 
  
 
 

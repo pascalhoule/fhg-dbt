@@ -3,7 +3,8 @@
         materialized="table",			
         alias='policy_fh', 			
         database='normalize', 			
-        schema='insurance'			
+        schema='insurance',
+        tags=["policy_fh"]			
     )			
 }}
 

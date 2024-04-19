@@ -1,4 +1,4 @@
- {{  config(alias='cheque', database='clean', schema='insurance')  }} 
+ {{  config(alias='cheque', database='clean', schema='insurance', tags=["policy_fh"])  }} 
 
  SELECT * 
     ,datalake_timestamp as _infx_loaded_ts_utc  

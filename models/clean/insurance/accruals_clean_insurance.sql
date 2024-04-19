@@ -1,4 +1,4 @@
- {{  config(alias='accruals', database='clean', schema='insurance')  }} 
+ {{  config(alias='accruals', database='clean', schema='insurance', tags=["policy_fh"])  }} 
 
 
 SELECT * 

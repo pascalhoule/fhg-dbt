@@ -1,4 +1,4 @@
-{{  config(alias='__FHFORMAT', database='normalize', schema='insurance')  }} 
+{{  config(alias='__FHFORMAT', database='normalize', schema='insurance', tags=["policy_fh"])  }} 
 
  SELECT
         FH_POLICYCATEGORY,

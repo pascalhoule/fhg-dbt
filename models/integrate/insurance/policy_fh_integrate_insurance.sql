@@ -1,4 +1,4 @@
- {{  config(alias='policy_fh', database='integrate', schema='insurance')  }} 
+ {{  config(alias='policy_fh', database='integrate', schema='insurance', tags=["policy_fh"])  }} 
 
 
 SELECT * 

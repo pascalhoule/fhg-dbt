@@ -1,4 +1,4 @@
- {{  config(alias='policystatus_vc', database='normalize', schema='insurance')  }} 
+ {{  config(alias='policystatus_vc', database='normalize', schema='insurance', tags=["policy_fh"])  }} 
 
 
 SELECT * 
