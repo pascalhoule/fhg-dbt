@@ -111,6 +111,11 @@ models:
       database: NORMALIZE
     tests:
       - COMM_WGT_ONE_NORMALIZE
+          config:
+            store_values: true
+            database: NORMALIZE
+            alias: COMM_WGT_ONE_FAILURES
+            severity: warn
   - name: __COMM_AGT_MAPPED_insurance
     tests:
       - dbt_expectations.expect_table_aggregation_to_equal_other_table:
