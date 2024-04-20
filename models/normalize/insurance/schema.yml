@@ -108,7 +108,15 @@ models:
   - name: __FHFORMAT_insurance
   - name: __COMM_WGTS_insurance
     config:
-      database: NORMALIZE    
+      database: NORMALIZE
+    tests:
+      - wgt_eq_one:
+          column_name: policycode
+          col_measure_to_test: corr_pd_agt_split
+          database: normalize
+          alias: wgt_eq_one
+          severity: warn
+          store_failures: true    
   - name: __COMM_AGT_MAPPED_insurance
     tests:
       - dbt_expectations.expect_table_aggregation_to_equal_other_table:
