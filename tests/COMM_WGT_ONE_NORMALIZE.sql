@@ -1,6 +1,6 @@
 {{ config(
-    database = "normalize"
-    alias = "COMM_WGT_ONE_NORMALIZE"
+    database = "normalize",
+    alias = "COMM_WGT_ONE_NORMALIZE",
     severity = "warn",
     store_failures = true
 )}}
