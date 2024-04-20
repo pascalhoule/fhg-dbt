@@ -89,9 +89,43 @@ models:
           config:
             store_values: true
             database: NORMALIZE
+            alias: __POSTDATE_FYC_TOTAL
+            severity: warn
+      - dbt_expectations.expect_table_aggregation_to_equal_other_table:
+          expression: COUNT(DISTINCT POLICYCODE)
+          compare_model: ref("policy_vc_normalize_insurance")
+          compare_expression: COUNT(DISTINCT POLICYCODE)
+          group_by: [APPLICATIONDATE]
+          compare_group_by: [APPLICATIONDATE]
+          row_condition: APPLICATIONDATE >= '2018-01-01'
+          compare_row_condition: APPLICATIONDATE >= '2018-01-01' AND PLANTYPE IN ('CI', 'DI', 'Life', 'Permanent', 'Term', 'UL', 'LTC', 'Health', 'HealthSickness', 'SERVICE', 'Travel', 'WL')
+          tolerance_percent: 0.01 
+          config:
+            store_values: true
+            database: NORMALIZE
+            alias: __POSTDATE_POLICYCODE_COUNT
             severity: warn
   - name: __FHFORMAT_insurance
+  - name: __COMM_WGTS_insurance
+    config:
+      database: NORMALIZE
+    tests:
+      - COMM_WGT_ONE_NORMALIZE
   - name: __COMM_AGT_MAPPED_insurance
+    tests:
+      - dbt_expectations.expect_table_aggregation_to_equal_other_table:
+          expression: SUM(FH_COMMISSIONINGAGTSPLIT)
+          compare_model: ref("policy_vc_normalize_insurance")
+          compare_expression: SUM(FYCAMOUNT)
+          group_by: [POLICYCODE]
+          compare_group_by: [APPLICATIONDATE]
+          row_condition: APPLICATIONDATE >= '2018-01-01'
+          compare_row_condition: APPLICATIONDATE >= '2018-01-01' AND PLANTYPE IN ('CI', 'DI', 'Life', 'Permanent', 'Term', 'UL', 'LTC', 'Health', 'HealthSickness', 'SERVICE', 'Travel', 'WL')
+          tolerance_percent: 0.01 
+          config:
+            store_values: true
+            database: NORMALIZE
+            severity: warn
   - name: policy_fh_normalize_insurance
 
               
