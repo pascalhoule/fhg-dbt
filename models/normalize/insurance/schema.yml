@@ -110,7 +110,7 @@ models:
     config:
       database: NORMALIZE
     tests:
-      - COMM_WGT_ONE_NORMALIZE
+      - comm_wgt_one_normalize
           config:
             store_values: true
             database: NORMALIZE
