@@ -1,7 +1,6 @@
 version: 2
 
 exposures:
-
   - name: loi
     label: Letter of Intent
     type: application
