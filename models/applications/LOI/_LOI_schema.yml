@@ -1,0 +1,22 @@
+version: 2
+
+exposures:
+
+  - name: loi
+    label: Letter of Intent
+    type: application
+    maturity: medium
+    url: 
+    description: >
+      Used to automate creating letters.
+
+    depends_on:
+      - ref('fundaccount_applications_investment')
+      - ref('registration_applications_investment')
+      - ref('fundproducts_vc_applications_investment')
+      - ref('sponsors_vc_applications_investment')
+      - ref ('sponsor_applications_investment')
+
+    owner:
+      name: Ramil Sharapov
+      email: ramil.sharapov@financialhorizons.ca
