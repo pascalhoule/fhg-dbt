@@ -146,6 +146,7 @@ models:
       - name: FH_PREMIUM
         description: COMMPREMIUMAMOUNT from the policy_vc table unless the commpremiumamnount = 0 then the annualpremiumamount is used instead. When commpremamount is null then 0
   - name: __COMM_WGTS_insurance
+    description: '{{ doc("__COMM_WGTS_insurance") }}'
     config:
       database: NORMALIZE
     tests:
@@ -157,7 +158,6 @@ models:
           severity: warn
           store_failures: true    
   - name: __COMM_AGT_MAPPED_insurance
-    description: '{{ doc("__COMM_WGTS_insurance") }}'
     columns:
       - name: OWNERCODE
         description: This is the commissioning agent code.
