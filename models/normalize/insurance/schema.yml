@@ -28,7 +28,7 @@ models:
             alias: POL_AGT_UNIQUE__POLICYCATEGORIES
             severity: warn
     columns:
-      - name: fh_policycategory
+      - name: FH_POLICYCATEGORY
         description: Holds the Financial Horizons definition of NEW POLICY, NEW RIDER and SERVICE
         tests:
          - not_null:
@@ -142,7 +142,7 @@ models:
       - name: FH_APPTYPE
         description: The APPTYPE field from policy_vc with the first letter of the field changed to upper case.
       - name: FH_STARTDATE
-        description: The earlier of APPLICATIONDATE and CREATEDDATE from the policy_vc table
+        description: The earlier of APPLICATIONDATE and CREATEDDATE from the policy_vc table.
       - name: FH_PREMIUM
         description: COMMPREMIUMAMOUNT from the policy_vc table unless the commpremiumamnount = 0 then the annualpremiumamount is used instead. When commpremamount is null then 0
   - name: __COMM_WGTS_insurance
@@ -157,6 +157,14 @@ models:
           severity: warn
           store_failures: true    
   - name: __COMM_AGT_MAPPED_insurance
+    description: '{{ doc("__COMM_WGTS_insurance") }}'
+    columns:
+      - name: OWNERCODE
+        description: This is the commissioning agent code.
+      - name: CORR_PD_AGT_SPLIT
+        description: This is the split between the commissioning agents on the policycode.  These are normalized to add to 1 where necessary.
+      - name: PAID
+        description: The commission paid to the agent.  Matches Wealthserv.
     tests:
       - dbt_expectations.expect_table_aggregation_to_equal_other_table:
           expression: SUM(FH_COMMISSIONINGAGTSPLIT)
@@ -171,6 +179,8 @@ models:
             store_values: true
             database: NORMALIZE
             severity: warn
+  - name: __COMM_AGT_MAPPED_CORRECTED_insurance
+    description: This is a continuation of __COMM_AGT_MAPPED_insurance in order to break up the code.  These are the last few cases normalized so there are usable weights.
   - name: policy_fh_normalize_insurance
 
               
