@@ -35,4 +35,4 @@ SELECT
     BDC_MAP,
     SD
 FROM
-    {{ ref ('broker_report_insurance') }}
+    {{ ref('broker_report_insurance') }}
