@@ -2,6 +2,8 @@
  
 
 
-SELECT * 
+SELECT * ,
+ current_timestamp AS updated_at
+
  
 from {{ source ('insurance_curated', 'policy_vc')  }}
