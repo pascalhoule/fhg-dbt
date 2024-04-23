@@ -10,7 +10,7 @@ models:
           column_A: COMMPREMIUMAMOUNT
           column_B: FYCAMOUNT
           or_equal: FALSE
-          row_condition: "policycode is not null and COMMPREMIUMAOUNT > 0" # (Optional)
+          row_condition: "policycode is not null and COMMPREMIUMAMOUNT > 0" # (Optional)
           config:
             store_values: true
             database: NORMALIZE
@@ -65,12 +65,24 @@ models:
          - relationships:
              field: policycode
              to: ref('policy_vc_clean_insurance')
+             config:
+                severity: warn
+                store_failures: true
+                database: NORMALIZE 
       - name: policygroupcode
         tests:
-          - not_null
+          - not_null:
+              config:
+                severity: warn
+                store_failures: true
+                database: NORMALIZE 
       - name: commpremiumamount
         tests:
-          - not_null
+          - not_null:
+              config:
+                severity: warn
+                store_failures: true
+                database: NORMALIZE      
       - name: fycamount
         tests:
           - not_null

@@ -2,8 +2,8 @@
  
 
 
-SELECT * 
-  ,datalake_timestamp as _infx_loaded_ts_utc  
+SELECT * ,
+  datalake_timestamp as _infx_loaded_ts_utc  
   
             ,datalake_timestamp as _infx_active_from_ts_utc 
   
