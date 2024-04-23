@@ -1,4 +1,4 @@
-{% snapshot applicationdate %}
+{% snapshot status %}
 
 {{
     config(
@@ -15,7 +15,7 @@ SELECT
     POLICYCODE,
     POLICYGROUPCODE,
     POLICYNUMBER,
-    APPLICATIONDATE,
+    STATUS,
     UPDATED_AT
 
 FROM {{ ref('policy_vc_clean_insurance') }}
