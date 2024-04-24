@@ -177,12 +177,14 @@ models:
         description: This is the split between the commissioning agents on the policycode.  These are normalized to add to 1 where necessary.
       - name: PAID
         description: The commission paid to the agent.  Matches Wealthserv.
+  - name: __COMM_AGT_MAPPED_CORRECTED_insurance
+    description: This is a continuation of __COMM_AGT_MAPPED_insurance in order to break up the code.  These are the last few cases normalized so there are usable weights.
     tests:
       - dbt_expectations.expect_table_aggregation_to_equal_other_table:
-          expression: SUM(FH_COMMISSIONINGAGTSPLIT)
+          expression: SUM(FH_FYCSERVAMT)
           compare_model: ref("policy_vc_normalize_insurance")
           compare_expression: SUM(FYCAMOUNT)
-          group_by: [POLICYCODE]
+          group_by: [APPLICATIONDATE]
           compare_group_by: [APPLICATIONDATE]
           row_condition: APPLICATIONDATE >= '2018-01-01'
           compare_row_condition: APPLICATIONDATE >= '2018-01-01' AND PLANTYPE IN ('CI', 'DI', 'Life', 'Permanent', 'Term', 'UL', 'LTC', 'Health', 'HealthSickness', 'SERVICE', 'Travel', 'WL')
@@ -191,8 +193,6 @@ models:
             store_values: true
             database: NORMALIZE
             severity: warn
-  - name: __COMM_AGT_MAPPED_CORRECTED_insurance
-    description: This is a continuation of __COMM_AGT_MAPPED_insurance in order to break up the code.  These are the last few cases normalized so there are usable weights.
   - name: policy_fh_normalize_insurance
 
               
