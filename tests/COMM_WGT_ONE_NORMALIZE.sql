@@ -3,7 +3,7 @@
     alias = "COMM_WGT_ONE_NORMALIZE",
     severity = "warn",
     store_failures = true
-)}}
+)}} --These configurations take precedence when this test is used.
 
 SELECT
     POLICYCODE,
