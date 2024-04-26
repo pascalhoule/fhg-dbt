@@ -2,7 +2,7 @@ selectors:
   - name: daily_run
     description: "Models which should be built daily, exclude largest ones not used in business."
     definition:
-      - union:
+      union:
         - method: path
           value: "models/"
         - exclude:
