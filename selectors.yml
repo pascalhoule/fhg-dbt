@@ -2,28 +2,29 @@ selectors:
   - name: daily_run
     description: "Models which should be built daily, exclude largest ones not used in business."
     definition:
-      - method: path
-        value: "models/"
-      - exclude:
-              - method: path
-                value: "models/clean/investment/transactions_clean_investment.sql"
-              - method: path
-                value: "models/clean/investment/transactions_vc_clean_investment.sql"
-              - method: path
-                value: "models/normalize/investment/transactions_normalize_investment.sql"
-              - method: path
-                value: "models/normalize/investment/transactions_vc_normalize_investment.sql"
-              - method: path
-                value: "models/integrate/investment/transactions_vc_integrate_investment.sql"
-              - method: path
-                value: "models/integrate/investment/transactions_integrate_investment.sql"
-              - method: path
-                value:  "models/analyze/investment/transactions_analyze_investment.sql"
-              - method: path
-                value: "models/analyze/investment/transactions_vc_analyze_investment.sql"
-              - method: path
-                value:  "models/report/investment/transactions_report_investment.sql"
-              - method: path
-                value: "models/applications/investment/transactions_vc_applications_investment.sql"
+      - union:
+        - method: path
+          value: "models/"
+        - exclude:
+            - method: path
+              value: "models/clean/investment/transactions_clean_investment.sql"
+            - method: path
+              value: "models/clean/investment/transactions_vc_clean_investment.sql"
+            - method: path
+              value: "models/normalize/investment/transactions_normalize_investment.sql"
+            - method: path
+              value: "models/normalize/investment/transactions_vc_normalize_investment.sql"
+            - method: path
+              value: "models/integrate/investment/transactions_vc_integrate_investment.sql"
+            - method: path
+              value: "models/integrate/investment/transactions_integrate_investment.sql"
+            - method: path
+              value:  "models/analyze/investment/transactions_analyze_investment.sql"
+            - method: path
+              value: "models/analyze/investment/transactions_vc_analyze_investment.sql"
+            - method: path
+              value:  "models/report/investment/transactions_report_investment.sql"
+            - method: path
+              value: "models/applications/investment/transactions_vc_applications_investment.sql"
                 
       
