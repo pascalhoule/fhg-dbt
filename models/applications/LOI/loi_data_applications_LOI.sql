@@ -1,4 +1,4 @@
- {{  config(alias='loi_short', database='applications', schema='LOI', materialized = "view")  }} 
+ {{  config(alias='loi_data', database='applications', schema='LOI', materialized = "view")  }} 
 
 
 SELECT DISTINCT
