@@ -25,7 +25,7 @@ LEFT JOIN
 LEFT JOIN 
     {{ ref('clients_applications_investment') }} C ON C.CODE = R.KYC_CODE 
 LEFT JOIN 
-    {{ ref('registration_applications_investment') }}  Rep ON Rep.CODE = C.REP_CODE 
+    {{ ref('representatives_applications_investment') }}  Rep ON Rep.CODE = C.REP_CODE 
 LEFT JOIN 
     {{ ref('branches_vc_applications_investment') }} B ON B.CODE = Rep.BRANCH_CODE 
 LEFT JOIN 
