@@ -19,13 +19,13 @@ SELECT DISTINCT
     SP.MARKET_EMAIL_ADDRESS AS EMAIL,
     SP.MARKET_FAX AS FAX
 FROM 
-    FH_PROD.WEALTHSERV_INV_ODS_CURRENT_SECURE.REGISTRATION R 
+    {{ ref('registration_applications_investment') }} R 
 LEFT JOIN 
     {{ ref ('fundaccount_applications_investment')  }} FA_ODS ON FA_ODS.ACCOUNT_NUMBER = R.REGISTRATION_NUMBER 
 LEFT JOIN 
-    FH_PROD.WEALTHSERV_INV_ODS_CURRENT_SECURE.CLIENTS {{ ref('clients_applications_investment') }} C ON C.CODE = R.KYC_CODE 
+    {{ ref('clients_applications_investment') }} C ON C.CODE = R.KYC_CODE 
 LEFT JOIN 
-     FH_PROD.WEALTHSERV_INV_ODS_CURRENT_SECURE.REPRESENTATIVES {{ ref('registration_applications_investment') }}  Rep ON Rep.CODE = C.REP_CODE 
+    {{ ref('registration_applications_investment') }}  Rep ON Rep.CODE = C.REP_CODE 
 LEFT JOIN 
     {{ ref('branches_vc_applications_investment') }} B ON B.CODE = Rep.BRANCH_CODE 
 LEFT JOIN 
