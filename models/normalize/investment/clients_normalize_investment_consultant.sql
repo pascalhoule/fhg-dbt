@@ -1,0 +1,176 @@
+ {{  config(alias='clients_consultant', database='normalize', schema='investment')  }} 
+
+
+SELECT
+
+ accountbalance as investment_client_accountbalance
+,accountbalance1 as investment_client_accountbalance1
+,accountbalance1_startcheque as investment_client_accountbalance1_startcheque
+,accountbalance1_startcheque2 as investment_client_accountbalance1_startcheque2
+,accountbalance_date as investment_client_accountbalance_date
+,accountbalance_startcheque as investment_client_accountbalance_startcheque
+,accountbalance_startcheque2 as investment_client_accountbalance_startcheque2
+,accreditedflag as investment_client_accreditedflag
+,addedon as investment_client_addedon
+,address_attn_line as investment_client_address_attn_line
+,address_attn_prefix as investment_client_address_attn_prefix
+,approvedby as investment_client_approvedby
+,approvedon as investment_client_approvedon
+,approveflag as investment_client_approveflag
+,aua_effective_date as investment_client_aua_effective_date
+,cdc_operation as investment_client_cdc_operation
+,cell_phone as investment_client_cell_phone
+,changedby as investment_client_changedby
+,changedon as investment_client_changedon
+,citizenship_code as investment_client_citizenship_code
+,citizenship_country as investment_client_citizenship_country
+,city as investment_client_city
+,clientclass as investment_client_clientclass
+,clientid as investment_client_clientid
+,clientprofile as investment_client_clientprofile
+,clientsince as investment_client_clientsince
+,client_language as investment_client_client_language
+,client_type as investment_client_client_type
+,code as investment_client_code
+,commit_timestamp as investment_client_commit_timestamp
+,country_code as investment_client_country_code
+,custodian_flag as investment_client_custodian_flag
+,datalake_end_ts as investment_client_datalake_end_ts
+,datalake_start_ts as investment_client_datalake_start_ts
+,datalake_timestamp as investment_client_datalake_timestamp
+,dbx_inet_enabl as investment_client_dbx_inet_enabl
+,dbx_old_bustype as investment_client_dbx_old_bustype
+,dbx_old_client as investment_client_dbx_old_client
+,dob as investment_client_dob
+,donotsend as investment_client_donotsend
+,donotsendasofdate as investment_client_donotsendasofdate
+,email as investment_client_email
+,email2 as investment_client_email2
+,email_approval as investment_client_email_approval
+,employment_status as investment_client_employment_status
+,emp_address as investment_client_emp_address
+,emp_address2 as investment_client_emp_address2
+,emp_address_attn_line as investment_client_emp_address_attn_line
+,emp_address_attn_prefix as investment_client_emp_address_attn_prefix
+,emp_bustype as investment_client_emp_bustype
+,emp_city as investment_client_emp_city
+,emp_country_code as investment_client_emp_country_code
+,emp_department as investment_client_emp_department
+,emp_mailcode as investment_client_emp_mailcode
+,emp_name as investment_client_emp_name
+,emp_occupation as investment_client_emp_occupation
+,emp_state as investment_client_emp_state
+,emp_years as investment_client_emp_years
+,emp_zip as investment_client_emp_zip
+,enteredby as investment_client_enteredby
+,enteredon as investment_client_enteredon
+,extention_phone as investment_client_extention_phone
+,ext_id as investment_client_ext_id
+,fax as investment_client_fax
+,first_name as investment_client_first_name
+,govid2_country_code as investment_client_govid2_country_code
+,govid2_expdate as investment_client_govid2_expdate
+,govid2_issdate as investment_client_govid2_issdate
+,govid2_no as investment_client_govid2_no
+,govid2_state as investment_client_govid2_state
+,govid2_type as investment_client_govid2_type
+,govid_country_code as investment_client_govid_country_code
+,govid_expdate as investment_client_govid_expdate
+,govid_issdate as investment_client_govid_issdate
+,govid_no as investment_client_govid_no
+,govid_state as investment_client_govid_state
+,govid_type as investment_client_govid_type
+,home_phone as investment_client_home_phone
+,idverify_method as investment_client_idverify_method
+,idverify_other as investment_client_idverify_other
+,importfilecode as investment_client_importfilecode
+,importtempcode as investment_client_importtempcode
+,import_source as investment_client_import_source
+,inactive_reason as investment_client_inactive_reason
+,income_source as investment_client_income_source
+,incorrectaddress as investment_client_incorrectaddress
+,incorrectaddressasofdate as investment_client_incorrectaddressasofdate
+,invalidssnflag as investment_client_invalidssnflag
+,is_first_known_record as investment_client_is_first_known_record
+,is_last_known_record as investment_client_is_last_known_record
+,jointaccountstatus as investment_client_jointaccountstatus
+,languagepreference as investment_client_languagepreference
+,lastupdated as investment_client_lastupdated
+,last_modified_date as investment_client_last_modified_date
+,last_name as investment_client_last_name
+,mailaddress_attn_line as investment_client_mailaddress_attn_line
+,mailaddress_attn_prefix as investment_client_mailaddress_attn_prefix
+,mailcity as investment_client_mailcity
+,mailcountry_code as investment_client_mailcountry_code
+,maildatefrom as investment_client_maildatefrom
+,maildateto as investment_client_maildateto
+,mailprovince_code as investment_client_mailprovince_code
+,mailstate_code as investment_client_mailstate_code
+,mailstreet as investment_client_mailstreet
+,mailstreet2 as investment_client_mailstreet2
+,mailzipcode as investment_client_mailzipcode
+,marital as investment_client_marital
+,middle_name as investment_client_middle_name
+,mother_name as investment_client_mother_name
+,note as investment_client_note
+,noteflag as investment_client_noteflag
+,notifyaddress as investment_client_notifyaddress
+,oldclientid as investment_client_oldclientid
+,originaldataid as investment_client_originaldataid
+,other_phone as investment_client_other_phone
+,pin as investment_client_pin
+,prospect_flag as investment_client_prospect_flag
+,provbin as investment_client_provbin
+,province_code as investment_client_province_code
+,rep_code as investment_client_rep_code
+,residencetype as investment_client_residencetype
+,residenceyears as investment_client_residenceyears
+,residence_state as investment_client_residence_state
+,retiredflag as investment_client_retiredflag
+,salutation as investment_client_salutation
+,sdtype as investment_client_sdtype
+,sex as investment_client_sex_id
+,ssn as investment_client_ssn
+,stage_id as investment_client_stage_id
+,   case 
+    when adjusted_state_code in ('`','#','-1') or adjusted_state_code rlike '.*[A-Za-z].*[0-9].*' or len(trim(adjusted_state_code)) = 1
+    then '' 
+    else adjusted_state_code 
+    end as investment_client_state_code
+,status as investment_client_status
+,stream_position as investment_client_stream_position
+,street as investment_client_street
+,street2 as investment_client_street2
+,sync_flag as investment_client_sync_flag
+,taxid as investment_client_taxid
+,temporaryhold as investment_client_temporaryhold
+,temporaryholdasofdate as investment_client_temporaryholdasofdate
+,title as investment_client_title
+,transact_id as investment_client_transact_id
+,unknownaddressdate as investment_client_unknownaddressdate
+,updateflag as investment_client_updateflag
+,userdefined_data0 as investment_client_userdefined_data0
+,userdefined_data1 as investment_client_userdefined_data1
+,userdefined_data2 as investment_client_userdefined_data2
+,userdefined_data3 as investment_client_userdefined_data3
+,userdefined_data4 as investment_client_userdefined_data4
+,user_code as investment_client_user_code
+,web_page as investment_client_web_page
+,wizard_client_change_flag as investment_client_wizard_client_change_flag
+,wizard_flag as investment_client_wizard_flag
+,wizard_integrity_flag as investment_client_wizard_integrity_flag
+,work_cell as investment_client_work_cell
+,work_email as investment_client_work_email
+,work_fax as investment_client_work_fax
+,work_phone as investment_client_work_phone
+,ws_clientcode as investment_client_ws_clientcode
+,ytdinvestedamount as investment_client_ytdinvestedamount
+,ytdwithdrawamount as investment_client_ytdwithdrawamount
+,zipcode as investment_client_zipcode
+,_infx_loaded_ts_utc
+,_infx_active_from_ts_utc
+,_infx_active_to_ts_utc
+,_infx_is_active
+
+
+from {{ ref ('clients_clean_investment')  }}
