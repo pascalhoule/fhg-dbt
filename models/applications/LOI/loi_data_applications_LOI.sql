@@ -1,4 +1,4 @@
- {{  config(alias='loi_short', database='applications', schema='LOI', materialized = "view")  }} 
+ {{  config(alias='loi_data', database='applications', schema='LOI', materialized = "view")  }} 
 
 
 SELECT DISTINCT
@@ -21,7 +21,8 @@ SELECT DISTINCT
 FROM 
     {{ ref('registration_applications_investment') }} R 
 LEFT JOIN 
-    {{ ref ('fundaccount_applications_investment')  }} FA_ODS ON FA_ODS.ACCOUNT_NUMBER = R.REGISTRATION_NUMBER 
+    {{ ref ('fundaccount_applications_investment')  }} FA_ODS 
+    ON FA_ODS.ACCOUNT_NUMBER = R.REGISTRATION_NUMBER 
 LEFT JOIN 
     {{ ref('clients_applications_investment') }} C ON C.CODE = R.KYC_CODE 
 LEFT JOIN 
