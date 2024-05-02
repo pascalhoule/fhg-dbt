@@ -124,4 +124,4 @@ SELECT
 ,_infx_is_active
 
 
-from {{ ref ('fundaccount_clean_investment')  }}
+from {{ ref ('fundaccount_clean_investment_consultant')  }}
