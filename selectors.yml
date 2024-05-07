@@ -1,5 +1,5 @@
 selectors:
-  - name: daily_run
+  - name: daily_run_excl_views
     description: "Models which should be built daily, exclude largest ones not used in business."
     definition:
       union:
@@ -26,5 +26,7 @@ selectors:
               value:  "models/report/investment/transactions_report_investment.sql"
             - method: path
               value: "models/applications/investment/transactions_vc_applications_investment.sql"
+            - method: config.materialized
+              value:  view
                 
       
