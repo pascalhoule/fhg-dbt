@@ -14,7 +14,12 @@ exposures:
       - ref('registration_applications_investment')
       - ref('fundproducts_vc_applications_investment')
       - ref('sponsors_vc_applications_investment')
-      - ref ('sponsor_applications_investment')
+      - ref('sponsor_applications_investment')
+      - ref('clients_applications_investment')
+      - ref('representatives_applications_investment')
+      - ref('branches_vc_applications_investment')
+      - ref('region_vc_applications_investment')
+      - ref('fundaccount_vc_applications_investment')
 
     owner:
       name: Ramil Sharapov
