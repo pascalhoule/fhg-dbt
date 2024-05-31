@@ -53,4 +53,7 @@ models:
     report:
       materialized: view
       copy_grants: true
+    sandbox:
+      materialized: table
+      copy_grants: true
 
