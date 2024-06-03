@@ -108,3 +108,11 @@ sources:
     tables:
       - name: month_name
       - name: calendar
+
+  - name: app_tables
+    database: applications
+    schema: prod_loi
+    tables:
+      - name: loi_tracking
+     
+      
