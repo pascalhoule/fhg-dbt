@@ -47,6 +47,7 @@ sources:
     tables:
       - name: cheque
       - name: clients
+      - name: commissionrun
       - name: state
       - name: constants
       - name: ic
