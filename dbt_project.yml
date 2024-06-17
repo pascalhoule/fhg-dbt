@@ -39,11 +39,15 @@ models:
     # Applies to all files under models/example/
     analyze:
       materialized: view
+      copy_grants: true
     applications:
       materialized: table
       copy_grants: true
     clean:
       materialized: table
+    finance:
+      materialized: table
+      copy_grants: true
     integrate:
       materialized: table
       copy_grants: true
