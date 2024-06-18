@@ -46,7 +46,7 @@ models:
     clean:
       materialized: table
     finance:
-      materialized: table
+      materialized: view
       copy_grants: true
     integrate:
       materialized: table
@@ -57,7 +57,5 @@ models:
     report:
       materialized: view
       copy_grants: true
-    sandbox:
-      materialized: table
-      copy_grants: true
+    
 
