@@ -54,6 +54,7 @@ sources:
       - name: agent
       - name: icplan
       - name: policy
+      - name: policyagentlinking
       - name: policygroup
       - name: policygrouplinking
       - name: policysplit
@@ -69,7 +70,6 @@ sources:
       - name: clientagentlinking
       - name: policytags
       - name: policyclientlinking
-      - name: policyagentlinking
       - name: accruals
       - name: importednbpolicy
       - name: agent_combined_integrate_insurance
