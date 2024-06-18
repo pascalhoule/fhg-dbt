@@ -18,6 +18,7 @@ sources:
       - name: brokerphone_vc
       - name: brokeremail_vc
       - name: brokertags_vc
+      - name: commission_vc
       - name: representatives_vc
       - name: representativeaddress_vc
       - name: policy_vc
@@ -48,6 +49,7 @@ sources:
       - name: cheque
       - name: clients
       - name: commissionrun
+      - name: commissiontrx
       - name: state
       - name: constants
       - name: ic
