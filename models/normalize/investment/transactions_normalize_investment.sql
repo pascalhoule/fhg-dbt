@@ -1,8 +1,8 @@
  {{  config(alias='transactions', database='normalize', schema='investment')  }} 
 
 
-SELECT
- amount as investment_transactions_amount
+SELECT *
+-- amount as investment_transactions_amount
 -- ,amountvalue as investment_transactions_amountvalue
 -- ,amount_type as investment_transactions_amount_type
 -- ,approval_by as investment_transactions_approval_by
@@ -17,12 +17,12 @@ SELECT
 -- ,approval_verify_date as investment_transactions_approval_verify_date
 -- ,approval_verify_flag as investment_transactions_approval_verify_flag
 -- ,asof_date as investment_transactions_asof_date
-,average_cost as investment_transactions_average_cost
-,beartempcode as investment_transactions_beartempcode
+-- ,average_cost as investment_transactions_average_cost
+-- ,beartempcode as investment_transactions_beartempcode
 -- ,bulkapprovalflag as investment_transactions_bulkapprovalflag
 -- ,bulkqcflag as investment_transactions_bulkqcflag
 -- ,canceltrxcode as investment_transactions_canceltrxcode
-,cancel_flag as investment_transactions_cancel_flag
+-- ,cancel_flag as investment_transactions_cancel_flag
 -- ,cdc_operation as investment_transactions_cdc_operation
 -- ,certificate as investment_transactions_certificate
 -- ,changedby as investment_transactions_changedby
@@ -31,7 +31,7 @@ SELECT
 -- ,clawback as investment_transactions_clawback
 -- ,clientinstruction as investment_transactions_clientinstruction
 -- ,clientrorflag as investment_transactions_clientrorflag
-,code as investment_transactions_code
+-- ,code as investment_transactions_code
 -- ,commchkgrp as investment_transactions_commchkgrp
 -- ,commission_paid_date as investment_transactions_commission_paid_date
 -- ,commission_rate as investment_transactions_commission_rate
@@ -45,7 +45,7 @@ SELECT
 -- ,contributioncode as investment_transactions_contributioncode
 -- ,contributionperiod as investment_transactions_contributionperiod
 -- ,css_paid as investment_transactions_css_paid
-,currencyname as investment_transactions_currencyname
+-- ,currencyname as investment_transactions_currencyname
 -- ,datalake_end_ts as investment_transactions_datalake_end_ts
 -- ,datalake_start_ts as investment_transactions_datalake_start_ts
 -- ,datalake_timestamp as investment_transactions_datalake_timestamp
@@ -68,7 +68,7 @@ SELECT
 -- ,dbx_old_trx_code as investment_transactions_dbx_old_trx_code
 -- ,dbx_old_trx_exchange_code as investment_transactions_dbx_old_trx_exchange_code
 -- ,dbx_ord_cus_search_id as investment_transactions_dbx_ord_cus_search_id
-,dealer_commission as investment_transactions_dealer_commission
+-- ,dealer_commission as investment_transactions_dealer_commission
 -- ,deposit_date as investment_transactions_deposit_date
 -- ,docreqdflg as investment_transactions_docreqdflg
 -- ,docreqdsentflg as investment_transactions_docreqdsentflg
@@ -86,14 +86,14 @@ SELECT
 -- ,exp_msglist as investment_transactions_exp_msglist
 -- ,exp_returncode as investment_transactions_exp_returncode
 -- ,exp_returntime as investment_transactions_exp_returntime
-,ext_type_code as investment_transactions_ext_type_code
+-- ,ext_type_code as investment_transactions_ext_type_code
 -- ,fee as investment_transactions_fee
 -- ,feedetails as investment_transactions_feedetails
 -- ,fee_rep_id as investment_transactions_fee_rep_id
 -- ,fstrade as investment_transactions_fstrade
 -- ,fstrxtype as investment_transactions_fstrxtype
 -- ,fstrxtypedetail as investment_transactions_fstrxtypedetail
-,fundaccount_code as investment_transactions_fundaccount_code
+-- ,fundaccount_code as investment_transactions_fundaccount_code
 -- ,fundaccount_number as investment_transactions_fundaccount_number
 -- ,fundfactscompliant as investment_transactions_fundfactscompliant
 -- ,fundproduct_code as investment_transactions_fundproduct_code
@@ -101,7 +101,7 @@ SELECT
 -- ,fundproduct_fundnumber as investment_transactions_fundproduct_fundnumber
 -- ,fundproduct_fundsubtype as investment_transactions_fundproduct_fundsubtype
 -- ,fundproduct_fundtype as investment_transactions_fundproduct_fundtype
-,fundproduct_name as investment_transactions_fundproduct_name
+-- ,fundproduct_name as investment_transactions_fundproduct_name
 -- ,fundproduct_risktolerance as investment_transactions_fundproduct_risktolerance
 -- ,gst_hst as investment_transactions_gst_hst
 -- ,ho_commission as investment_transactions_ho_commission
@@ -124,7 +124,7 @@ SELECT
 -- ,mergedbytool as investment_transactions_mergedbytool
 -- ,multiple_flag as investment_transactions_multiple_flag
 -- ,netsetleind as investment_transactions_netsetleind
-,net_amount as investment_transactions_net_amount
+-- ,net_amount as investment_transactions_net_amount
 -- ,nm_flag as investment_transactions_nm_flag
 -- ,nosignatureflag as investment_transactions_nosignatureflag
 -- ,note as investment_transactions_note
@@ -132,8 +132,8 @@ SELECT
 -- ,orderid as investment_transactions_orderid
 -- ,order_time as investment_transactions_order_time
 -- ,originaldataid as investment_transactions_originaldataid
-,paymentid as investment_transactions_paymentid
-,payment_status as investment_transactions_payment_status
+-- ,paymentid as investment_transactions_paymentid
+-- ,payment_status as investment_transactions_payment_status
 -- ,pretradedisclosure as investment_transactions_pretradedisclosure
 -- ,pre_setlement_date as investment_transactions_pre_setlement_date
 -- ,problems_warnings as investment_transactions_problems_warnings
@@ -162,11 +162,11 @@ SELECT
 -- ,segmgro_fundid as investment_transactions_segmgro_fundid
 -- ,seq as investment_transactions_seq
 -- ,service_charge as investment_transactions_service_charge
-,setlement_date::date as investment_transactions_setlement_date
-,settlementamount as investment_transactions_settlementamount
-,settlement_period as investment_transactions_settlement_period
-,shares_units as investment_transactions_shares_units
-,share_balance_after as investment_transactions_share_balance_after
+-- ,setlement_date::date as investment_transactions_setlement_date
+-- ,settlementamount as investment_transactions_settlementamount
+-- ,settlement_period as investment_transactions_settlement_period
+-- ,shares_units as investment_transactions_shares_units
+-- ,share_balance_after as investment_transactions_share_balance_after
 -- ,signingprovince as investment_transactions_signingprovince
 -- ,sourceoffunds as investment_transactions_sourceoffunds
 -- ,sourceofmoney as investment_transactions_sourceofmoney
@@ -186,14 +186,14 @@ SELECT
 -- ,tc_fee as investment_transactions_tc_fee
 -- ,ticket_charge as investment_transactions_ticket_charge
 -- ,tradeblotterflag as investment_transactions_tradeblotterflag
-,trade_date::date as investment_transactions_trade_date
+-- ,trade_date::date as investment_transactions_trade_date
 -- ,transaction_date_type as investment_transactions_transaction_date_type
-,transaction_flag as investment_transactions_transaction_flag
+-- ,transaction_flag as investment_transactions_transaction_flag
 -- ,transaction_type as investment_transactions_transaction_type
 -- ,transact_id as investment_transactions_transact_id
 -- ,type as investment_transactions_type
 -- ,unissued_shares as investment_transactions_unissued_shares
-,unit_price as investment_transactions_unit_price
+-- ,unit_price as investment_transactions_unit_price
 -- ,wht1 as investment_transactions_wht1
 -- ,wht2 as investment_transactions_wht2
 -- ,wizard_compliance_flag as investment_transactions_wizard_compliance_flag
