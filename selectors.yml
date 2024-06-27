@@ -28,6 +28,8 @@ selectors:
               value: "models/applications/investment/transactions_vc_applications_investment.sql"
             - method: config.materialized
               value:  view
+        - method: path
+          value: "snapshots/"
   - name: daily_sync_incl_views
     description: "Models which should be built daily, exclude largest ones not used in business."
     definition:
