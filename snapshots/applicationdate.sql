@@ -5,9 +5,8 @@
       target_database='NORMALIZE',
       target_schema='snapshots',
       unique_key='policycode',
-
-      strategy='timestamp',
-      updated_at='updated_at',
+      strategy='check',
+      check_cols=['APPLICATIONDATE'],
     )
 }}
 
