@@ -16,7 +16,6 @@ SELECT DISTINCT
     POLICYNUMBER,
     SETTLEMENTDATE,
     UPDATED_AT
-
 FROM {{ ref('policy_vc_clean_insurance') }}
 
 {% endsnapshot %}

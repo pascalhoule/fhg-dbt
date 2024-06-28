@@ -16,7 +16,6 @@ SELECT DISTINCT
     POLICYNUMBER,
     STATUS,
     UPDATED_AT
-
 FROM {{ ref('policy_vc_clean_insurance') }}
 
 {% endsnapshot %}
