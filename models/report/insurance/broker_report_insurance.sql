@@ -126,11 +126,11 @@
                 ELSE NULL
             END AS Advisor,
             CASE
-                WHEN CONTAINS(BT.TAGNAME, 'Select') THEN 'Select'
+                WHEN BT.TAGNAME = 'Select' THEN 'Select'
                 ELSE NULL
             END AS Select_Agt,
             CASE
-                WHEN CONTAINS(BT.TAGNAME, 'Signature') THEN 'Signature'
+                WHEN BT.TAGNAME = 'Signature' THEN 'Signature'
                 ELSE NULL
             END AS Signature_Agt,
             CASE
