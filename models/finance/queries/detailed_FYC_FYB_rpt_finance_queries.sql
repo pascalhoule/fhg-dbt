@@ -19,14 +19,14 @@ SELECT
         WHEN PLAN_NAME = '-Bulk Travel' THEN 'Bulk Travel'
         ELSE PLAN_NAME
     END AS "Plan Name",
-    B.PLANCATEGORY AS "Plan Category",
+    B.NAME_FINANCE AS "Plan Category",
     STATUS AS "Status",
     TOTAL_FYC AS "Total FYC",
     TOTAL_FYB AS "Total FYB",
     POSTDATE AS "Post Date",
     TRANSACTION_COMMISSIONABLE_PREMIUM AS "Transaction Commissionable Premium",
     COMMISSION_RATE AS "Commission Rate",
-    COMMISSION_SPLIT_SHARE AS "Commission Split Share",
+    COMMISSION_SPLIT_SHARE AS "Commission Split Share"
 FROM
     {{ ref('detailed_FYC_FYB_finance_queries') }} A
     JOIN {{ ref('plancategory_map_finance_queries') }} B ON A.PLANCATEGORY = B.PLANCATEGORY
