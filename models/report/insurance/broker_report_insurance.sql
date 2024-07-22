@@ -364,13 +364,13 @@
             END AS ELEVATED,
             CASE
                 WHEN PENDTERM.TAGNAME = 'Pending Termination/En attente de résiliation' THEN 'Pending Termination'
-            END AS "PENDING TERMINATION",
+            END AS PENDINGTERMINATION,
             CASE
                 WHEN TERM.TAGNAME = 'Terminated/Terminé' THEN 'Terminated'
             END AS TERMINATED,
             CASE
                 WHEN TFEROUT.TAGNAME = 'Transferring Out/Transfert Sortant' THEN 'Transferring Out'
-            END AS "TRANSFERRING OUT",
+            END AS TRANSFERRINGOUT,
             CASE
                 WHEN RSC.ROLE = 'Regional Sales Coordinator' THEN RSC.FULLNAME
             END AS RSC,
