@@ -111,7 +111,8 @@ sources:
     tables:
       - name: month_name
       - name: calendar
-
+      - name: plancategory_map
+      
   - name: app_tables
     database: applications
     schema: prod_loi
