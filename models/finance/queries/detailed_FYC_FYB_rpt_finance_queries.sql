@@ -19,7 +19,7 @@ SELECT
         WHEN PLAN_NAME = '-Bulk Travel' THEN 'Bulk Travel'
         ELSE PLAN_NAME
     END AS "Plan Name",
-    A.PLANCATEGORY AS "Plan Category",
+    B.PLANCATEGORY AS "Plan Category",
     STATUS AS "Status",
     TOTAL_FYC AS "Total FYC",
     TOTAL_FYB AS "Total FYB",
