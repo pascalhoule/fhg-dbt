@@ -13,7 +13,7 @@
             USERDEFINED2,
             MAP_SEGMENT
         FROM
-            report.prod_insurance.hierarchy
+            {{ ref('hierarchy_report_insurance') }}
         GROUP BY
             1,2,3
     ),
@@ -21,7 +21,7 @@
         SELECT
             DISTINCT AGENTCODE
         FROM
-            report.prod_insurance.brokeremail_vc
+            {{ ref('brokeremail_vc_report_insurance') }}
     ),
     EMAIL_BUSINESS AS (
         SELECT
@@ -29,7 +29,7 @@
             EMAILADDRESS,
             CASLAPPROVED
         FROM
-            report.prod_insurance.brokeremail_vc
+            {{ ref('brokeremail_vc_report_insurance') }}
         WHERE
             TYPE = 'business'
     ),
@@ -39,7 +39,7 @@
             EMAILADDRESS,
             CASLAPPROVED
         FROM
-            report.prod_insurance.brokeremail_vc
+            {{ ref('brokeremail_vc_report_insurance') }}
         WHERE
             TYPE = 'primary'
     ),
@@ -49,7 +49,7 @@
             EMAILADDRESS,
             CASLAPPROVED
         FROM
-            report.prod_insurance.brokeremail_vc
+            {{ ref('brokeremail_vc_report_insurance') }}
         WHERE
             TYPE = 'secondary'
     ),
@@ -94,18 +94,17 @@
                 SECONDARY_CASLAPPROVED
             ) AS CASLAPPROVED
         FROM
-            report.prod_insurance.broker_vc B
-            JOIN report.prod_insurance.brokeradvanced_vc BA ON B.AGENTCODE = BA.AGENTCODE
+            {{ ref('broker_vc_report_insurance') }}  B
+            JOIN {{ ref('brokeradvanced_vc_report_insurance') }}  BA ON B.AGENTCODE = BA.AGENTCODE
             LEFT JOIN EMAIL ON EMAIL.AGENTCODE = B.AGENTCODE --WHERE b.AGENTSTATUS in ('Active', 'Pending')
     ),
-    --select * from AGT_LIST;
     
     SEGMENT_TAGS AS (
         SELECT
             AGENTCODE,
             TAGNAME
         FROM
-            report.prod_insurance.brokertags_vc
+            {{ ref('brokertags_vc_report_insurance') }}
         WHERE
             TAGNAME IN (
                 'Advisor/Conseiller',
@@ -165,7 +164,7 @@
             AGENTCODE,
             TAGNAME
         FROM
-            report.prod_insurance.brokertags_vc
+            {{ ref('brokertags_vc_report_insurance') }}
         WHERE
             TAGNAME = 'Elevated/élevée'
     ),
@@ -174,7 +173,7 @@
             AGENTCODE,
             TAGNAME
         FROM
-            report.prod_insurance.brokertags_vc
+            {{ ref('brokertags_vc_report_insurance') }}
         WHERE
             TAGNAME = 'Pending Termination/En attente de résiliation'
     ),
@@ -183,7 +182,7 @@
             AGENTCODE,
             TAGNAME
         FROM
-            report.prod_insurance.brokertags_vc
+            {{ ref('brokertags_vc_report_insurance') }}
         WHERE
             TAGNAME = 'Terminated/Terminé'
     ),
@@ -192,7 +191,7 @@
             AGENTCODE,
             TAGNAME
         FROM
-            report.prod_insurance.brokertags_vc
+            {{ ref('brokertags_vc_report_insurance') }}
         WHERE
             TAGNAME = 'Transferring Out/Transfert Sortant'
     ),
@@ -201,8 +200,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FULLNAME
         FROM
-            report.prod_insurance.brokercos_vc COS
-            LEFT JOIN report.prod_insurance.employee_vc EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
             ROLE = 'Regional Sales Coordinator'
     ),
@@ -211,8 +210,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FULLNAME
         FROM
-            report.prod_insurance.brokercos_vc COS
-            LEFT JOIN report.prod_insurance.employee_vc EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
             ROLE = 'Business Development Consultant'
     ),
@@ -221,8 +220,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FULLNAME
         FROM
-            report.prod_insurance.brokercos_vc COS
-            LEFT JOIN report.prod_insurance.employee_vc EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
             ROLE = 'Business Development Consultant - MAP'
     ),
@@ -231,8 +230,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FULLNAME
         FROM
-            report.prod_insurance.brokercos_vc COS
-            LEFT JOIN report.prod_insurance.employee_vc EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
             ROLE = 'Sales Director'
     ),
@@ -241,8 +240,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
         FROM
-            CLEAN.PROD_INSURANCE.BROKERCOS_VC COS
-            LEFT JOIN CLEAN.PROD_INSURANCE.EMPLOYEE_VC EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
             ROLE = 'Branch Office Coordinator'
     ),
@@ -251,8 +250,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
         FROM
-            CLEAN.PROD_INSURANCE.BROKERCOS_VC COS
-            LEFT JOIN CLEAN.PROD_INSURANCE.EMPLOYEE_VC EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
             ROLE = 'Region Operations Manager'
     ),
@@ -261,8 +260,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
         FROM
-            CLEAN.PROD_INSURANCE.BROKERCOS_VC COS
-            LEFT JOIN CLEAN.PROD_INSURANCE.EMPLOYEE_VC EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
             ROLE = 'New Business Specialist - Inforce'
     ),
@@ -271,8 +270,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
         FROM
-            CLEAN.PROD_INSURANCE.BROKERCOS_VC COS
-            LEFT JOIN CLEAN.PROD_INSURANCE.EMPLOYEE_VC EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         where
             ROLE = 'New Business Specialist - Case Manager'
     ),
@@ -281,8 +280,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
         FROM
-            CLEAN.PROD_INSURANCE.BROKERCOS_VC COS
-            LEFT JOIN CLEAN.PROD_INSURANCE.EMPLOYEE_VC EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
             ROLE = 'New Business Specialist - Investments'
     ),
@@ -291,8 +290,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
         FROM
-            CLEAN.PROD_INSURANCE.BROKERCOS_VC COS
-            LEFT JOIN CLEAN.PROD_INSURANCE.EMPLOYEE_VC EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
             ROLE = 'Insurance Strategist'
     ),
@@ -301,8 +300,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
         FROM
-            CLEAN.PROD_INSURANCE.BROKERCOS_VC COS
-            LEFT JOIN CLEAN.PROD_INSURANCE.EMPLOYEE_VC EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
             ROLE = 'Regional President - Sales'
     ),
@@ -311,8 +310,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
         FROM
-            CLEAN.PROD_INSURANCE.BROKERCOS_VC COS
-            LEFT JOIN CLEAN.PROD_INSURANCE.EMPLOYEE_VC EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
             ROLE = 'Contracting Coordinator'
     ),
@@ -321,8 +320,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
         FROM
-            CLEAN.PROD_INSURANCE.BROKERCOS_VC COS
-            LEFT JOIN CLEAN.PROD_INSURANCE.EMPLOYEE_VC EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
             ROLE = 'Regional Vice President - Sales'
     ),
@@ -331,8 +330,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
         FROM
-            CLEAN.PROD_INSURANCE.BROKERCOS_VC COS
-            LEFT JOIN CLEAN.PROD_INSURANCE.EMPLOYEE_VC EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
             ROLE = 'Contracting Specialist'
     ),
@@ -341,8 +340,8 @@
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
         FROM
-            CLEAN.PROD_INSURANCE.BROKERCOS_VC COS
-            LEFT JOIN CLEAN.PROD_INSURANCE.EMPLOYEE_VC EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+            {{ ref('brokercos_vc_report_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_report_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
             ROLE = 'Regional Compliance Manager'
     ),
