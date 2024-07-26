@@ -5,7 +5,7 @@ models:
     description: View where the FH_policycategory is determined for life policies.
     config:
       database: NORMALIZE
-    tests:
+    data_tests:
       - dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B:
           column_A: COMMPREMIUMAMOUNT
           column_B: FYCAMOUNT
@@ -30,7 +30,7 @@ models:
     columns:
       - name: FH_POLICYCATEGORY
         description: Holds the Financial Horizons definition of NEW POLICY, NEW RIDER and SERVICE
-        tests:
+        data_tests:
          - not_null:
              config:
               severity: warn
@@ -43,7 +43,7 @@ models:
               store_failures: true
               database: NORMALIZE
       - name: appcount
-        tests: 
+        data_tests: 
           - dbt_utils.accepted_range:
              min_value: 0
              max_value: 1
@@ -52,7 +52,7 @@ models:
               store_failures: true
               database: NORMALIZE
       - name: splitrate
-        tests:
+        data_tests:
           - dbt_utils.accepted_range:
              min_value: 0
              max_value: 1
@@ -61,7 +61,7 @@ models:
               store_failures: true
               database: NORMALIZE
       - name: policycode
-        tests:
+        data_tests:
          - relationships:
              field: policycode
              to: ref('policy_vc_clean_insurance')
@@ -70,27 +70,27 @@ models:
                 store_failures: true
                 database: NORMALIZE 
       - name: policygroupcode
-        tests:
+        data_tests:
           - not_null:
               config:
                 severity: warn
                 store_failures: true
                 database: NORMALIZE 
       - name: commpremiumamount
-        tests:
+        data_tests:
           - not_null:
               config:
                 severity: warn
                 store_failures: true
                 database: NORMALIZE      
       - name: fycamount
-        tests:
+        data_tests:
           - not_null
   - name: __POSTDATE_insurance
     description: The view where FH_postdate from and FH_settlement date are created.
     config:
       database: NORMALIZE
-    tests:
+    data_tests:
       - dbt_expectations.expect_table_aggregation_to_equal_other_table:
           expression: SUM(FYCAMOUNT)
           compare_model: ref("policy_vc_normalize_insurance")
@@ -161,7 +161,7 @@ models:
     description: '{{ doc("__COMM_WGTS_insurance") }}'
     config:
       database: NORMALIZE
-    tests:
+    data_tests:
       - wgt_eq_one:
           column_name: policycode
           col_measure_to_test: corr_pd_agt_split
@@ -179,7 +179,7 @@ models:
         description: The commission paid to the agent.  Matches Wealthserv.
   - name: __COMM_AGT_MAPPED_CORRECTED_insurance
     description: This is a continuation of __COMM_AGT_MAPPED_insurance in order to break up the code.  These are the last few cases normalized so there are usable weights.
-    tests:
+    data_tests:
       - dbt_expectations.expect_table_aggregation_to_equal_other_table:
           expression: SUM(FH_FYCSERVAMT)
           compare_model: ref("policy_vc_normalize_insurance")
