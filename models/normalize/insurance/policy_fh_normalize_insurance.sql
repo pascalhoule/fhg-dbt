@@ -8,4 +8,4 @@
     )			
 }}
 
-SELECT * FROM {{ ref ('__COMM_AGT_MAPPED_CORRECTED_insurance') }}
+SELECT * FROM {{ ref ('__FREEZE_APPDT_insurance') }}
