@@ -17,6 +17,7 @@ SELECT
     CARRIER AS "Carrier",
     CASE
         WHEN PLAN_NAME = '-Bulk Travel' THEN 'Bulk Travel'
+        WHEN PLAN_NAME = '-Bulk Segs' THEN 'Bulk Segs'	
         ELSE PLAN_NAME
     END AS "Plan Name",
     B.NAME_FINANCE AS "Plan Category",
