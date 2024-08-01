@@ -40,7 +40,7 @@ WITH MOST_DATA AS (
             LEFT JOIN {{ ref('broker_vc_finance_insurance') }} B ON B.AGENTCODE = A.OWNERCODE
             LEFT JOIN {{ ref('ic_vc_finance_insurance') }} CARRIER ON CARRIER.ICID = A.ICID
         WHERE
-            POSTDATE::DATE BETWEEN CURRENT_DATE() - 120
+            POSTDATE::DATE BETWEEN CURRENT_DATE() - 740
             AND CURRENT_DATE() 
     ),
     WRIT_AGT AS (
