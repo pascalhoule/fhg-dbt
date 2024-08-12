@@ -57,5 +57,11 @@ models:
     report:
       materialized: view
       copy_grants: true
+    agt_comm:
+      materialized: view
+      copy_grants: true
+    carrier_ren_comm:
+      materialized: view
+      copy_grants: true
     
 
