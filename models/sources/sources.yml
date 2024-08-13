@@ -33,6 +33,7 @@ sources:
     database: fh_prod
     schema: wealthserv_inv_curated_secure
     tables:
+      - name: aua_vc
       - name: branches_vc
       - name: fundaccount_vc
       - name: fundproducts_vc
