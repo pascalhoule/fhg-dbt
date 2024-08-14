@@ -1,8 +1,9 @@
 {{
   config( 
-    alias='aua_vc_me_clean_investment', 
+    alias='aua_vc_me', 
     database='clean', 
     schema='investment',
+    query_tag = 'big',
     materialized = 'incremental',
     unique_key = ['repcode', 'fundproductcode', 'trenddate'],
     merge_update_columns = ['marketvalue']
