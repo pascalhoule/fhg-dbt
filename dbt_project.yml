@@ -60,7 +60,7 @@ models:
     agt_comm:
       materialized: view
       copy_grants: true
-    carrier_ren_comm:
+    carrier_comm:
       materialized: view
       copy_grants: true
     
