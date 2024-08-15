@@ -15,5 +15,5 @@ where
     
 
 {% if is_incremental() %}
-    tradedate >= (select dateadd(day,-366, max(tradedate)) from {{ this }})
+    tradedate >= (select dateadd(day,-14, max(tradedate)) from {{ this }})
 {% endif %}
