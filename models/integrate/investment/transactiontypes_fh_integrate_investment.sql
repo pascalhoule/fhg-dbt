@@ -4,4 +4,4 @@ SELECT *
   
 
 
-from {{ ref ('transactiontypes_fh_normalize_insurance')  }}
+from {{ ref ('transactiontypes_fh_normalize_investment')  }}
