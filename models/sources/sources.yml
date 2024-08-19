@@ -42,6 +42,7 @@ sources:
       - name: representativeaddress_vc
       - name: sponsors_vc
       - name: transactions_vc
+      - name: transactiontypes_vc
       
   - name: insurance
     database: fh_prod
