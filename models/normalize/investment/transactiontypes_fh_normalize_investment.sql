@@ -3,7 +3,7 @@
         materialized="table",			
         alias='transactiontypes_fh', 			
         database='normalize', 			
-        schema='insurance',
+        schema='investment',
         tags=["transactiontypes_fh"]			
     )			
 }}
