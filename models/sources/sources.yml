@@ -37,6 +37,7 @@ sources:
       - name: branches_vc
       - name: fundaccount_vc
       - name: fundproducts_vc
+      - name: jointrepresentatives_vc
       - name: region_vc
       - name: representatives_vc
       - name: representativeaddress_vc
