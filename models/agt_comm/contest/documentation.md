@@ -16,3 +16,13 @@ There is not supposed to be any changes made to it, so I didn't.
  The UNION query inside this view is the UNION of the joint code records adjusted and the unchanged single code records.
 
 {% enddocs %}
+
+{% docs __base_segfund_transtypes %}
+
+"2024-08-23"
+
+This view contains the hardcoded values of the transaction type codes which are used to identify which transactions to use for SegFund credits.
+These are the same codes which were in the SQL server version of contest reporting.  If there needs to be transactions types added or removed this is the view to edit.
+There should not need to be other changes.
+
+{% enddocs %}
