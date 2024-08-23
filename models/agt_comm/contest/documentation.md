@@ -25,4 +25,10 @@ This view contains the hardcoded values of the transaction type codes which are 
 These are the same codes which were in the SQL server version of contest reporting.  If there needs to be transactions types added or removed this is the view to edit.
 There should not need to be other changes.
 
+The transaction codes used are:
+"314 - Purchase Non Wire"
+"415 - Purchase PAC"
+"324 - Redeem Non Wire"
+"378 - RESP"
+
 {% enddocs %}

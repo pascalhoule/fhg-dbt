@@ -5,4 +5,4 @@ SELECT
 FROM
    {{ ref('transactiontypes_fh_agt_comm_investment') }}
 WHERE
-    TRANSACTIONTYPECODE in ('304', '416', '324', '378')
+    TRANSACTIONTYPECODE in ('314', '315', '324', '378')
