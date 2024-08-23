@@ -1,0 +1,8 @@
+version: 2
+
+models:
+    - name: __base_segfund_transtypes_agt_comm_contest
+      description: '{{ doc("__base_segfund_transtypes") }}'
+
+    - name: __base_transactions_for_contest_agt_comm_contest
+      description: '{{ doc("__basetransactions_for_contest") }}'
