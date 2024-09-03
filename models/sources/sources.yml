@@ -127,5 +127,7 @@ sources:
     schema: prod_contest
     tables:
       - name: date_ranges
+      - name: quadrus_aum
+      - name: quadrus_sales
      
       
