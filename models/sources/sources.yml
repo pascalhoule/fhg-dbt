@@ -121,5 +121,11 @@ sources:
     schema: prod_loi
     tables:
       - name: loi_tracking
+
+  - name: contest
+    database: agt_comm
+    schema: prod_contest
+    tables:
+      - name: date_ranges
      
       
