@@ -39,6 +39,7 @@
         FH_STARTDATE,
         FH_PREMIUM,
         FH_PREM_COMMWGT,
-        FH_PREM_SERVWGT
+        FH_PREM_SERVWGT,
+        ISMAINCOVERAGE
     FROM
         {{ ref('policy_fh_report_insurance') }}
