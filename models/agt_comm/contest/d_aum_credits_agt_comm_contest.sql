@@ -11,7 +11,7 @@ LEFT JOIN
     {{ ref('representatives_vc_agt_comm_investment') }} AS REP
     ON AUA.REPCODE = REP.REPRESENTIATIVECODE
 INNER JOIN
-    {{ ref('brokeradvanced_vc_agt_comm_insurance') }} AS BA
+    {{ ref('a_dim_agt_comm_contest') }} AS BA
     ON REP.INSAGENTCODE = BA.AGENTCODE
 WHERE
     AUA.TRENDDATE = (
