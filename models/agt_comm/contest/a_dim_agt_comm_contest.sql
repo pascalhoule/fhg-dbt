@@ -22,6 +22,6 @@ LEFT JOIN {{ ref('hierarchy_agt_comm_insurance') }} AS H
         AND B.AGENTCODE = H.AGENTCODE
 LEFT JOIN {{ ref('mga_agt_comm_insurance') }} AS M ON B.MGACODE = M.MGACODE
 WHERE
-    B.MAP_SEGMENT = 'Non-MAP' and B.PENDINGTERMINATION is null and B.TERMINATED is null and B.transferringout is null
+    B.MAP_SEGMENT = 'Non-MAP' and B.PENDINGTERMINATION is null and B.TERMINATED is null and B.TRANSFERRINGOUT is null and BA.USERDEFINED2 = B.BROKERID
 ORDER BY
     B.AGENTSTATUS
