@@ -11,7 +11,7 @@ SELECT
 FROM
     {{ ref('__base_transactions_for_contest_agt_comm_contest') }} AS T
 JOIN
-    {{ ref('brokeradvanced_vc_agt_comm_insurance') }} AS BA
+    {{ ref('a_dim_agt_comm_contest') }} AS BA
     ON T.REPID = BA.AGENTCODE
 INNER JOIN
     {{ ref('__base_segfund_transtypes_agt_comm_contest') }} AS TT
