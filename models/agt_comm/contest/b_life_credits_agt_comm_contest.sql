@@ -10,6 +10,9 @@ FROM
 INNER JOIN
     {{ ref('commission_vc_agt_comm_insurance') }} AS C
     ON BA.AGENTCODE = C.OWNERCODE
+INNER JOIN
+    {{ ref('a_dim_agt_comm_contest') }} DIM
+    ON BA.USERDEFINED2 = DIM.USERDEFINED2 AND BA.AGENTCODE = DIM.AGENTCODE
 WHERE
     C.PAIDDATE >= (
         SELECT MAX(LIFE_CREDITS_STARTDATE)
