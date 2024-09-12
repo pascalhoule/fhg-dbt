@@ -14,12 +14,13 @@ FROM
     {{ source('contest', 'quadrus_sales') }} AS Q
 LEFT JOIN {{ ref('a_dim_agt_comm_contest') }} AS DIM
     ON
-        TRIM(Q.FIRST_NAME) = UPPER(DIM.FIRSTNAME)
+        TRIM(Q.FIRST_NAME) = UPPER(SPLIT_PART(DIM.FIRSTNAME,' ', 1)) 
         AND TRIM(Q.LAST_NAME) = UPPER(DIM.LASTNAME)
 WHERE
     Q.INCL_IN_REPORT = TRUE
     AND Q.SALES IS NOT NULL
     AND UD_2 IS NOT NULL
     AND CONTAINS(UD_2, '/') = FALSE
+    AND IS_PRIMARY = TRUE
 GROUP BY
     1, 2, 3
