@@ -20,7 +20,7 @@ LEFT JOIN
     ON B.AGENTCODE = BA.AGENTCODE
 LEFT JOIN {{ ref('hierarchy_agt_comm_insurance') }} AS H
     ON
-        B.PARENTNODEID = H.MODIFIED_NODE_ID
+        B.PARENTNODEID = H.NODE_ID
         AND B.AGENTCODE = H.AGENTCODE
 LEFT JOIN {{ ref('mga_agt_comm_insurance') }} AS M ON B.MGACODE = M.MGACODE
 WHERE
