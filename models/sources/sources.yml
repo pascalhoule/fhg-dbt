@@ -129,5 +129,6 @@ sources:
       - name: date_ranges
       - name: quadrus_aum
       - name: quadrus_sales
+      - name: adjustments
      
       
