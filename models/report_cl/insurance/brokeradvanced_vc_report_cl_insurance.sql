@@ -1,11 +1,11 @@
 {{			
     config (			
         materialized="view",			
-        alias='brokeraddress_vc', 			
+        alias='brokeradvanced_vc', 			
         database='report_cl', 			
         schema='insurance'			
     )			
 }}	
 
 SELECT *
-FROM {{ ref ('brokeraddress_vc_analyze_insurance')  }}
+FROM {{ ref ('brokeradvanced_vc_analyze_insurance')  }}
