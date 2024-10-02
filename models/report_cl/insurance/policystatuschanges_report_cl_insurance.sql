@@ -2,7 +2,7 @@
     config (			
         materialized="view",			
         alias='policystatuschanges', 			
-        database='report', 			
+        database='report_cl', 			
         schema='insurance'			
     )			
 }}	
