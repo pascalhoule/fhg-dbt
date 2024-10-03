@@ -1,4 +1,4 @@
-{{  config( alias='transactiontypes_fh', database='report', schema='investment' )  }}
+{{  config( alias='transactiontypes_fh', database='report_cl', schema='investment' )  }}
 
 SELECT * 
   
