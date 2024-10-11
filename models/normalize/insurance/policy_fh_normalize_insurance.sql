@@ -8,4 +8,4 @@
     )			
 }}
 
-SELECT * FROM {{ ref ('__FREEZE_APPDT_insurance') }}
+SELECT * FROM {{ ref ('__fix_two_serv_one_comm_normalize_insurance') }}
