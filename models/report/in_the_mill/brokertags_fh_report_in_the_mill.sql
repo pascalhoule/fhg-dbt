@@ -1,7 +1,7 @@
 {{			
     config (			
         materialized="view",			
-        alias='brokertags_vc', 			
+        alias='brokertags_fh', 			
         database='report', 			
         schema='in_the_mill',
         tags=["in_the_mill"]			
