@@ -2,8 +2,9 @@
     config (			
         materialized="view",			
         alias='brokertags_fh', 			
-        database='report', 			
-        schema='in_the_mill',
+        database = 'report', 			
+        schema = 'in_the_mill',
+        grants = {'ownership': ['FH_READER']},
         tags=["in_the_mill"]			
     )			
 }}	
