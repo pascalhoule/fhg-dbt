@@ -3,8 +3,9 @@
         materialized="view",			
         alias='policy_fh', 			
         database='report', 			
-        schema='in_the_mill',
-        tags=["ITM"]			
+        schema = 'in_the_mill',
+        grants = {'ownership': ['FH_READER']},
+        tags=["in_the_mill"]			
     )			
 }}
 
