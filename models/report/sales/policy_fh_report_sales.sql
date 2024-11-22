@@ -39,6 +39,7 @@
         FH_PREMIUM,
         FH_PREM_COMMWGT,
         FH_PREM_SERVWGT,
-        FH_PLACEDDATE
+        FH_PLACEDDATE,
+        FH_FYCPLACED
     FROM
         {{ ref('policy_fh_report_insurance') }}
