@@ -9,9 +9,9 @@
 
 SELECT
     POL.*,
-    ITM.ITM_END_DATE,
-    ITM.ITM,
-    ITM.DAYS_IN_STATUS
+    ITM.ITM_END_DATE AS FH_ITM_END_DATE,
+    ITM.ITM AS FH_ITM,
+    ITM.DAYS_IN_STATUS AS FH_DAYS_IN_STATUS
 FROM
     {{ ref('policy_fh_report_insurance') }} POL
     LEFT JOIN {{ ref('itm_calcs_FH_report_insurance') }} ITM ON POL.POLICYCODE = ITM.POLICYCODE
