@@ -41,6 +41,9 @@
         FH_PREM_COMMWGT,
         FH_PREM_SERVWGT,
         FH_PLACEDDATE,
-        FH_FYCPLACED
+        FH_FYCPLACED,
+        FH_ITM_END_DATE,
+        FH_ITM,
+        FH_DAYS_IN_STATUS
     FROM
-        {{ ref('policy_fh_report_insurance') }}
+        {{ ref('policy_itm_fh_insurance_report') }}
