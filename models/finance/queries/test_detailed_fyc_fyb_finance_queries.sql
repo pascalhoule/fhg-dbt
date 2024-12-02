@@ -50,7 +50,26 @@ ACCRUAL_COMM_AGT_CORRECT AS (
         AND MAINAGENT = 1 
         AND ACCRUAL_COMM_AGT.OWNERCODE = LINK.AGENTCODE
 ),
-MOST_DATA AS (
+PAL AS (
+    -- for cases where the ownertype = 3 is not on the accural but need to map agent another way.
+    SELECT
+        POLICYCODE,
+        P.AGENTCODE,
+        B.AGENTNAME,
+        CASE
+            WHEN CONTAINS(BA.USERDEFINED2, '/') THEN '999999999'
+            ELSE BA.USERDEFINED2
+        END AS USERDEFINED2,
+    FROM
+        {{ ref('policyagentlinking_finance_insurance') }} p
+        LEFT JOIN {{ ref('broker_vc_finance_insurance') }} b on p.agentcode = b.agentcode
+        LEFT JOIN {{ ref('brokeradvanced_vc_finance_insurance') }} ba on BA.agentcode = p.agentcode
+    WHERE
+        MAINAGENT = 1
+    GROUP BY
+        1, 2, 3, 4
+),
+MOST_DATA_BASE AS (
     SELECT
         A.OWNERCODE AS OWNERCODE,
         A.ACCRUALCODE AS ACCRUALCODE_FROM_ACCURALS,
@@ -106,13 +125,51 @@ MOST_DATA AS (
         LEFT JOIN ACCRUAL_COMM_AGT_SPLIT COMM_AGT_SPLIT ON A.POLICYCODE = COMM_AGT_SPLIT.POLICYCODE
         AND A.SPLITCODE = COMM_AGT_SPLIT.SPLITCODE
         LEFT JOIN ACCRUAL_COMM_AGT COMM_AGT ON A.POLICYCODE = COMM_AGT.POLICYCODE
-        --AND A.OWNERCODE = COMM_AGT.OWNERCODE
+        AND A.OWNERCODE = COMM_AGT.OWNERCODE
         LEFT JOIN ACCRUAL_COMM_AGT_CORRECT ON A.POLICYCODE = ACCRUAL_COMM_AGT_CORRECT.POLICYCODE
         LEFT JOIN {{ ref('broker_vc_finance_insurance') }} B ON B.AGENTCODE = A.OWNERCODE
         LEFT JOIN {{ ref('ic_vc_finance_insurance') }} CARRIER ON CARRIER.ICID = A.ICID
     WHERE
         POSTDATE::DATE BETWEEN CURRENT_DATE() - 1095
         AND CURRENT_DATE()
+),
+MOST_DATA AS (
+    SELECT
+        A.OWNERCODE,
+        ACCRUALCODE_FROM_ACCURALS,
+        CHQCODE,
+        COMMISSIONRUNCODE,
+        COMMISSION_RUN,
+        'Unknown' AS OCCURRENCE_TYPE,
+        COALESCE(
+            A.COMMISSIONABLE_AGENT,
+            COMM_AGT.AGENTFULLNAME,
+            PAL.AGENTNAME
+        ) AS COMMISSIONABLE_AGENT,
+        COALESCE(
+            A.COMMISSIONABLE_AGENT_ID,
+            COMM_AGT.USERDEFINED2,
+            PAL.USERDEFINED2
+        ) AS COMMISSIONABLE_AGENT_ID,
+        OWNER_TYPE,
+        OWNER_NAME,
+        OWNER_COMPANY,
+        POLICY_NUMBER,
+        A.POLICYCODE AS POLICYCODE,
+        CARRIER,
+        PLANNAME,
+        STATUS,
+        TOTAL_FYC,
+        TOTAL_FYB,
+        POSTDATE,
+        TRANSACTION_COMMISSIONABLE_PREMIUM,
+        COMMISSION_RATE,
+        COMMISSION_SPLIT_SHARE,
+        A.SPLITCODE
+    FROM
+        MOST_DATA_BASE A
+        LEFT JOIN ACCRUAL_COMM_AGT COMM_AGT ON A.POLICYCODE = COMM_AGT.POLICYCODE
+        LEFT JOIN PAL on PAL.POLICYCODE = A.POLICYCODE
 ),
 WRIT_AGT AS (
     SELECT
@@ -290,10 +347,13 @@ COMM_AGT_MISSING_MAP_ZERO AS (
 COMM_AGT_MISSING_MAP AS (
     SELECT
         MAP_TRX.POLICYCODE,
-        P.agentcode,
+        P.AGENTCODE,
         B.FULLAGENTNAME,
         B.AGENTNAME,
-        BA.USERDEFINED2,
+        CASE
+            WHEN CONTAINS(BA.USERDEFINED2, '/') THEN '999999999'
+            ELSE BA.USERDEFINED2
+        END AS USERDEFINED2,
         MAP_TRX.SPLITCODE,
         MAP_TRX.OWNER_TYPE
     FROM
