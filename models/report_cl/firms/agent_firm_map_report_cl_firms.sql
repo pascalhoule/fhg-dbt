@@ -13,7 +13,18 @@ SELECT
     AGENTTYPE,
     H.*,
     CASE
-        WHEN HIERARCHYLEVEL = 7 THEN SPLIT_PART(HIERARCHYPATHNAME, '>>', 4)
+        WHEN HIERARCHYLEVEL = 7 
+        AND (
+            CONTAINS(HIERARCHYPATHNAME, 'MAP - Freedom')
+            OR CONTAINS(HIERARCHYPATHNAME, 'MAP - WISE')
+            OR CONTAINS(HIERARCHYPATHNAME, 'People Corporation') )
+        THEN SPLIT_PART(HIERARCHYPATHNAME, '>>', 4)
+        WHEN HIERARCHYLEVEL = 7 
+        AND NOT (
+            CONTAINS(HIERARCHYPATHNAME, 'MAP - Freedom')
+            OR CONTAINS(HIERARCHYPATHNAME, 'MAP - WISE')
+            OR CONTAINS(HIERARCHYPATHNAME, 'People Corporation') )
+        THEN SPLIT_PART(HIERARCHYPATHNAME, '>>', 3)
         WHEN HIERARCHYLEVEL = 6
         AND (
             CONTAINS(HIERARCHYPATHNAME, 'MAP - Freedom')
@@ -30,7 +41,18 @@ SELECT
         ELSE 'No Branch Name'
     END AS BRANCH_NAME,
     CASE
-        WHEN HIERARCHYLEVEL = 7 THEN SPLIT_PART(HIERARCHYPATHNAME, '>>', 6)
+        WHEN HIERARCHYLEVEL = 7 
+         AND (
+            CONTAINS(HIERARCHYPATHNAME, 'MAP - Freedom')
+            OR CONTAINS(HIERARCHYPATHNAME, 'MAP - WISE')
+            OR CONTAINS(HIERARCHYPATHNAME, 'People Corporation'))
+        THEN SPLIT_PART(HIERARCHYPATHNAME, '>>', 6)
+        WHEN HIERARCHYLEVEL = 7 
+         AND NOT (
+            CONTAINS(HIERARCHYPATHNAME, 'MAP - Freedom')
+            OR CONTAINS(HIERARCHYPATHNAME, 'MAP - WISE')
+            OR CONTAINS(HIERARCHYPATHNAME, 'People Corporation'))
+        THEN SPLIT_PART(HIERARCHYPATHNAME, '>>', 5)
         WHEN HIERARCHYLEVEL = 6
         AND (
             CONTAINS(HIERARCHYPATHNAME, 'MAP - Freedom')
@@ -51,4 +73,4 @@ FROM
     LEFT JOIN {{ ref('recursive_hierarchy_report_cl_insurance') }} h ON CONCAT('^', B.PARENTNODEID, '^') = H.NODEID
 WHERE
     AGENTTYPE NOT IN ('Corporate', 'Financial Horizons')
-    and AGENTSTATUS = 'Active'
+    AND AGENTSTATUS = 'Active'
