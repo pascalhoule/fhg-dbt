@@ -3,7 +3,8 @@
         materialized="view",			
         alias='recursive_hierarchy', 			
         database='report_cl', 			
-        schema='insurance'			
+        schema='insurance',
+        grants = {'ownership': ['BI_DEV']},			
     )			
 }}	
 

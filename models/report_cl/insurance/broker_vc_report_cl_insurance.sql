@@ -1,4 +1,4 @@
-{{  config(alias='broker_vc', database='report_cl', schema='insurance')  }} 
+{{  config(alias='broker_vc', database='report_cl', schema='insurance', grants = {'ownership': ['BI_DEV']},)  }} 
  
 
 SELECT
