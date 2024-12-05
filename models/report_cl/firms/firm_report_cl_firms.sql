@@ -1,4 +1,4 @@
-{{  config(alias='firm', database='report_cl', schema='insurance')  }} 
+{{  config(alias='firm', database='report_cl', schema='firms')  }} 
 
 
 WITH FF55_MAP AS (
