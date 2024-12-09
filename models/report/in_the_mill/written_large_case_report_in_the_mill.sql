@@ -4,6 +4,7 @@
         alias='written_large_case', 			
         database='report', 			
         schema='in_the_mill',
+        grants = {'ownership': ['FH_READER']},
         tags=["daily_apps", "large_case"]			
     )			
 }}	
