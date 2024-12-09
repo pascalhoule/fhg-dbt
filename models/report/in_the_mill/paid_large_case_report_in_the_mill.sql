@@ -3,8 +3,8 @@
         materialized="view",			
         alias='paid_large_case', 			
         database='report', 			
-        schema='daily_apps',
-        tags=["daily_apps", "large_case"]			
+        schema='in_the_mill',
+        tags=["in_the_mill", "large_case"]			
     )			
 }}	
 

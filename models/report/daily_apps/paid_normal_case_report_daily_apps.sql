@@ -4,7 +4,7 @@
         alias='paid_normal_case', 			
         database='report', 			
         schema='daily_apps',
-        tags=["daily_apps"]			
+        tags=["daily_apps", "large case"]			
     )			
 }}
 
