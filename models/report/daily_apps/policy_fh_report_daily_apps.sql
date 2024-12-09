@@ -4,7 +4,7 @@
         alias='policy_fh', 			
         database='report', 			
         schema='daily_apps',
-        tags=["daily_apps"]			
+        tags=["daily_apps", "large_case"]			
     )			
 }}
 

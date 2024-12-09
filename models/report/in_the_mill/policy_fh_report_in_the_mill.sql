@@ -5,7 +5,7 @@
         database='report', 			
         schema = 'in_the_mill',
         grants = {'ownership': ['FH_READER']},
-        tags=["in_the_mill"]			
+        tags=["in_the_mill", "large_case"]			
     )			
 }}
 
@@ -44,6 +44,42 @@
         FH_FYCPLACED,
         FH_ITM_END_DATE,
         FH_ITM,
-        FH_DAYS_IN_STATUS
+        FH_DAYS_IN_STATUS,
+         CASE
+        WHEN WRIT.POLICYGROUPCODE IS NOT NULL THEN TRUE
+        ELSE FALSE
+    END AS WRITTEN_LG_CASE,
+    CASE
+        WHEN WRIT.POLICYGROUPCODE IS NULL THEN TRUE
+        ELSE FALSE
+    END AS WRITTEN_NORMAL_CASE,
+    CASE
+        WHEN WRIT_NORM.POLICYGROUPCODE IS NOT NULL THEN WRIT_NORM.WRITTEN_FYC
+    END AS WRITTEN_NORMAL_CASE_FYC,
+    CASE
+        WHEN WRIT.POLICYGROUPCODE IS NOT NULL THEN WRIT.WRITTEN_FYC
+    END AS WRITTEN_LARGE_CASE_FYC,
+    CASE
+        WHEN PD.POLICYGROUPCODE IS NOT NULL THEN TRUE
+        ELSE FALSE
+    END AS PAID_LG_CASE,
+    CASE
+        WHEN PD.POLICYGROUPCODE IS NULL THEN TRUE
+        ELSE FALSE
+    END AS PAID_NORMAL_CASE,
+    CASE
+        WHEN PD.POLICYGROUPCODE IS NOT NULL THEN PD.PAID_FYC
+    END AS PAID_LARGE_CASE_FYC,
+    CASE
+        WHEN PD_NORM.POLICYGROUPCODE IS NOT NULL THEN PD_NORM.PAID_FYC
+    END AS PAID_NORMAL_CASE_FYC
     FROM
-        {{ ref('policy_itm_fh_insurance_report') }}
+        {{ ref('policy_itm_fh_insurance_report') }} POL
+    LEFT JOIN {{ ref('written_large_case_report_in_the_mill') }} WRIT ON POL.POLICYGROUPCODE = WRIT.POLICYGROUPCODE
+    AND POL.FH_STARTDATE = WRIT.FH_STARTDATE
+    LEFT JOIN {{ ref('paid_large_case_report_in_the_mill') }}  PD ON POL.POLICYGROUPCODE = PD.POLICYGROUPCODE
+    AND POL.FH_SETTLEMENTDATE = PD.FH_SETTLEMENTDATE
+    LEFT JOIN {{ ref('written_normal_case_report_in_the_mill') }} WRIT_NORM ON POL.POLICYGROUPCODE = WRIT_NORM.POLICYGROUPCODE
+    AND POL.FH_STARTDATE = WRIT_NORM.FH_STARTDATE
+    LEFT JOIN {{ ref('paid_normal_case_report_in_the_mill') }} PD_NORM ON POL.POLICYGROUPCODE = PD_NORM.POLICYGROUPCODE
+    AND POL.FH_SETTLEMENTDATE = PD_NORM.FH_SETTLEMENTDATE 
