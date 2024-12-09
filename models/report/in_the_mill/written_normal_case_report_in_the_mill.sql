@@ -3,7 +3,7 @@
         materialized="view",			
         alias='written_normal_case', 			
         database='report', 			
-        schema='daily_apps',
+        schema='in_the_mill',
         tags=["daily_apps", "large_case"]			
     )			
 }}
