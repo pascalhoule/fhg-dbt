@@ -22,4 +22,4 @@ where
 GROUP BY
     1, 2, 3
 HAVING
-    PAID_FYC > 25000
+    PAID_FYC >= 25000
