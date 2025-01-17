@@ -10,6 +10,7 @@ sources:
       - name: broker_vc
       - name: brokeradvanced_vc
       - name: brokeraddress_vc
+      - name: brokercarrierdebt_vc
       - name: brokercontractprovince_vc
       - name: brokercontractstatus_vc
       - name: brokercontracttype_vc
