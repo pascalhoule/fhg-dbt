@@ -67,5 +67,8 @@ models:
     report_cl:
       materialized: view
       copy_grants: true
+    salesforce:
+      materialized: table
+      copy_grants: true
     
 
