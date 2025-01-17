@@ -1,7 +1,7 @@
 {{  config(
     alias='brokercarrierdebt_vc', 
-    database='salesforce', 
+    database='clean', 
     schema='insurance')  }}
 
 SELECT *
-FROM {{ ref('brokercarrierdebt_vc_clean_insurance') }}
+FROM {{ source('insurance_curated', 'brokercarrierdebt_vc') }}
