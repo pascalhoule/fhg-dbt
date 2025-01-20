@@ -1,7 +1,8 @@
 {{ config(
     alias='carrierdebt_V', 
     database='salesforce', 
-    schema='exports') }}
+    schema='exports',
+   materialized="view") }}
 
 
 SELECT
