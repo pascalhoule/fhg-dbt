@@ -2,7 +2,8 @@
     alias='GA_carrierdebt', 
     database='salesforce', 
     schema='exports',
-   materialized="view") }}
+   materialized="view",
+   grants = {'ownership': ['FH_READER']}) }}
 
 
 WITH TEMP AS (
