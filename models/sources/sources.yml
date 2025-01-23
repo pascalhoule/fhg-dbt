@@ -20,6 +20,7 @@ sources:
       - name: brokeremail_vc
       - name: brokertags_vc
       - name: commission_vc
+      - name: commissiongrid_vc
       - name: representatives_vc
       - name: representativeaddress_vc
       - name: policy_vc
