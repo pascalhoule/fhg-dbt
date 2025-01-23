@@ -2,7 +2,8 @@
     alias='carriercontract_V', 
     database='salesforce', 
     schema='exports',
-   materialized="view") }}
+   materialized="view",
+   grants = {'ownership': ['FH_READER']})  }}
 
 
 SELECT
