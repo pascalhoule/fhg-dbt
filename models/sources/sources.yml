@@ -19,6 +19,7 @@ sources:
       - name: brokerphone_vc
       - name: brokeremail_vc
       - name: brokertags_vc
+      - name: brokerledgersummary_vc 
       - name: commission_vc
       - name: commissiongrid_vc
       - name: representatives_vc
