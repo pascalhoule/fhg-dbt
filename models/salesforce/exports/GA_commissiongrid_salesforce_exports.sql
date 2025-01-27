@@ -17,10 +17,10 @@ WITH TEMP AS (
     cg.TEMPLATETYPE as TEMPLATE_TYPE,
     cg.AGENT_CODE
 FROM
-    {{ ref('commissiongrid_V_salesforce_exports') }} cg
+    {{ ref('commissiongrid_salesforce_exports') }} cg
 WHERE EXISTS (
     SELECT 1 
-    FROM {{ ref('broker_V_salesforce_exports') }} bt
+    FROM {{ ref('broker_salesforce_exports') }} bt
     WHERE bt.AGENTCODE = cg.AGENT_CODE
 )
 )

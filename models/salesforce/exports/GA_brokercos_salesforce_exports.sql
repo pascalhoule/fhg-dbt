@@ -8,7 +8,7 @@
 WITH Temp AS (
     SELECT Bs.*
     FROM
-        {{ ref('brokercos_V_salesforce_exports') }} AS Bs
+        {{ ref('brokercos_salesforce_exports') }} AS Bs
     WHERE EXISTS (
         SELECT 1
         FROM {{ ref('GA_broker_salesforce_exports') }} AS Bt

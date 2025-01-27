@@ -8,10 +8,10 @@
 With Temp As (
     Select Pl.*
     From
-        {{ ref('provinciallicences_V_salesforce_exports') }} As Pl
+        {{ ref('provinciallicences_salesforce_exports') }} As Pl
     Where Exists (
         Select 1
-        From {{ ref('broker_V_salesforce_exports') }} As Bt
+        From {{ ref('broker_salesforce_exports') }} As Bt
         Where Bt.Agentcode = Pl.Agentcode
     )
 )

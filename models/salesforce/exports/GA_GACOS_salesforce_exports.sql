@@ -8,7 +8,7 @@
 WITH Temp AS (
     SELECT Bs.*
     FROM
-        {{ ref('GACOS_V_salesforce_exports') }} AS Bs
+        {{ ref('GACOS_salesforce_exports') }} AS Bs
     WHERE EXISTS (
         SELECT 1
         FROM {{ ref('GA_accounts_global_salesforce_exports') }} AS Ag

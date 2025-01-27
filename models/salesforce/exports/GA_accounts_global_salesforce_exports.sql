@@ -49,13 +49,13 @@ WITH Temp AS (
         TRUE AS Isprimary,
         (
             SELECT COUNT(*)
-            FROM {{ ref('broker_V_salesforce_exports') }}
+            FROM {{ ref('broker_salesforce_exports') }}
             WHERE Uid = B.Uid
         )
             AS Profilecount,
         B.Tagname
     FROM
-        {{ ref('broker_V_salesforce_exports') }} AS B
+        {{ ref('broker_salesforce_exports') }} AS B
     WHERE
         B.Uid = B.Brokerid
 )

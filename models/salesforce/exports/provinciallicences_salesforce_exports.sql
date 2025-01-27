@@ -1,5 +1,5 @@
 {{ config(
-    alias='provinciallicences_V', 
+    alias='provinciallicences', 
     database='salesforce', 
     schema='exports',
    materialized="view",
@@ -15,5 +15,5 @@ SELECT
     BCP.AGENTCODE,
     COALESCE(BCP.ENDDATE, '9999-12-31') AS END_DATE
 FROM {{ ref('brokercontractprovince_vc_salesforce_insurance') }} AS BCP
-LEFT JOIN {{ ref('broker_V_salesforce_exports') }} AS B
+LEFT JOIN {{ ref('broker_salesforce_exports') }} AS B
     ON BCP.AGENTCODE = B.AGENTCODE

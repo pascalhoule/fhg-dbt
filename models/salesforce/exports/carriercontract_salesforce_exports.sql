@@ -1,5 +1,5 @@
 {{ config(
-    alias='carriercontract_V', 
+    alias='carriercontract', 
     database='salesforce', 
     schema='exports',
    materialized="view",

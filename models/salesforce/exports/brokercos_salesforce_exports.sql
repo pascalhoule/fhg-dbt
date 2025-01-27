@@ -1,5 +1,5 @@
 {{ config(
-    alias='brokercos_V', 
+    alias='brokercos', 
     database='salesforce', 
     schema='exports',
    materialized="view",

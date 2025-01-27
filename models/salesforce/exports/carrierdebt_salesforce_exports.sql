@@ -1,5 +1,5 @@
 {{ config(
-    alias='carrierdebt_V', 
+    alias='carrierdebt', 
     database='salesforce', 
     schema='exports',
    materialized="view",
