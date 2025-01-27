@@ -9,10 +9,10 @@
 WITH TEMP AS (
     SELECT CD.*
     FROM
-        {{ ref('carrierdebt_V_salesforce_exports') }} AS CD
+        {{ ref('carrierdebt_salesforce_exports') }} AS CD
     WHERE EXISTS (
         SELECT 1
-        FROM {{ ref('broker_V_salesforce_exports') }} AS BT
+        FROM {{ ref('broker_salesforce_exports') }} AS BT
         WHERE BT.AGENTCODE = CD.AGENTCODE
     )
 )

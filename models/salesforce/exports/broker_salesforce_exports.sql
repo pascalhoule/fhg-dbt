@@ -1,5 +1,5 @@
 {{ config(
-    alias='broker_V', 
+    alias='broker', 
     database='salesforce', 
     schema='exports',
    materialized="view",

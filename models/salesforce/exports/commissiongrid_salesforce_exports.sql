@@ -1,5 +1,5 @@
 {{ config(
-    alias='commissiongrid_V', 
+    alias='commissiongrid', 
     database='salesforce', 
     schema='exports',
    materialized="view",

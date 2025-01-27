@@ -69,7 +69,7 @@ WITH Temp AS (
                 THEN Personalemail
             ELSE ''
         END AS Personalemail
-    FROM {{ ref('broker_V_salesforce_exports') }}
+    FROM {{ ref('broker_salesforce_exports') }}
 )
 
 SELECT * FROM Temp

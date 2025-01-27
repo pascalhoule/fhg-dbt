@@ -46,10 +46,10 @@ SELECT
     b.ISMAP,
     b.PENDINGTERMINATION,
     CASE WHEN b.UID = b.BROKERID THEN TRUE ELSE FALSE END AS ISPRIMARY,
-    (SELECT COUNT(*) FROM {{ ref('broker_V_salesforce_exports') }} WHERE UID = b.UID) AS PROFILECOUNT,
+    (SELECT COUNT(*) FROM {{ ref('broker_salesforce_exports') }} WHERE UID = b.UID) AS PROFILECOUNT,
     b.TAGNAME
 FROM
-    {{ ref('broker_V_salesforce_exports') }} b
+    {{ ref('broker_salesforce_exports') }} b
 ORDER BY b.UID
 )
 

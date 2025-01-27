@@ -1,5 +1,5 @@
 {{ config(
-    alias='GACOS_V', 
+    alias='GACOS', 
     database='salesforce', 
     schema='exports',
    materialized="view",

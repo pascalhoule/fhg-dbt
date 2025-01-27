@@ -1,5 +1,5 @@
 {{ config(
-    alias='brokerdebt_V', 
+    alias='brokerdebt', 
     database='salesforce', 
     schema='exports',
    materialized="view",
@@ -23,7 +23,7 @@ WITH CTE_CARRIERDEBTGROUPBY AS (
                 THEN CAST(BALANCE AS FLOAT)
             ELSE 0
         END), 2) AS TCD30_60
-    FROM {{ ref('carrierdebt_V_salesforce_exports') }}
+    FROM {{ ref('carrierdebt_salesforce_exports') }}
     GROUP BY AGENTCODE
 )
 
