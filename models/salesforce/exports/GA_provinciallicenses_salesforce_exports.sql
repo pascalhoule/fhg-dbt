@@ -1,5 +1,5 @@
 {{ config(
-    alias='GA_provinciallicences', 
+    alias='GA_provinciallicenses', 
     database='salesforce', 
     schema='exports',
    materialized="view",
