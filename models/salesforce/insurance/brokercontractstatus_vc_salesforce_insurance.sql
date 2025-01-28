@@ -1,8 +1,8 @@
 {{  config(
-    alias='ic_vc', 
+    alias='brokercontractstatus_vc', 
     database='salesforce', 
     schema='insurance',
     grants = {'ownership': ['FH_READER']})  }}
 
 SELECT *
-FROM {{ ref('ic_vc_clean_insurance') }}
+FROM {{ ref('brokercontractstatus_vc_clean_insurance') }}
