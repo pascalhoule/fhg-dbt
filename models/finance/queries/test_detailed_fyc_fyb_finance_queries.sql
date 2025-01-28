@@ -1,5 +1,5 @@
 {{ config(
-    alias = 'test_detailed_fyc_fyb', 
+    alias = 'Userdefinedtwo_detailed_fyc_fyb', 
     database = 'finance', 
     schema = 'queries', 
     grants = {'ownership': ['FINANCE']},
