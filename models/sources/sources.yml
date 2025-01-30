@@ -7,6 +7,7 @@ sources:
     schema: wealthserv_ins_curated_secure
     tables:
       - name: hierarchy_vc
+      - name: recursivehierarchy_vc
       - name: broker_vc
       - name: brokeradvanced_vc
       - name: brokeraddress_vc

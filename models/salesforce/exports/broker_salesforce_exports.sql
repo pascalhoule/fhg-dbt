@@ -3,7 +3,7 @@
     database='salesforce', 
     schema='exports',
    materialized="view",
-   grants = {'ownership': ['FH_READER']})  }}
+   grants = {'ownership': ['FH_READER']}) }}
 
 SELECT
     BADV.USERDEFINED2 AS UID,
@@ -24,7 +24,6 @@ SELECT
     '' AS NOTIFICATION,
     '' AS LOCALDELIVERY,
     '' AS OUTOFCITY,
-    '' AS SEGMENT,
     COALESCE(B.FIRSTNAME, '') AS FIRSTNAME,
     COALESCE(B.MIDDLENAME, '') AS MIDDLENAME,
     CASE
@@ -39,9 +38,9 @@ SELECT
     COALESCE(B.SERVICELEVEL, '') AS SERVICELEVEL,
     CASE
         WHEN POSITION('@' IN E.EMAILADDRESS) > 0 THEN E.EMAILADDRESS
-    END AS EMAILADDRESS, -- Business email validated
-    COALESCE(B.COMPANYNAME, '') AS COMPANYNAME, -- Personal email validated
-    COALESCE(BA_BUSINESS.ADDRESS, '') AS ADDRESS,
+    END AS EMAILADDRESS,
+    COALESCE(B.COMPANYNAME, '') AS COMPANYNAME, -- Business email validated
+    COALESCE(BA_BUSINESS.ADDRESS, '') AS ADDRESS, -- Personal email validated
     COALESCE(BA_BUSINESS.CITY, '') AS CITY,
     COALESCE(BA_BUSINESS.PROVINCE, '') AS PROVINCE,
     COALESCE(BA_BUSINESS.POSTAL_CODE, '') AS POSTAL_CODE,
@@ -58,6 +57,43 @@ SELECT
         WHEN '^m2^' THEN 'Western Canada'
         WHEN '^m3^' THEN 'Ontario / Atlantic'
     END AS REGION,
+    CAST(
+        REPLACE(
+            REPLACE(
+                REPLACE(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(
+                                COALESCE((
+                                    SELECT MAX(BT.TAGNAME)
+                                    FROM
+                                        FH_PROD.WEALTHSERV_INS_CURATED_SECURE.BROKERTAGS_VC
+                                            AS BT
+                                    WHERE BT.TAGNAME IN (
+                                        'Elite/Élite',
+                                        'MAP-Elite/PAM-Élite',
+                                        'Select',
+                                        'MAP-Select/PAM-Sélect',
+                                        'Signature',
+                                        'MAP-Signature/PAM-Signature',
+                                        'Advisor/Conseiller',
+                                        'MAP-Advisor/PAM-Conseiller'
+                                    )
+                                    AND BT.AGENTCODE = B.AGENTCODE
+                                ), ''),
+                                'Elite/Élite', 'Elite'
+                            ),
+                            'Advisor/Conseiller', 'Advisor'
+                        ),
+                        'MAP-Select/PAM-Sélect', 'MAP-Select'
+                    ),
+                    'MAP-Signature/PAM-Signature', 'MAP-Signature'
+                ),
+                'MAP-Advisor/PAM-Conseiller', 'MAP-Advisor'
+            ),
+            'MAP-Elite/PAM-Élite', 'MAP-Elite'
+        ) AS VARCHAR
+    ) AS SEGMENT,
     MAX(CASE
         WHEN BT.TAGNAME = 'Under Supervision/Sous supervision' THEN 1
         ELSE 0
@@ -85,17 +121,17 @@ LEFT JOIN {{ ref('brokeraddress_vc_salesforce_insurance') }} AS BA_BUSINESS
     ON B.AGENTCODE = BA_BUSINESS.AGENTCODE AND BA_BUSINESS.TYPE = 'business'
 LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} AS BPHONE
     ON B.AGENTCODE = BPHONE.AGENTCODE AND BPHONE.TYPE = 'Business'
-LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} AS FAX
+LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} FAX
     ON B.AGENTCODE = FAX.AGENTCODE AND FAX.TYPE = 'Company Fax'
 LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} AS HOME
     ON B.AGENTCODE = HOME.AGENTCODE AND HOME.TYPE = 'Home'
-LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} AS CELL
+LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} CELL
     ON B.AGENTCODE = CELL.AGENTCODE AND CELL.TYPE = 'Cell'
 LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} AS ALTERNATE
     ON B.AGENTCODE = ALTERNATE.AGENTCODE AND ALTERNATE.TYPE = 'Alternate'
 LEFT JOIN REPORT.ADVISOR_DETAILS.HIERARCHY AS H
     ON TRIM(B.PARENTNODEID) = TRIM(H.NODEID)
-LEFT JOIN INTEGRATE.PROD_INSURANCE.RECURSIVE_HIERARCHY AS RH
+LEFT JOIN {{ ref('recursivehierarchy_vc_salesforce_insurance') }} AS RH
     ON TRIM(B.PARENTNODEID) = TRIM(RH.NODEID)
 LEFT JOIN {{ ref('brokertags_vc_salesforce_insurance') }} AS BT
     ON B.AGENTCODE = BT.AGENTCODE
