@@ -67,7 +67,7 @@ SELECT
                                 COALESCE((
                                     SELECT MAX(BT.TAGNAME)
                                     FROM
-                                        FH_PROD.WEALTHSERV_INS_CURATED_SECURE.BROKERTAGS_VC
+                                    {{ ref('brokertags_vc_salesforce_insurance') }} 
                                             AS BT
                                     WHERE BT.TAGNAME IN (
                                         'Elite/Élite',
