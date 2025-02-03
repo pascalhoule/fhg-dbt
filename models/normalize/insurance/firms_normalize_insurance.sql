@@ -1,4 +1,11 @@
-
+{{			
+    config (			
+        materialized="view",			
+        alias='firms', 			
+        database='normalize', 			
+        schema='insurance'			
+    )			
+}}
 
 SELECT
     *,
@@ -6,3 +13,5 @@ SELECT
     TRIM(SPLIT_PART(HIERARCHYPATHNAME, '>>', 4)) AS FIRM_NAME
 FROM
     {{ ref('recursive_hierarchy_normalize_insurance') }}
+WHERE
+    HIERARCHYLEVEL = 4
