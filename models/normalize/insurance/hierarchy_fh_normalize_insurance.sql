@@ -1,6 +1,6 @@
 {{			
     config (			
-        materialized="table",			
+        materialized="view",			
         alias='hierarchy_fh', 			
         database='normalize', 			
         schema='insurance'			
