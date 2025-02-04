@@ -12,4 +12,4 @@ WHERE EXISTS (
     SELECT 1
     FROM {{ ref('broker_salesforce_exports') }} AS bt
     WHERE bt.agentcode = bdbt.agentcode
-) AND bdbt.ledger_balance != '0'
+)
