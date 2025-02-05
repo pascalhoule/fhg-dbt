@@ -15,7 +15,7 @@ WITH Temp AS (
             FROM {{ ref('broker_salesforce_exports') }} AS Bt
             WHERE Bt.Agentcode = Cc.Agent_code
         )
-    ORDER BY Cc.Broker_contract_code
+    ORDER BY Cc.BROKERCONTRACTCODE
 
 )
 
