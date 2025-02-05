@@ -7,12 +7,11 @@
 
 WITH Temp AS (
     SELECT
-        '0128W000000awsH' AS Recordtypeid,
+        '0128W000000awsHQAQ' AS Recordtypeid,
         B.Uid,
         B.Agentcode,
         B.Firstname,
         B.Middlename,
-        CONCAT(B.Lastname, ' - GA/CG') AS Lastname,
         B.Brokerid,
         B.Agenttype,
         B.Agentstatus,
@@ -45,15 +44,11 @@ WITH Temp AS (
         B.Undersupervision,
         B.Ismap,
         B.Pendingtermination,
-        CONCAT(B.Firstname, ' ', B.Lastname, ' - GA/CG') AS Name,
         TRUE AS Isprimary,
-        (
-            SELECT COUNT(*)
-            FROM {{ ref('broker_salesforce_exports') }}
-            WHERE Uid = B.Uid
-        )
-            AS Profilecount,
-        B.Tagname
+        B.Tagname,
+        CONCAT(B.Lastname, ' - GA/CG') AS Lastname,
+        CONCAT(B.Firstname, ' ', B.Lastname, ' - GA/CG') AS Name,
+        (SELECT COUNT(*) FROM Broker WHERE Uid = B.Uid) AS Profilecount
     FROM
         {{ ref('broker_salesforce_exports') }} AS B
     WHERE
