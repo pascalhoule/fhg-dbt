@@ -87,6 +87,14 @@
     CASE
         WHEN PLACE_NORM.POLICYGROUPCODE IS NOT NULL THEN PLACE_NORM.PLACED_FYC
     END AS PLACED_NORMAL_CASE_FYC
+    CASE
+        WHEN FH_SETTLEMENTDATE is not null THEN 'Paid Status'
+        WHEN FH_STATUSCODE = 'ADLR' THEN 'Placed but not yet Paid'
+        WHEN FH_STATUSCODE = 'APND' THEN 'Pending UW'
+        WHEN FH_STATUSCODE = 'AISS' THEN 'Approved'
+        WHEN FH_STATUSCODE = 'AISD' THEN 'Issued'
+        ELSE 'Terminated'
+    END AS FUNNEL_TAG
     FROM
         {{ ref('policy_itm_fh_insurance_report') }} POL
     LEFT JOIN {{ ref('written_large_case_report_sales') }} WRIT ON POL.POLICYGROUPCODE = WRIT.POLICYGROUPCODE
