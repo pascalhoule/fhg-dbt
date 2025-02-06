@@ -11,15 +11,15 @@ WITH CTE_CARRIERDEBTGROUPBY AS (
         SUM(CAST(BALANCE AS FLOAT)) AS CARRIER_DEBT,
         ROUND(SUM(CASE
             WHEN
-                DATEDIFF(
-                    'd', CAST(ACTIVATED_DATE AS DATE), CURRENT_DATE
-                ) BETWEEN 30 AND 60
+                DATEDIFF('d', CAST(ACTIVATED_DATE AS DATE), CURRENT_DATE) > 30
                 THEN CAST(BALANCE AS FLOAT)
             ELSE 0
         END), 2) AS TCD30,
         ROUND(SUM(CASE
             WHEN
-                DATEDIFF('d', CAST(ACTIVATED_DATE AS DATE), CURRENT_DATE) >= 30
+                DATEDIFF(
+                    'd', CAST(ACTIVATED_DATE AS DATE), CURRENT_DATE
+                ) BETWEEN 30 AND 60
                 THEN CAST(BALANCE AS FLOAT)
             ELSE 0
         END), 2) AS TCD30_60
