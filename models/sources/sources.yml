@@ -119,6 +119,7 @@ sources:
       - name: month_name
       - name: calendar
       - name: plancategory_map
+      - name: agent_firm_segment_map
       
   - name: app_tables
     database: applications
