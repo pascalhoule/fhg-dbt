@@ -13,7 +13,7 @@ WITH Temp AS (
         EXISTS (
             SELECT 1
             FROM {{ ref('broker_salesforce_exports') }} AS Bt
-            WHERE Bt.Agentcode = Cc.Agent_code
+            WHERE Bt.Agentcode = Cc.Agentcode
         )
     ORDER BY Cc.BROKERCONTRACTCODE
 
