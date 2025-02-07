@@ -60,6 +60,7 @@ sources:
       - name: state
       - name: constants
       - name: ic
+      - name: icagent
       - name: agent
       - name: icplan
       - name: policy
