@@ -50,7 +50,7 @@ SELECT
     CASE
         WHEN POSITION('@' IN PE.EMAILADDRESS) > 0 THEN PE.EMAILADDRESS
     END AS PERSONALEMAIL,
-    COALESCE(H.BRANCHNAME, 'Unknown Branch') AS BRANCHNAME,
+    NVL(H.LOCATION, 'Unknown Branch') AS LOCATION,
     CASE
     SUBSTR(MAX(RH.HIERARCHYPATH), 1, 4)
         WHEN '^m1^' THEN 'Quebec'
@@ -129,7 +129,7 @@ LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} CELL
     ON B.AGENTCODE = CELL.AGENTCODE AND CELL.TYPE = 'Cell'
 LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} AS ALTERNATE
     ON B.AGENTCODE = ALTERNATE.AGENTCODE AND ALTERNATE.TYPE = 'Alternate'
-LEFT JOIN REPORT.ADVISOR_DETAILS.HIERARCHY AS H
+LEFT JOIN {{ ref('hierarchy_fh_salesforce_insurance') }} H 
     ON TRIM(B.PARENTNODEID) = TRIM(H.NODEID)
 LEFT JOIN {{ ref('recursivehierarchy_vc_salesforce_insurance') }} AS RH
     ON TRIM(B.PARENTNODEID) = TRIM(RH.NODEID)
@@ -168,5 +168,5 @@ GROUP BY
     BA_BUSINESS.POSTAL_CODE,
     B.DATEOFBIRTH,
     B.LANGUAGEPREFERENCE,
-    H.BRANCHNAME,
+    H.LOCATION,
     RH.NODENAME
