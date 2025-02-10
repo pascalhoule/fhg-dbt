@@ -38,7 +38,7 @@ WITH Temp AS (
         B.Notification,
         B.Localdelivery,
         B.Outofcity,
-        B.Branchname,
+        B.LOCATION,
         B.Region,
         B.Segment,
         B.Undersupervision,
