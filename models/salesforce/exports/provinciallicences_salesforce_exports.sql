@@ -5,7 +5,8 @@
    materialized="view",
    grants = {'ownership': ['FH_READER']}) }}
 
-SELECT
+
+SELECT DISTINCT
     BCP.LICENSECODE,
     B.BROKERNAME,
     BCP.LICENSENUMBER,
@@ -17,3 +18,4 @@ SELECT
 FROM {{ ref('brokercontractprovince_vc_salesforce_insurance') }} AS BCP
 LEFT JOIN {{ ref('broker_vc_salesforce_insurance') }} AS B
     ON BCP.AGENTCODE = B.AGENTCODE
+WHERE COALESCE(BCP.ENDDATE, DATE '9999-12-31') >= CURRENT_DATE
