@@ -2,7 +2,9 @@
     config(
     alias='hierarchy_fh', 
     database='report', 
-    schema='sales')  
+    schema='sales',
+    grants = {'ownership': ['FH_READER']},	
+    tags=["sales", "large_case"])  
     }} 
 
 SELECT *
