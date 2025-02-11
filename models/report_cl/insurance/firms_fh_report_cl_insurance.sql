@@ -3,7 +3,7 @@
     alias='firms_fh', 
     database='report_cl', 
     schema='insurance',
-    grants = {'ownership': ['BI_DEV']},	)  }} 
+    grants = {'select': ['BI_DEV']},	)  }} 
 
 SELECT
     NODEID,
