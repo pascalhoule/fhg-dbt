@@ -50,12 +50,13 @@ SELECT
     CASE
         WHEN POSITION('@' IN PE.EMAILADDRESS) > 0 THEN PE.EMAILADDRESS
     END AS PERSONALEMAIL,
-    NVL(H.LOCATION, 'Unknown Branch') AS LOCATION,
+    COALESCE(H.LOCATION, 'Unknown Branch') AS LOCATION,
     CASE
     SUBSTR(MAX(RH.HIERARCHYPATH), 1, 4)
         WHEN '^m1^' THEN 'Quebec'
-        WHEN '^m2^' THEN 'Western Canada'
-        WHEN '^m3^' THEN 'Ontario / Atlantic'
+        WHEN '^m2^' THEN 'West'
+        WHEN '^m3^' THEN 'Ontario Non GTA and Atlantic'
+        WHEN '^m4^' THEN 'Ontario GTA and CAM'
     END AS REGION,
     CAST(
         REPLACE(
@@ -67,7 +68,7 @@ SELECT
                                 COALESCE((
                                     SELECT MAX(BT.TAGNAME)
                                     FROM
-                                    {{ ref('brokertags_vc_salesforce_insurance') }} 
+                                        {{ ref('brokertags_vc_salesforce_insurance') }}
                                             AS BT
                                     WHERE BT.TAGNAME IN (
                                         'Elite/Élite',
@@ -107,9 +108,12 @@ SELECT
         WHEN BT.TAGNAME = 'Pending Termination/En attente de résiliation' THEN 1
         ELSE 0
     END) AS PENDINGTERMINATION,
-    CASE 
+    CASE
         WHEN COUNT(DISTINCT BT.TAGNAME) = 1 THEN MAX(BT.TAGNAME)
-        ELSE LISTAGG(DISTINCT BT.TAGNAME, '; ') WITHIN GROUP (ORDER BY BT.TAGNAME)
+        ELSE
+            LISTAGG(DISTINCT BT.TAGNAME, '; ') WITHIN GROUP (
+                ORDER BY BT.TAGNAME
+            )
     END AS TAGNAME
 FROM REPORT.PROD_INSURANCE.BROKER_FH AS B
 LEFT JOIN {{ ref('brokeradvanced_vc_salesforce_insurance') }} AS BADV
@@ -124,15 +128,15 @@ LEFT JOIN {{ ref('brokeraddress_vc_salesforce_insurance') }} AS BA_BUSINESS
     ON B.AGENTCODE = BA_BUSINESS.AGENTCODE AND BA_BUSINESS.TYPE = 'business'
 LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} AS BPHONE
     ON B.AGENTCODE = BPHONE.AGENTCODE AND BPHONE.TYPE = 'Business'
-LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} FAX
+LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} AS FAX
     ON B.AGENTCODE = FAX.AGENTCODE AND FAX.TYPE = 'Company Fax'
 LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} AS HOME
     ON B.AGENTCODE = HOME.AGENTCODE AND HOME.TYPE = 'Home'
-LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} CELL
+LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} AS CELL
     ON B.AGENTCODE = CELL.AGENTCODE AND CELL.TYPE = 'Cell'
 LEFT JOIN {{ ref('brokerphone_vc_salesforce_insurance') }} AS ALTERNATE
     ON B.AGENTCODE = ALTERNATE.AGENTCODE AND ALTERNATE.TYPE = 'Alternate'
-LEFT JOIN {{ ref('hierarchy_fh_salesforce_insurance') }} H 
+LEFT JOIN {{ ref('hierarchy_fh_salesforce_insurance') }} AS H
     ON TRIM(B.PARENTNODEID) = TRIM(H.NODEID)
 LEFT JOIN {{ ref('recursivehierarchy_vc_salesforce_insurance') }} AS RH
     ON TRIM(B.PARENTNODEID) = TRIM(RH.NODEID)
