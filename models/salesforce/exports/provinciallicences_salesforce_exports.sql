@@ -7,7 +7,7 @@
 
 SELECT
     BCP.LICENSECODE,
-    concat (B.FIRSTNAME,'',B.MIDDLENAME,'',B.LASTNAME)AGENTNAME,
+    B.BROKERNAME,
     BCP.LICENSENUMBER,
     BCP.TYPE AS LICENSE_TYPE,
     BCP.CATEGORY,
@@ -15,5 +15,5 @@ SELECT
     BCP.AGENTCODE,
     COALESCE(BCP.ENDDATE, '9999-12-31') AS END_DATE
 FROM {{ ref('brokercontractprovince_vc_salesforce_insurance') }} AS BCP
-LEFT JOIN {{ ref('broker_salesforce_exports') }} AS B
+LEFT JOIN {{ ref('broker_vc_salesforce_insurance') }} AS B
     ON BCP.AGENTCODE = B.AGENTCODE
