@@ -9,7 +9,7 @@
 
 SELECT
     NODEID,
-    FIRM,
+    trim(FIRM) AS FIRM,
     IFF(CONTAINS(FIRM, '-FIRM'), TRUE, FALSE) AS Individual_Agent
 FROM
     {{ ref('hierarchy_fh_normalize_insurance') }}
