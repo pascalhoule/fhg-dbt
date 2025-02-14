@@ -58,52 +58,31 @@ SELECT
         WHEN '^m3^' THEN 'Ontario Non GTA and Atlantic'
         WHEN '^m4^' THEN 'Ontario GTA and CAM'
     END AS REGION,
-    CAST(
+   CAST(
         REPLACE(
             REPLACE(
                 REPLACE(
-                    REPLACE(
-                        REPLACE(
-                            REPLACE(
-                                COALESCE((
-                                    SELECT MAX(BT.TAGNAME)
-                                    FROM
-                                        {{ ref('brokertags_vc_salesforce_insurance') }}
-                                            AS BT
-                                    WHERE BT.TAGNAME IN (
-                                        'Elite/Élite',
-                                        'MAP-Elite/PAM-Élite',
-                                        'Select',
-                                        'MAP-Select/PAM-Sélect',
-                                        'Signature',
-                                        'MAP-Signature/PAM-Signature',
-                                        'Advisor/Conseiller',
-                                        'MAP-Advisor/PAM-Conseiller'
-                                    )
-                                    AND BT.AGENTCODE = B.AGENTCODE
-                                ), ''),
-                                'Elite/Élite', 'Elite'
-                            ),
-                            'Advisor/Conseiller', 'Advisor'
-                        ),
-                        'MAP-Select/PAM-Sélect', 'MAP-Select'
-                    ),
-                    'MAP-Signature/PAM-Signature', 'MAP-Signature'
-                ),
-                'MAP-Advisor/PAM-Conseiller', 'MAP-Advisor'
-            ),
-            'MAP-Elite/PAM-Élite', 'MAP-Elite'
+                    NVL((
+                        SELECT MAX(BT.TAGNAME) 
+                        FROM FH_PROD.WEALTHSERV_INS_CURATED_SECURE.BROKERTAGS_VC BT 
+                        WHERE BT.TAGNAME IN (
+                            'Segment A',
+                            'Segment B',
+                            'Segment C'
+                        ) 
+                        AND BT.AGENTCODE = B.AGENTCODE
+                    ), ''),
+                    'Segment A', 'Segment A'
+                ), 
+                'Segment B', 'Segment B'
+            ), 
+            'Segment C', 'Segment C'
         ) AS VARCHAR
     ) AS SEGMENT,
     MAX(CASE
         WHEN BT.TAGNAME = 'Under Supervision/Sous supervision' THEN 1
         ELSE 0
     END) AS UNDERSUPERVISION,
-    CASE
-        WHEN POSITION('MAP - ' IN MAX(RH.HIERARCHYPATHNAME)) <> 0
-            THEN 1
-        ELSE 0
-    END AS ISMAP,
     MAX(CASE
         WHEN BT.TAGNAME = 'Pending Termination/En attente de résiliation' THEN 1
         ELSE 0
