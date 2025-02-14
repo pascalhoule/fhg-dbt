@@ -39,7 +39,6 @@ WITH Temp AS (
         Region,
         Segment,
         Undersupervision,
-        Ismap,
         Pendingtermination,
         Tagname,
         CASE
