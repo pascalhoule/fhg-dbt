@@ -42,7 +42,6 @@ WITH Temp AS (
         B.Region,
         B.Segment,
         B.Undersupervision,
-        B.Ismap,
         B.Pendingtermination,
         TRUE AS Isprimary,
         B.Tagname,
