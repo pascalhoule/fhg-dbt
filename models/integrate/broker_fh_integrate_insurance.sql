@@ -1,23 +1,13 @@
 {{			
     config (			
-        materialized="view",			
+        materialized="table",			
         alias='broker_fh', 			
         database='integrate', 			
         schema='insurance'			
     )			
 }}	
 
- WITH HIER AS (
-        SELECT
-            AGENTCODE,
-            USERDEFINED2,
-            MAP_SEGMENT
-        FROM
-            {{ ref('hierarchy_normalize_insurance') }}
-        GROUP BY
-            1,2,3
-    ),
-    EMAIL_AGT_LIST AS (
+WITH EMAIL_AGT_LIST AS (
         SELECT
             DISTINCT AGENTCODE
         FROM
@@ -97,11 +87,10 @@
                 SECONDARY_CASLAPPROVED
             ) AS CASLAPPROVED
         FROM
-            {{ ref('broker_vc_normalize_insurance') }}  B
-            JOIN {{ ref('brokeradvanced_vc_normalize_insurance') }}  BA ON B.AGENTCODE = BA.AGENTCODE
-            LEFT JOIN EMAIL ON EMAIL.AGENTCODE = B.AGENTCODE --WHERE b.AGENTSTATUS in ('Active', 'Pending')
+            {{ ref('broker_vc_normalize_insurance') }} B
+            JOIN {{ ref('brokeradvanced_vc_normalize_insurance') }} BA ON B.AGENTCODE = BA.AGENTCODE
+            LEFT JOIN EMAIL ON EMAIL.AGENTCODE = B.AGENTCODE
     ),
-    
     SEGMENT_TAGS AS (
         SELECT
             AGENTCODE,
@@ -110,58 +99,48 @@
             {{ ref('brokertags_vc_normalize_insurance') }}
         WHERE
             TAGNAME IN (
-                'Advisor/Conseiller',
-                'Select',
-                'Signature',
-                'Elite/Élite',
-                'MAP-Advisor/PAM-Conseiller',
-                'MAP-Select/PAM-Sélect',
-                'MAP-Signature/PAM-Signature',
-                'MAP-Elite/PAM-Élite'
+                'Segment A',
+                'Segment B',
+                'Segment C'
             )
     ),
     PIECES_OF_SEGMENT AS (
         SELECT
             AGT_LIST.*,
-            HIER.MAP_SEGMENT,
             CASE
-                WHEN CONTAINS(BT.TAGNAME, 'Advisor/Conseiller') THEN 'Advisor'
+                WHEN CONTAINS(BT.TAGNAME, 'Segment A') THEN 'Segment A'
                 ELSE NULL
-            END AS Advisor,
+            END AS SegmentA,
             CASE
-                WHEN BT.TAGNAME = 'Select' THEN 'Select'
+                WHEN BT.TAGNAME = 'Segment B' THEN 'Segment B'
                 ELSE NULL
-            END AS Select_Agt,
+            END AS SegmentB,
             CASE
-                WHEN BT.TAGNAME = 'Signature' THEN 'Signature'
+                WHEN BT.TAGNAME = 'Segment C' THEN 'Segment C'
                 ELSE NULL
-            END AS Signature_Agt,
-            CASE
-                WHEN CONTAINS(BT.TAGNAME, 'Elite/Élite') THEN 'Elite'
-                ELSE NULL
-            END AS Elite_Agt,
-            CASE
-                WHEN CONTAINS(BT.TAGNAME, 'MAP-Advisor/PAM-Conseiller') THEN 'MAP-Advisor'
-                ELSE NULL
-            END AS MAP_Advisor,
-            CASE
-                WHEN CONTAINS(BT.TAGNAME, 'MAP-Select/PAM-Sélect') THEN 'MAP-Select'
-                ELSE NULL
-            END AS MAP_Select,
-            CASE
-                WHEN CONTAINS(BT.TAGNAME, 'MAP-Signature/PAM-Signature') THEN 'MAP-Signature'
-                ELSE NULL
-            END AS MAP_Signature,
-            CASE
-                WHEN CONTAINS(BT.TAGNAME, 'MAP-Elite/PAM-Élite') THEN 'MAP-Elite'
-                ELSE NULL
-            END AS MAP_Elite
+            END AS SegmentC
         FROM
             AGT_LIST
-            LEFT JOIN HIER ON AGT_LIST.AGENTCODE = HIER.AGENTCODE
             LEFT JOIN SEGMENT_TAGS BT ON AGT_LIST.AGENTCODE = BT.AGENTCODE
     ),
-
+    AAP AS (
+        SELECT
+            AGENTCODE,
+            TAGNAME
+        FROM
+            {{ ref('brokertags_vc_normalize_insurance') }}
+        WHERE
+            TAGNAME = 'AAP'
+    ),
+    ADSL AS (
+        SELECT
+            AGENTCODE,
+            TAGNAME
+        FROM
+            {{ ref('brokertags_vc_normalize_insurance') }}
+        WHERE
+            TAGNAME = 'ADSL'
+    ),
     ELEVATE AS (
         SELECT
             AGENTCODE,
@@ -218,7 +197,7 @@
         WHERE
             ROLE = 'Business Development Consultant'
     ),
-    COS_BDC_MAP AS (
+    COS_BDD AS (
         SELECT
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FULLNAME
@@ -226,9 +205,9 @@
             {{ ref('brokercos_vc_normalize_insurance') }} COS
             LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
-            ROLE = 'Business Development Consultant - MAP'
+            ROLE = 'Business Development Director'
     ),
-    COS_SD AS (
+    COS_SVP AS (
         SELECT
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FULLNAME
@@ -236,7 +215,57 @@
             {{ ref('brokercos_vc_normalize_insurance') }} COS
             LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
-            ROLE = 'Sales Director'
+            ROLE = 'Senior Vice President'
+    ),
+    COS_RVP AS (
+        SELECT
+            *,
+            CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
+        FROM
+            {{ ref('brokercos_vc_normalize_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+        WHERE
+            ROLE = 'Regional Vice President'
+    ),
+    COS_VP AS (
+        SELECT
+            *,
+            CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
+        FROM
+            {{ ref('brokercos_vc_normalize_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+        WHERE
+            ROLE = 'Vice President'
+    ),
+    COS_CC AS (
+        SELECT
+            *,
+            CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
+        FROM
+            {{ ref('brokercos_vc_normalize_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+        WHERE
+            ROLE = 'Contracting Coordinator'
+    ),
+    COS_CS AS (
+        SELECT
+            *,
+            CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
+        FROM
+            {{ ref('brokercos_vc_normalize_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+        where
+            ROLE = 'Contracting Specialist'
+    ),
+    COS_RCM AS (
+        SELECT
+            *,
+            CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
+        FROM
+            {{ ref('brokercos_vc_normalize_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+        WHERE
+            ROLE = 'Regional Compliance Manager'
     ),
     COS_BOC AS (
         SELECT
@@ -248,7 +277,7 @@
         WHERE
             ROLE = 'Branch Office Coordinator'
     ),
-    COS_ROM AS (
+    COS_NBS_INV AS (
         SELECT
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
@@ -256,7 +285,17 @@
             {{ ref('brokercos_vc_normalize_insurance') }} COS
             LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
-            ROLE = 'Region Operations Manager'
+            ROLE = 'New Business Specialist - Investments'
+    ),
+    COS_NBS_CM AS (
+        SELECT
+            *,
+            CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
+        FROM
+            {{ ref('brokercos_vc_normalize_insurance') }} COS
+            LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
+        WHERE
+            ROLE = 'New Business Specialist - Case Manager'
     ),
     COS_NBS_INF AS (
         SELECT
@@ -268,17 +307,17 @@
         WHERE
             ROLE = 'New Business Specialist - Inforce'
     ),
-    COS_NBS_CASEMGR AS (
+    COS_ROM AS (
         SELECT
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
         FROM
-            {{ ref('brokercos_vc_normalize_insurance') }} COS
+           {{ ref('brokercos_vc_normalize_insurance') }} COS
             LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
-        where
-            ROLE = 'New Business Specialist - Case Manager'
+        WHERE
+            ROLE = 'Region Operations Manager'
     ),
-    COS_NBS_INV AS (
+    COS_RAM AS (
         SELECT
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
@@ -286,9 +325,9 @@
             {{ ref('brokercos_vc_normalize_insurance') }} COS
             LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
-            ROLE = 'New Business Specialist - Investments'
+            ROLE = 'Regional Administration Manager'
     ),
-    COS_INS_STRAT AS (
+    COS_IS AS (
         SELECT
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
@@ -298,17 +337,17 @@
         WHERE
             ROLE = 'Insurance Strategist'
     ),
-    COS_R_PRES_SALES AS (
+    COS_WS AS (
         SELECT
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
         FROM
-            {{ ref('brokercos_vc_normalize_insurance') }} COS
+           {{ ref('brokercos_vc_normalize_insurance') }} COS
             LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
-            ROLE = 'Regional President - Sales'
+            ROLE = 'Wealth Strategist'
     ),
-    COS_CONTRACT_COORD AS (
+    COS_RMO AS (
         SELECT
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
@@ -316,9 +355,9 @@
             {{ ref('brokercos_vc_normalize_insurance') }} COS
             LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
-            ROLE = 'Contracting Coordinator'
+            ROLE = 'Relationship Manager - Operations'
     ),
-    COS_RVP_SALES AS (
+    COS_RMCC AS (
         SELECT
             *,
             CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
@@ -326,42 +365,23 @@
             {{ ref('brokercos_vc_normalize_insurance') }} COS
             LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
-            ROLE = 'Regional Vice President - Sales'
-    ),
-    COS_CONTRACT_SPECIAL AS (
-        SELECT
-            *,
-            CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
-        FROM
-            {{ ref('brokercos_vc_normalize_insurance') }} COS
-            LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
-        WHERE
-            ROLE = 'Contracting Specialist'
-    ),
-    COS_REG_COMPL_MGR AS (
-        SELECT
-            *,
-            CONCAT(EE.FIRSTNAME, ' ', EE.LASTNAME) AS FullName
-        FROM
-            {{ ref('brokercos_vc_normalize_insurance') }} COS
-            LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
-        WHERE
-            ROLE = 'Regional Compliance Manager'
+            ROLE = 'Relationship Manager - Contracting & Compensation'
     ),
     CONSOLIDATED_SEGMENT AS (
         SELECT
             SEG.*,
             CASE
-                WHEN SEG.ELITE_AGT IS NOT NULL THEN 'Elite'
-                WHEN SEG.MAP_ELITE IS NOT NULL THEN 'MAP-Elite'
-                WHEN SEG.SELECT_AGT IS NOT NULL THEN 'Select'
-                WHEN SEG.MAP_SELECT IS NOT NULL THEN 'MAP-Select'
-                WHEN SEG.SIGNATURE_AGT IS NOT NULL THEN 'Signature'
-                WHEN SEG.MAP_SIGNATURE IS NOT NULL THEN 'MAP-Signature'
-                WHEN SEG.Advisor IS NOT NULL THEN 'Advisor'
-                WHEN SEG.MAP_Advisor IS NOT NULL THEN 'MAP-Advisor'
+                WHEN SEG.SegmentA IS NOT NULL THEN 'Segment A'
+                WHEN SEG.SegmentB IS NOT NULL THEN 'Segment B'
+                WHEN SEG.SegmentC IS NOT NULL THEN 'Segment C'
                 ELSE NULL
             END AS SEGMENTTAGWS,
+            CASE
+                WHEN AAP.TAGNAME = 'AAP' THEN 'AAP'
+            END AS AAP_TAG,
+            CASE
+                WHEN ADSL.TAGNAME = 'ADSL' THEN 'ADSL'
+            END AS ADSL_TAG,
             CASE
                 WHEN ELEVATE.TAGNAME = 'Elevated/élevée' THEN 'Elevated'
             END AS ELEVATED,
@@ -376,75 +396,93 @@
             END AS TRANSFERRINGOUT,
             CASE
                 WHEN RSC.ROLE = 'Regional Sales Coordinator' THEN RSC.FULLNAME
-            END AS RSC,
+            END AS COS_SALES_RSC,
             CASE
                 WHEN BDC.ROLE = 'Business Development Consultant' THEN BDC.FULLNAME
-            END AS BDC,
+            END AS COS_SALES_BDC,
             CASE
-                WHEN MAP.ROLE = 'Business Development Consultant - MAP' THEN MAP.FULLNAME
-            END AS BDC_MAP,
+                WHEN COS_BDD.ROLE = 'Business Development Director' THEN COS_BDD.FULLNAME
+            END AS COS_SALES_BDD,
             CASE
-                WHEN SD.ROLE = 'Sales Director' THEN SD.FULLNAME
-            END AS SD,
+                WHEN COS_SVP.ROLE = 'Senior Vice President' THEN COS_SVP.FULLNAME
+            END AS COS_SALES_SVP,
             CASE
-                WHEN BOC.ROLE = 'Branch Office Coordinator' THEN BOC.FULLNAME
-            END AS BOC,
+                WHEN COS_RVP.ROLE = 'Regional Vice President' THEN COS_RVP.FULLNAME
+            END AS COS_SALES_RVP,
             CASE
-                WHEN ROM.ROLE = 'Region Operations Manager' THEN ROM.FULLNAME
-            END AS ROM,
+                WHEN COS_VP.ROLE = 'Vice President' THEN COS_VP.FULLNAME
+            END AS COS_SALES_VP,
             CASE
-                WHEN INF.ROLE = 'New Business Specialist - Inforce' THEN INF.FULLNAME
-            END AS NBS_INF,
+                WHEN COS_CC.ROLE = 'Contracting Coordinator' THEN COS_CC.FULLNAME
+            END AS COS_CONTRACT_CC,
             CASE
-                WHEN CASEMGR.ROLE = 'New Business Specialist - Case Manager' THEN CASEMGR.FULLNAME
-            END AS NBS_CMGR,
+                WHEN COS_CS.ROLE = 'Contracting Specialist' THEN COS_CS.FULLNAME
+            END AS COS_CONTRACT_CS,
             CASE
-                WHEN INV.ROLE = 'New Business Specialist - Investments' THEN INV.FULLNAME
-            END AS NBS_INV,
+                WHEN COS_RCM.ROLE = 'Regional Compliance Manager' THEN COS_RCM.FULLNAME
+            END AS COS_COMPLIANCE_RCM,
             CASE
-                WHEN INS_STRAT.ROLE = 'Insurance Strategist' THEN INS_STRAT.FULLNAME
-            END AS INS_STRAT,
+                WHEN COS_BOC.ROLE = 'Branch Office Coordinator' THEN COS_BOC.FULLNAME
+            END AS COS_OPS_BOC,
             CASE
-                WHEN R_PRES_SALES.ROLE = 'Regional President - Sales' THEN R_PRES_SALES.FULLNAME
-            END AS R_PRES,
+                WHEN COS_NBS_INV.ROLE = 'New Business Specialist - Investments' THEN COS_NBS_INV.FULLNAME
+            END AS COS_OPS_NBS_INV,
             CASE
-                WHEN CONTRACT_COORD.ROLE = 'Contracting Coordinator' THEN CONTRACT_COORD.FULLNAME
-            END AS CONTRACT_COORD,
+                WHEN COS_NBS_CM.ROLE = 'New Business Specialist - Case Manager' THEN COS_NBS_INV.FULLNAME
+            END AS COS_OPS_NBS_CM,
             CASE
-                WHEN RVP_SALES.ROLE = 'Regional Vice President - Sales' THEN RVP_SALES.FULLNAME
-            END AS RVP_SALES,
+                WHEN COS_NBS_INF.ROLE = 'New Business Specialist - Inforce' THEN COS_NBS_INV.FULLNAME
+            END AS COS_OPS_NBS_INF,
             CASE
-                WHEN CONTRACT_SPECIAL.ROLE = 'Contracting Specialist' THEN CONTRACT_SPECIAL.FULLNAME
-            END AS CONTRACT_SPECIAL,
+                WHEN COS_ROM.ROLE = 'Region Operations Manager' THEN COS_NBS_INV.FULLNAME
+            END AS COS_OPS_ROM,
             CASE
-                WHEN REG_COMPL_MGR.ROLE = 'Regional Compliance Manager' THEN REG_COMPL_MGR.FULLNAME
-            END AS REG_COMPL_MGR
+                WHEN COS_RAM.ROLE = 'Regional Administration Manager' THEN COS_RAM.FULLNAME
+            END AS COS_RAM,
+            CASE
+                WHEN COS_IS.ROLE = 'Insurance Strategist' THEN COS_IS.FULLNAME
+            END AS COS_SALESIS,
+            CASE
+                WHEN COS_WS.ROLE = 'Wealth Strategist' THEN COS_WS.FULLNAME
+            END AS COS_SALES_WS,
+            CASE
+                WHEN COS_RMO.ROLE = 'Relationship Manager - Operations' THEN COS_RMO.FULLNAME
+            END AS COS_OPS_RMO,
+            CASE
+                WHEN COS_RMCC.ROLE = 'Relationship Manager - Contracting & Compensation' THEN COS_RMCC.FULLNAME
+            END AS COS_CONTRACT_RMCC
         FROM
             PIECES_OF_SEGMENT SEG
+            LEFT JOIN AAP ON SEG.AGENTCODE = AAP.AGENTCODE
+            LEFT JOIN ADSL ON SEG.AGENTCODE = ADSL.AGENTCODE
             LEFT JOIN ELEVATE ON SEG.AGENTCODE = ELEVATE.AGENTCODE
             LEFT JOIN PENDTERM ON SEG.AGENTCODE = PENDTERM.AGENTCODE
             LEFT JOIN TERM ON SEG.AGENTCODE = TERM.AGENTCODE
             LEFT JOIN TFEROUT ON SEG.AGENTCODE = TFEROUT.AGENTCODE
             LEFT JOIN COS_RSC RSC ON RSC.AGENTCODE = SEG.AGENTCODE
             LEFT JOIN COS_BDC BDC ON BDC.AGENTCODE = SEG.AGENTCODE
-            LEFT JOIN COS_BDC_MAP MAP ON MAP.AGENTCODE = SEG.AGENTCODE
-            LEFT JOIN COS_SD SD ON SD.AGENTCODE = SEG.AGENTCODE
-            LEFT JOIN COS_BOC BOC ON BOC.AGENTCODE = SEG.AGENTCODE
-            LEFT JOIN COS_ROM ROM ON ROM.AGENTCODE = SEG.AGENTCODE
-            LEFT JOIN COS_NBS_INF INF ON INF.AGENTCODE = SEG.AGENTCODE
-            LEFT JOIN COS_NBS_CASEMGR CASEMGR ON CASEMGR.AGENTCODE = SEG.AGENTCODE
-            LEFT JOIN COS_NBS_INV INV ON INV.AGENTCODE = SEG.AGENTCODE
-            LEFT JOIN COS_INS_STRAT INS_STRAT ON INS_STRAT.AGENTCODE = SEG.AGENTCODE
-            LEFT JOIN COS_R_PRES_SALES R_PRES_SALES ON R_PRES_SALES.AGENTCODE = SEG.AGENTCODE
-            LEFT JOIN COS_CONTRACT_COORD CONTRACT_COORD ON CONTRACT_COORD.AGENTCODE = SEG.AGENTCODE
-            LEFT JOIN COS_RVP_SALES RVP_SALES ON RVP_SALES.AGENTCODE = SEG.AGENTCODE
-            LEFT JOIN COS_CONTRACT_SPECIAL CONTRACT_SPECIAL ON CONTRACT_SPECIAL.AGENTCODE = SEG.AGENTCODE
-            LEFT JOIN COS_REG_COMPL_MGR REG_COMPL_MGR ON REG_COMPL_MGR.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_BDD ON COS_BDD.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_SVP ON COS_SVP.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_RVP ON COS_RVP.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_VP ON COS_VP.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_CC ON COS_CC.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_CS ON COS_CS.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_RCM ON COS_RCM.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_BOC ON COS_BOC.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_NBS_INV ON COS_NBS_INV.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_NBS_CM ON COS_NBS_CM.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_NBS_INF ON COS_NBS_INF.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_ROM ON COS_ROM.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_RAM ON COS_RAM.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_IS ON COS_IS.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_WS ON COS_WS.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_RMO ON COS_RMO.AGENTCODE = SEG.AGENTCODE
+            LEFT JOIN COS_RMCC ON COS_RMCC.AGENTCODE = SEG.AGENTCODE
     )
     SELECT
         *
     FROM
         CONSOLIDATED_SEGMENT
     GROUP BY
-        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48
-,49,50,51
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+        25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51
