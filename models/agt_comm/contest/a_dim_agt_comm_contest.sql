@@ -5,7 +5,7 @@ SELECT
     BA.USERDEFINED2,
     B.BROKERID,
     B.AGENTNAME,
-    H.NODENAME AS BRANCHNAME,
+   -- H.NODENAME AS BRANCHNAME,
     B.MGACODE,
     M.NAME AS MGANAME,
     FIRSTNAME,
@@ -18,7 +18,7 @@ FROM
 LEFT JOIN
     {{ ref('brokeradvanced_vc_agt_comm_insurance') }} AS BA
     ON B.AGENTCODE = BA.AGENTCODE
-LEFT JOIN {{ ref('hierarchy_agt_comm_insurance') }} AS H
+LEFT JOIN {{ ref('hierarchy_fh_agt_comm_insurance') }} AS H
     ON
         B.PARENTNODEID = H.NODEID
         AND B.AGENTCODE = H.AGENTCODE
