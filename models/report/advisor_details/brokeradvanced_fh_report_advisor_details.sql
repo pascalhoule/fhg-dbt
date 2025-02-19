@@ -9,6 +9,4 @@
 
 SELECT *
 FROM
-    {{ ref('brokeradvanced_vc_report_insurance') }} as BADV
-WHERE
-    LEFT(BADV.USERDEFINED2, 4) IN ('3162', '3268')
+    {{ ref('brokeradvanced_vc_report_insurance') }} 
