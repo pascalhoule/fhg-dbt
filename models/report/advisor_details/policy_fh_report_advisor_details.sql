@@ -9,4 +9,4 @@
 
 SELECT *
 FROM
-    {{ ref('policy_vc_integrate_insurance') }} 
+    {{ ref('policy_fh_report_insurance') }} 
