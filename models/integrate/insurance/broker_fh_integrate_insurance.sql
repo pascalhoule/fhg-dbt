@@ -3,7 +3,8 @@
         materialized="table",			
         alias='broker_fh', 			
         database='integrate', 			
-        schema='insurance'			
+        schema='insurance',
+        grants = {'ownership': ['FH_READER']},			
     )			
 }}	
 
