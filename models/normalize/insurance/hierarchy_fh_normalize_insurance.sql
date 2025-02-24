@@ -32,8 +32,8 @@ FROM
     LEFT JOIN {{ ref('brokeradvanced_vc_clean_insurance') }} BA on BA.AGENTCODE = B.AGENTCODE
     LEFT JOIN {{ ref('recursive_hierarchy_normalize_insurance') }} H on CONCAT('^', B.PARENTNODEID, '^') = H.NODEID
 WHERE
-    B.AGENTTYPE <> 'Corporate'
-    AND (
+    --B.AGENTTYPE <> 'Corporate' AND
+    (
         BA.USERDEFINED2 LIKE '3268%'
         or BA.USERDEFINED2 LIKE '3162%'
     )
