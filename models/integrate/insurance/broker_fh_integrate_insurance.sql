@@ -3,7 +3,8 @@
         materialized="table",			
         alias='broker_fh', 			
         database='integrate', 			
-        schema='insurance'			
+        schema='insurance',
+        grants = {'ownership': ['FH_READER']},			
     )			
 }}	
 
@@ -315,7 +316,7 @@ WITH EMAIL_AGT_LIST AS (
            {{ ref('brokercos_vc_normalize_insurance') }} COS
             LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
-            ROLE = 'Region Operations Manager'
+            ROLE = 'Regional Operations Manager'
     ),
     COS_RAM AS (
         SELECT
@@ -365,7 +366,7 @@ WITH EMAIL_AGT_LIST AS (
             {{ ref('brokercos_vc_normalize_insurance') }} COS
             LEFT JOIN {{ ref('employee_vc_normalize_insurance') }} EE ON EE.EMPLOYEECODE = COS.EMPLOYEECODE
         WHERE
-            ROLE = 'Relationship Manager - Contracting & Compensation'
+            ROLE = 'Relationship Manager - Contracting and Compensation'
     ),
     CONSOLIDATED_SEGMENT AS (
         SELECT
@@ -434,7 +435,7 @@ WITH EMAIL_AGT_LIST AS (
                 WHEN COS_NBS_INF.ROLE = 'New Business Specialist - Inforce' THEN COS_NBS_INV.FULLNAME
             END AS COS_OPS_NBS_INF,
             CASE
-                WHEN COS_ROM.ROLE = 'Region Operations Manager' THEN COS_NBS_INV.FULLNAME
+                WHEN COS_ROM.ROLE = 'Regional Operations Manager' THEN COS_NBS_INV.FULLNAME
             END AS COS_OPS_ROM,
             CASE
                 WHEN COS_RAM.ROLE = 'Regional Administration Manager' THEN COS_RAM.FULLNAME
@@ -449,7 +450,7 @@ WITH EMAIL_AGT_LIST AS (
                 WHEN COS_RMO.ROLE = 'Relationship Manager - Operations' THEN COS_RMO.FULLNAME
             END AS COS_OPS_RMO,
             CASE
-                WHEN COS_RMCC.ROLE = 'Relationship Manager - Contracting & Compensation' THEN COS_RMCC.FULLNAME
+                WHEN COS_RMCC.ROLE = 'Relationship Manager - Contracting and Compensation' THEN COS_RMCC.FULLNAME
             END AS COS_CONTRACT_RMCC
         FROM
             PIECES_OF_SEGMENT SEG
