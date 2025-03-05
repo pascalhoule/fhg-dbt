@@ -3,8 +3,9 @@
         alias='BrokerCOS', 			
         database='report', 			
         schema='sales',
-        tags="sales"			
-    ) }}	
+        tags="sales",
+   grants = {'ownership': ['FH_READER']})			
+     }}	
 
 
 SELECT *
