@@ -1,0 +1,46 @@
+{{			
+    config (			
+        materialized="view",			
+        alias='mth_seg_production', 			
+        database='report', 			
+        schema='segfund',
+        grants = {'ownership': ['FH_READER']},			
+    )			
+}}
+
+SELECT
+    YEAR(TRADEDATE) AS YR,
+    MONTH(TRADEDATE) AS MTH,
+    MAP.FINANCE_CATEGORY,
+    T.FUNDPRODUCTCODE,
+    T.FUNDACCOUNT_CODE,
+    T.CLIENTREPCODE,
+    REP.REPID,
+    REP.INSAGENTCODE,
+    REP.REPRESENTIATIVECODE,
+    CONCAT(REP.LAST_NAME, ',', REP.FIRST_NAME) AS FULLNAME,
+    REP.LAST_NAME,
+    REP.FIRST_NAME,
+    FUNDPRODUCT.SPONSORID,
+    FUNDPRODUCT.FUNDID,
+    FUNDPRODUCT.NAME AS FUNDNAME,
+    FUNDPRODUCT.LOADTYPE,
+    FUNDPRODUCT.SUBTYPENAME,
+    FUNDPRODUCT.SERVICEFEERATE,
+    SPONSOR.NAME AS CARRIER,
+    SUM(T.AMOUNT) AS AMOUNT,
+    SUM(T.NETAMOUNT) AS NETAMOUNT,
+    SUM(MAP.DBSIGN * NETAMOUNT) AS SEG_SALES_AMT,
+    SUM(T.GROSSCOMMISSION) AS GROSSCOMMISSION
+FROM
+    {{ ref('transactions_vc_report_investment') }} T
+    JOIN {{ ref('representatives_vc_report_investment') }} REP ON REP.REPRESENTIATIVECODE = T.CLIENTREPCODE
+    JOIN {{ ref('transact_map_report_segfund') }} MAP ON T.TRANSACTIONTYPECODE = MAP.TRANSACTIONTYPECODE
+    JOIN {{ ref('fundproducts_vc_report_investment') }} FUNDPRODUCT ON T.FUNDPRODUCTCODE = FUNDPRODUCT.FUNDPRODUCTCODE
+    JOIN {{ ref('sponsor_vc_report_investment') }} SPONSOR ON SPONSOR.SPONSORID = FUNDPRODUCT.SPONSORID 
+WHERE
+    YEAR(TRADEDATE) >= YEAR(CURRENT_DATE) - 1
+GROUP BY
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+HAVING
+    FINANCE_CATEGORY = 'DEPOSIT'
