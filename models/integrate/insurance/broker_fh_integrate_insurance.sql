@@ -429,13 +429,13 @@ WITH EMAIL_AGT_LIST AS (
                 WHEN COS_NBS_INV.ROLE = 'New Business Specialist - Investments' THEN COS_NBS_INV.FULLNAME
             END AS COS_OPS_NBS_INV,
             CASE
-                WHEN COS_NBS_CM.ROLE = 'New Business Specialist - Case Manager' THEN COS_NBS_INV.FULLNAME
+                WHEN COS_NBS_CM.ROLE = 'New Business Specialist - Case Manager' THEN COS_NBS_CM.FULLNAME
             END AS COS_OPS_NBS_CM,
             CASE
-                WHEN COS_NBS_INF.ROLE = 'New Business Specialist - Inforce' THEN COS_NBS_INV.FULLNAME
+                WHEN COS_NBS_INF.ROLE = 'New Business Specialist - Inforce' THEN COS_NBS_INF.FULLNAME
             END AS COS_OPS_NBS_INF,
             CASE
-                WHEN COS_ROM.ROLE = 'Regional Operations Manager' THEN COS_NBS_INV.FULLNAME
+                WHEN COS_ROM.ROLE = 'Regional Operations Manager' THEN COS_ROM.FULLNAME
             END AS COS_OPS_ROM,
             CASE
                 WHEN COS_RAM.ROLE = 'Regional Administration Manager' THEN COS_RAM.FULLNAME
