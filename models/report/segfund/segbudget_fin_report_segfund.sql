@@ -8,4 +8,16 @@
     )			
 }}
 
-select * from {{ ref('segbudget_fin') }}
+SELECT 
+    AdvisorID,
+    AdvisorName,
+    Region,
+    RevType,
+    RevCategory,
+    RevTransType,
+    Period,
+    Year1,
+    Amount,
+    Source,
+    Ledger
+FROM {{ ref('segbudget_fin') }}
