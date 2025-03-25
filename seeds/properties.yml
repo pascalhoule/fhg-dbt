@@ -1,0 +1,11 @@
+version: 2
+
+seeds:
+  - name: seg_budget
+    config:
+      enabled: true 
+      tags: "seg_report"
+      database: integrate
+      schema: investment
+      alias: segbudget_fin
+      grants = {'ownership': ['FH_READER']}
