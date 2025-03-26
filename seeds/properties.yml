@@ -1,0 +1,24 @@
+version: 2
+
+seeds:
+  - name: segbudget_fin
+    config:
+      enabled: true 
+      tags: "seg_report"
+      database: integrate
+      schema: investment
+      alias: segbudget_fin
+  - name: fh_depositbudget_fin
+    config:
+      enabled: true 
+      tags: "seg_report"
+      database: integrate
+      schema: investment
+      alias: fh_depositbudget_fin
+  - name: fh_withdrawalbudget_fin
+    config:
+      enabled: true 
+      tags: "seg_report"
+      database: integrate
+      schema: investment
+      alias: fh_withdrawalbudget_fin
