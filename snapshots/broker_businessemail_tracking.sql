@@ -6,7 +6,7 @@
       target_schema='snapshots',
       unique_key='agentcode',
       strategy='check',
-      check_cols=['BUSINESS_EMAILADDRESS','AGENTSTATUS','BROKERID'],
+      check_cols=['BUSINESS_EMAILADDRESS'],
     )
 }}
 
