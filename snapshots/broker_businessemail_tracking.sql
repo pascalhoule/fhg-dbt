@@ -6,11 +6,11 @@
       target_schema='snapshots',
       unique_key='agentcode',
       strategy='check',
-      check_cols=['BUSINESS_EMAILADDRESS'],
+      check_cols=['BUSINESS_EMAILADDRESS','AGENTSTATUS','BROKERID'],
     )
 }}
 
-SELECT DISTINCT
+SELECT 
     AGENTCODE,
 	BROKERID,
 	BUSINESS_EMAILADDRESS,
