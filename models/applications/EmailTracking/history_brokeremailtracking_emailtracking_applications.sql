@@ -45,7 +45,7 @@ SELECT
     T.AGENTCODE,
     T.BROKERID,
     Null as BUSINESS_EMAILADDRESS,
-    PERSON1_EMAILADDRESS,
+    T.PERSON1_EMAILADDRESS,
     Null as PERSON2_EMAILADDRESS,
     T.AGENTSTATUS, --this is the agent status at the time the e-mail changed.
     dbt_valid_from as Email_Changed
@@ -59,7 +59,7 @@ UNION ALL
     T.BROKERID,
     Null as BUSINESS_EMAILADDRESS,
     Null as PERSON1_EMAILADDRESS,
-    PERSON2_EMAILADDRESS,
+    T.PERSON2_EMAILADDRESS,
     T.AGENTSTATUS, --this is the agent status at the time the e-mail changed.
     dbt_valid_from as Email_Changed
    FROM {{ ref('broker_person2email_tracking') }}  T join PER2_TRACK on PER2_TRACK.AGENTCODE = T.AGENTCODE
