@@ -39,7 +39,7 @@ SELECT
    WHERE dbt_valid_to is  not null
 
 
-UNION 
+UNION ALL
 
 SELECT
     T.AGENTCODE,
@@ -52,7 +52,7 @@ SELECT
    FROM {{ ref('broker_person1email_tracking') }}  T join PER1_TRACK on PER1_TRACK.agentcode = T.agentcode
     WHERE dbt_valid_to is not null
  
-UNION 
+UNION ALL
 
   SELECT
     T.AGENTCODE,
