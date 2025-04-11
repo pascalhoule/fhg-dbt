@@ -4,7 +4,15 @@
     schema='contest', 
     materialized = "view" ) }}
 
-WITH TEMP AS (
+WITH DIM AS (
+        SELECT
+            *
+        FROM
+            {{ ref('a_dim_agt_comm_contest') }}
+        WHERE
+            AGENTSTATUS = 'Active'
+    ),
+    TEMP AS (
         SELECT
             COALESCE(
                 DIM.USERDEFINED2,
@@ -16,11 +24,10 @@ WITH TEMP AS (
             SUM(Q.SALES) AS MF_SALES,
             SUM(Q.SALES) * 0.03 AS MF_SALES_CREDITS
         FROM
-            {{ source('contest', 'quadrus_sales') }} agt_comm.prod_contest.quadrus_sales AS Q
-            LEFT JOIN {{ ref('a_dim_agt_comm_contest') }} agt_comm.prod_contest.a_dim AS DIM ON 
-            TRIM(Q.FIRST_NAME) = UPPER(SPLIT_PART(DIM.FIRSTNAME, ' ', 1))
+            {{ source('contest', 'quadrus_sales') }} AS Q
+            LEFT JOIN DIM ON TRIM(Q.FIRST_NAME) = UPPER(SPLIT_PART(DIM.FIRSTNAME, ' ', 1))
             AND TRIM(Q.LAST_NAME) = UPPER(DIM.LASTNAME)
-            LEFT JOIN {{ ref('a_dim_inactive_agt_comm_contest') }} ON TRIM(Q.FIRST_NAME) = UPPER(SPLIT_PART(DIM_INACTIVE.FIRSTNAME, ' ', 1))
+            LEFT JOIN {{ ref('a_dim_inactive_agt_comm_contest') }} DIM_INACTIVE ON TRIM(Q.FIRST_NAME) = UPPER(SPLIT_PART(DIM_INACTIVE.FIRSTNAME, ' ', 1))
             AND TRIM(Q.LAST_NAME) = UPPER(DIM_INACTIVE.LASTNAME)
         WHERE
             Q.INCL_IN_REPORT = TRUE
@@ -40,3 +47,16 @@ WITH TEMP AS (
         TEMP
     GROUP BY
         ALL
+    UNION
+        --This is for exception management.
+    SELECT
+        U_CODE AS UD_2,
+        FIRST_NAME AS FIRSTNAME,
+        LAST_NAME AS LASTNAME,
+        SALES AS MF_SALES,
+        0.03 * SALES AS MF_SALES_CREDITS,
+    FROM
+        AGT_COMM.PROD_CONTEST.QUADRUS_SALES
+    WHERE
+        U_CODE in ('U0000101350', 'U0000140583')
+        and INCL_IN_REPORT = TRUE
