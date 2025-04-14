@@ -1,5 +1,14 @@
 {{ config( alias='c_segfund_credits', database='agt_comm', schema='contest', materialized = "view" ) }} 
 
+WITH DATES AS (
+            SELECT
+                SEG_FUNDS_STARTDATE,
+                SEG_FUNDS_ENDDATE
+            FROM
+                {{ source('contest', 'date_ranges') }}
+            WHERE
+                INCL_IN_RPT = TRUE
+                )
 SELECT
     BA.USERDEFINED2 AS UD2,
     BA.AGENTCODE,
@@ -18,14 +27,16 @@ INNER JOIN
     ON T.TRANSACTIONTYPECODE = TT.TRANSACTIONTYPECODE
 WHERE
     TRADEDATE >= (
-        SELECT MAX(SEG_FUNDS_STARTDATE)
-        FROM
-            {{ source('contest', 'date_ranges') }}
-    )
-    AND TRADEDATE <= (
-        SELECT MAX(SEG_FUNDS_ENDDATE)
-        FROM
-            {{ source('contest', 'date_ranges') }}
+                SELECT
+                    SEG_FUNDS_STARTDATE
+                FROM
+                    DATES
+            )
+            AND TRADEDATE <= (
+                SELECT
+                    SEG_FUNDS_ENDDATE
+                FROM
+                    DATES
     )
 GROUP BY
     1, 2
