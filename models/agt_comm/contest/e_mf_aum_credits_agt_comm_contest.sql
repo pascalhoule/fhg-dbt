@@ -21,13 +21,14 @@ TEMP AS (
         Q.AUM AS MF_AUMAMOUNT,
         Q.AUM * (0.001 / 12) AS MF_AUMCREDITS
     FROM
-        {{ source('contest', 'quadrus_aum') }} AS Q
+        {{ source('contest', 'quadrus_aum') }} AS Q 
+        JOIN {{ source('contest', 'date_ranges') }} D ON Q.YR = D.QUADRUS_YR and Q.MTH = D.QUADRUS_MTH
         LEFT JOIN DIM ON TRIM(Q.FIRST_NAME) = UPPER(SPLIT_PART(DIM.FIRSTNAME, ' ', 1))
         AND TRIM(Q.LAST_NAME) = UPPER(DIM.LASTNAME)
         LEFT JOIN {{ ref('a_dim_inactive_agt_comm_contest') }} DIM_INACTIVE ON TRIM(Q.FIRST_NAME) = UPPER(SPLIT_PART(DIM_INACTIVE.FIRSTNAME, ' ', 1))
         AND TRIM(Q.LAST_NAME) = UPPER(DIM_INACTIVE.LASTNAME)
     WHERE
-        Q.INCL_IN_REPORT = TRUE
+        D.INCL_IN_RPT = TRUE
         AND Q.AUM IS NOT NULL
         AND UD_2 IS NOT NULL
         AND CONTAINS(UD_2, '/') = FALSE
@@ -53,7 +54,7 @@ GROUP BY
         AUM AS MF_AUMAMOUNT,
         (0.001 / 12) * AUM AS MF_AUMCREDITS,
     FROM
-        {{ source('contest', 'quadrus_aum') }}
+        {{ source('contest', 'quadrus_aum') }} Q JOIN {{ source('contest', 'date_ranges') }} D ON Q.YR = D.QUADRUS_YR and Q.MTH = D.QUADRUS_MTH
     WHERE
         U_CODE in ('U0000101350', 'U0000140583')
-        and INCL_IN_REPORT = TRUE  
+        and INCL_IN_RPT = TRUE  
