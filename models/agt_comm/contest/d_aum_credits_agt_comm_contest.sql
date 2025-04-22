@@ -15,9 +15,11 @@ INNER JOIN
     ON REP.INSAGENTCODE = BA.AGENTCODE
 WHERE
     AUA.TRENDDATE = (
-        SELECT MAX(AUM_TRENDDATE)
+        SELECT AUM_TRENDDATE
         FROM
             {{ source('contest', 'date_ranges') }}
+        WHERE
+            INCL_IN_RPT = TRUE
     )
     AND BA.USERDEFINED2 IS NOT NULL
 GROUP BY
