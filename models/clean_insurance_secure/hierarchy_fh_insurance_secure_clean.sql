@@ -3,4 +3,4 @@ database='clean',
 schema='insurance_secure')  }} 
 
 SELECT *
-FROM {{ ref('hierarchy_fh_normalize_insurance') }}
+FROM {{ ref('hierarchy_fh_tbl_clean_insurance') }}

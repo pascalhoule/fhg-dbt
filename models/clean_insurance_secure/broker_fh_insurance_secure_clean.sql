@@ -3,4 +3,4 @@ database='clean',
 schema='insurance_secure')  }} 
 
 SELECT *
-FROM {{ ref('broker_fh_integrate_insurance') }}
+FROM {{ ref('broker_fh_tbl_clean_insurance') }}
