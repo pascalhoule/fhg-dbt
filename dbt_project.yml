@@ -47,7 +47,7 @@ models:
       materialized: table
     clean_insurance_secure:
       copy_grants: true
-      materialized: table
+      materialized: view
       secure: true
     finance:
       materialized: view
