@@ -6,7 +6,7 @@ SELECT
     SUM(AUA.MARKETVALUE) AS SEG_AUMAMOUNT,
     SUM(AUA.MARKETVALUE) * 0.001 / 12 AS SEG_AUMCREDIT
 FROM
-    {{ ref('aua_vc_agt_comm_investment') }} AS AUA
+    {{ ref('__base_seg_aua_for_contest_agt_comm_contest') }} AS AUA
 LEFT JOIN
     {{ ref('representatives_vc_agt_comm_investment') }} AS REP
     ON AUA.REPCODE = REP.REPRESENTIATIVECODE
