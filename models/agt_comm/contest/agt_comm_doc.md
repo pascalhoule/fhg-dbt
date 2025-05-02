@@ -19,16 +19,21 @@ There is not supposed to be any changes made to it, so I didn't.
 
 {% docs __base_segfund_transtypes %}
 
-"2024-08-23"
+"2025-05-02"
 
 This view contains the hardcoded values of the transaction type codes which are used to identify which transactions to use for SegFund credits.
-These are the same codes which were in the SQL server version of contest reporting.  If there needs to be transactions types added or removed this is the view to edit.
+If there needs to be transactions types added or removed this is the view to edit.
 There should not need to be other changes.
 
-The transaction codes used are:
-"314 - Purchase Non Wire"
-"415 - Purchase PAC"
-"324 - Redeem Non Wire"
-"378 - RESP"
+These are the transaction type codes which were used for contest repoting prior to Jan 1 2025.
+--TRANSACTIONTYPECODE in ('308', '310', '314', '315', '316', '322', '324', '326', '365', '368', '370', '371', '378', '2030')
+
+These are the transaction type codes which are used for contest reporting after Jan 1 2025
+    TRANSACTIONTYPECODE in ('308', '310', '314', '315', '316', '321', '322', '324', '325', '326', '338', '359', '364', '365', '367', '368','370', '371',
+'378', '379', '381', '384', '387', '390', '420', '424', '426', '429', '2020', '2030', '302', '307'
+)
+
+The purpose of the change is to align how FH determines seg sales for the contest to the definition used by CL.  This ensures that seg sales are
+measured the same whether it's a CL sale or a FH sale.  The codes were provided by Darryl Hardy in finance.
 
 {% enddocs %}
