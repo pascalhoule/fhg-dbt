@@ -26,7 +26,7 @@ SELECT
         ELSE ''
     END AS SUB_FINANCE_CATEGORY
 FROM
-   agt_comm.prod_investment.transactiontypes_fh
+   {{ ref('transactiontypes_fh_agt_comm_investment') }}  
 WHERE
     --TRANSACTIONTYPECODE in ('308', '310', '314', '315', '316', '322', '324', '326', '365', '368', '370', '371', '378', '2030')
     TRANSACTIONTYPECODE in ('308', '310', '314', '315', '316', '321', '322', '324', '325', '326', '338', '359', '364', '365', '367', '368','370', '371',
