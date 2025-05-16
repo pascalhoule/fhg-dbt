@@ -133,9 +133,6 @@ sources:
     schema: prod_contest
     tables:
       - name: date_ranges
-      - name: quadrus_aum
-      - name: quadrus_sales
-      - name: adjustments
       - name: total_contest_credits
       - name: total_contest_production
      
