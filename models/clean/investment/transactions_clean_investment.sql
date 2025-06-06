@@ -1,7 +1,7 @@
  {{  config(alias='transactions', database='clean', schema='investment')  }} 
 
 
-SELECT * FROM {{ source ('investment_raw', 'transactions')  }}
+SELECT * FROM {{ source ('investment', 'transactions')  }}
 
 -- with 
 -- clean_trans as 
