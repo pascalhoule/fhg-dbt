@@ -89,6 +89,7 @@ sources:
     schema: wealthserv_inv_ods_current_secure
     tables:
       - name: clients
+      - name: cheque
       - name: sponsor
       - name: fund_products
       - name: producttypes
@@ -97,6 +98,7 @@ sources:
       - name: trailing_fee
       - name: fundaccount
       - name: transactiontypes
+      - name: transactionstatus
       - name: paycommission
       - name: representatives
       - name: branch
