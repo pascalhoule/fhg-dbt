@@ -4,6 +4,7 @@
     schema='contest', 
     materialized = "view" ) }}
 
+
  SELECT
     CL.YR,
     CL.MTH,
