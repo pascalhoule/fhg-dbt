@@ -137,5 +137,7 @@ sources:
       - name: date_ranges
       - name: total_contest_credits
       - name: total_contest_production
+      - name: contract_dt_adjustment
+      - name: canada_life
      
       
