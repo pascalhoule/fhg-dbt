@@ -4,11 +4,12 @@
     schema='contest', 
     materialized = "view" ) }}
 
+
  SELECT
     CL.YR,
     CL.MTH,
     CL.CL_UID,
-    CL.FH_UID,
+    CASE WHEN CL.FH_UID = '-' THEN null ELSE CL.FH_UID END AS FH_UID,
     INITCAP(CL.ADVISOR_NAME) AS ADVISOR_NAME,
     REGION,
     MARKET,
