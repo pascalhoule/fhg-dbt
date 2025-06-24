@@ -146,4 +146,9 @@ sources:
     tables:
       - name: daily_insurance_acdirect
      
-      
+  - name: ac_direct_data
+    database: integrate
+    schema: prod_insurance
+    tables:
+      - name: policy_fh_cl
+      - name: hierarchy_fh_cl
