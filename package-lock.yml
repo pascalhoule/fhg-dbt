@@ -9,6 +9,6 @@ packages:
     package: dbt-labs/audit_helper
     version: 0.11.0
   - name: dbt_date
-    package: godatadriven/dbt_date
+    package: calogica/dbt_date
     version: 0.10.1
 sha1_hash: aa0ccd6fb5c3c21f5811c13353ce751412015f81
