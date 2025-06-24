@@ -140,4 +140,8 @@ sources:
       - name: contract_dt_adjustment
       - name: canada_life
      
-      
+  - name: integrate
+    schema: prod_insurance
+    tables:
+      - name: policy_fh_cl
+      - name: hierarchy_fh_cl
