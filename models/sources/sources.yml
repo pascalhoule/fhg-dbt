@@ -139,5 +139,11 @@ sources:
       - name: total_contest_production
       - name: contract_dt_adjustment
       - name: canada_life
+
+  - name: acdirect
+    database: integrate
+    schema: prod_insurance
+    tables:
+      - name: daily_insurance_acdirect
      
       
