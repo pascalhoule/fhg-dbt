@@ -26,7 +26,7 @@ SELECT
   ADVISOR_REPORTING_FIRM_NAME AS FIRM  
 FROM {{ source('acdirect', 'daily_insurance_acdirect') }} 
 
-UNION ALL
+UNION 
 
 SELECT
   agentcode,
