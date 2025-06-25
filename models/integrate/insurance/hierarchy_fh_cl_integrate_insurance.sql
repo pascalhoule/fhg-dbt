@@ -8,8 +8,15 @@
     )			
 }}
 
+
 SELECT
-  CAST(NULL AS VARCHAR) AS agentcode, 
+  *
+FROM {{ ref('hierarchy_fh_integrate_insurance') }}
+
+UNION
+
+SELECT
+  CAST('0' AS VARCHAR) AS agentcode, 
   ADVISOR_PRODUCER_NAME AS AGENTNAME, 
   CAST(NULL AS VARCHAR) AS AGENTSTATUS, 
   CAST(NULL AS VARCHAR) AS agenttype,
@@ -26,22 +33,5 @@ SELECT
   ADVISOR_REPORTING_FIRM_NAME AS FIRM  
 FROM {{ source('acdirect', 'daily_insurance_acdirect') }} 
 
-UNION 
 
-SELECT
-  agentcode,
-  AGENTNAME,
-  AGENTSTATUS,
-  agenttype,
-  brokerid,
-  USERDEFINED2,
-  PARENTNODEID,
-  NODEID,
-  NODENAME,
-  hierarchypath,
-  HIERARCHYPATHNAME,
-  REGION,
-  LOCATION,
-  MARKET,
-  FIRM
-FROM {{ ref('hierarchy_fh_integrate_insurance') }}
+
