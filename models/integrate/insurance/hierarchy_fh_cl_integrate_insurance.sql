@@ -10,7 +10,21 @@
 
 
 SELECT
-  *
+  CAST(agentcode AS VARCHAR) AS agentcode,
+  AGENTNAME,
+  AGENTSTATUS,
+  agenttype,
+  brokerid,
+  USERDEFINED2,
+  PARENTNODEID,
+  NODEID,
+  NODENAME,
+  hierarchypath,
+  HIERARCHYPATHNAME,
+  REGION,
+  LOCATION,
+  MARKET,
+  FIRM
 FROM {{ ref('hierarchy_fh_integrate_insurance') }}
 
 UNION
