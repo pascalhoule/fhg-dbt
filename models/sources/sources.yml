@@ -151,5 +151,5 @@ sources:
     database: integrate
     schema: prod_insurance
     tables:
-      - name: daily_insurance_acdirect_broker
+      - name: ac_direct_advisor_info
 
