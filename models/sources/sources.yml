@@ -147,7 +147,7 @@ sources:
       - name: daily_insurance_acdirect
      
 
-  - name: acdirect
+  - name: acdirect_broker
     database: integrate
     schema: prod_insurance
     tables:
