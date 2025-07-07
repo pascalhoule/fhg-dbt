@@ -15,7 +15,7 @@ select
     policygroupcode,
     fh_servicingagtcode,
     fh_servicingagtsplit,
-    fh_commissioningagtcode,
+    cast(fh_commissioningagtcode as VARCHAR(50)) as fh_commissioningagtcode,
     fh_commissioningagtsplit,
     fh_carriereng,
     fh_carrierfr,
