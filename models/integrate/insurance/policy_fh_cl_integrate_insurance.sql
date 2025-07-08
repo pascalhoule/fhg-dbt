@@ -78,7 +78,13 @@ select
     'CL Direct' as fh_carrierfr,
     current_contract_policy_number as policynumber,
     null as planid,
-    product_kind as fh_plantype,
+    Case     
+    WHEN product_kind = 'Critical Illness' THEN 'CI'
+    WHEN product_kind = 'Disability' THEN 'DI'
+    WHEN product_kind = 'Universal Life' THEN 'UL'
+    WHEN product_kind = 'Perm' THEN 'Permanent'
+    ELSE product_kind
+END AS fh_plantype,
     product_type as fh_plannameeng,
     product_type as fh_plannamefr,
     null as premiumamount,
