@@ -83,6 +83,7 @@ select
     WHEN product_kind = 'Disability' THEN 'DI'
     WHEN product_kind = 'Universal Life' THEN 'UL'
     WHEN product_kind = 'Perm' THEN 'Permanent'
+    WHEN product_kind = 'Permanent' THEN 'Permanent'
     ELSE product_kind
 END AS fh_plantype,
     product_type as fh_plannameeng,
