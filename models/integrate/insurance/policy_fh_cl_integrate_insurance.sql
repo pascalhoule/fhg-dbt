@@ -12,7 +12,7 @@
 select
     fh_policycategory,
     policycode,
-    policygroupcode,
+    cast(policygroupcode as VARCHAR(50)) as policygroupcode,
     fh_servicingagtcode,
     fh_servicingagtsplit,
     cast(fh_commissioningagtcode as VARCHAR(50)) as fh_commissioningagtcode,
@@ -67,9 +67,9 @@ union all
 
 
 select
-    null as fh_policycategory,
+    'NEW POLICY' as fh_policycategory,
     null as policycode,
-    null as policygroupcode,
+    current_contract_policy_number as policygroupcode,
     null as fh_servicingagtcode,
     null as fh_servicingagtsplit,
     try_cast(advisor_agreement_group_identifier as varchar(50)) as fh_commissioningagtcode,
