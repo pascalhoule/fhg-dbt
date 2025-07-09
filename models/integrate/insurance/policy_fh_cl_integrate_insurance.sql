@@ -67,7 +67,7 @@ union all
 
 
 select
-    null as fh_policycategory,
+    'NEW POLICY' as fh_policycategory,
     null as policycode,
     null as policygroupcode,
     null as fh_servicingagtcode,
