@@ -12,6 +12,7 @@
 SELECT
   CAST(agentcode AS VARCHAR) AS agentcode,
   AGENTNAME,
+  CAST (Null as varchar) as CL_Advisor_Group_Identifier, 
   AGENTSTATUS,
   agenttype,
   brokerid,
@@ -30,8 +31,9 @@ FROM {{ ref('hierarchy_fh_integrate_insurance') }}
 UNION
 
 SELECT
-  CAST(ADVISOR_AGREEMENT_GROUP_IDENTIFIER AS VARCHAR) AS agentcode, 
+  CAST(ADVISOR_AGREEMENT_NUMBER AS VARCHAR) AS agentcode, 
   ADVISOR_PRODUCER_NAME AS AGENTNAME, 
+  ADVISOR_AGREEMENT_GROUP_IDENTIFIER as CL_Advisor_Group_Identifier ,
   CAST(NULL AS VARCHAR) AS AGENTSTATUS, 
   CAST(NULL AS VARCHAR) AS agenttype,
   CAST(NULL AS VARCHAR) AS brokerid,
@@ -63,7 +65,7 @@ CASE
     ELSE AC_MARKET 
   END as MARKET,   
   ADVISOR_REPORTING_FIRM_NAME AS FIRM  
-FROM {{ source('acdirect', 'daily_insurance_acdirect') }} 
+FROM {{ source('acdirect', 'daily_insurance_ac_direct_agreement') }} 
 
 
 
