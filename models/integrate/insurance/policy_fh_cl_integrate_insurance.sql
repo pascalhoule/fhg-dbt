@@ -109,7 +109,20 @@ END AS fh_plantype,
     null as fh_statusnameeng,
     null as fh_statusnamefr,
     current_policy_status as fh_statuscategory,
-    policy_count as appcount,
+    COALESCE(
+    CASE 
+        WHEN current_policy_status IN ('Pending', 'Decided') 
+        THEN pending_policy_count 
+        ELSE 0
+    END, 0
+        ) +
+    COALESCE(
+    CASE 
+        WHEN current_policy_status NOT IN ('Pending', 'Decided') 
+        THEN placed_policy_count
+        ELSE 0
+    END, 0
+        ) AS appcount,
     null as fh_fycservamt,
     try_cast(replace(replace(fyc_amount, '$', ''), ',', '') as float) as fh_fyccommamt,
     null as mgafyoamount,
@@ -122,17 +135,25 @@ END AS fh_plantype,
     null as ismaincoverage,
     try_cast (SETTLEMENT_DATE as Date) as FH_SETTLEMENTDATE,
     try_cast (application_date as date) as	FH_STARTDATE,
-null as	FH_PREMIUM,
-CASE 
-    WHEN current_policy_status IN ('Pending', 'Decided') THEN 
-        try_cast(REPLACE(REPLACE(placed_total_sales_measure, '$',''),',','') AS FLOAT) +
-        try_cast(REPLACE(REPLACE(pending_decided_total_sales_measure, '$',''),',','') AS FLOAT)
-    ELSE NULL
-END AS FH_PREM_SERVWGT,
-CASE 
-    WHEN current_policy_status IN ('Pending', 'Decided') THEN 
-        try_cast(REPLACE(REPLACE(placed_total_sales_measure, '$',''),',','') AS FLOAT)
-    ELSE NULL
+    null as	FH_PREMIUM,
+    COALESCE(
+    CASE 
+        WHEN current_policy_status IN ('Pending', 'Decided') 
+        THEN TRY_CAST(REPLACE(REPLACE(pending_decided_total_sales_measure, '$',''),',','') AS FLOAT)
+        ELSE 0
+    END, 0
+        ) +
+    COALESCE(
+    CASE 
+        WHEN current_policy_status NOT IN ('Pending', 'Decided') 
+        THEN TRY_CAST(REPLACE(REPLACE(placed_total_sales_measure, '$',''),',','') AS FLOAT)
+        ELSE 0
+    END, 0
+        ) AS FH_PREM_SERVWGT,
+    CASE 
+    WHEN current_policy_status NOT IN ('Pending', 'Decided') 
+    THEN TRY_CAST(REPLACE(REPLACE(placed_total_sales_measure, '$',''),',','') AS FLOAT)
+    ELSE 0
 END AS FH_PREM_COMMWGT	,
 null as APPLICATIONDATE,
 try_cast (first_commission_date as date) as FH_PLACEDDATE,
