@@ -9,11 +9,14 @@
 }}
 
 
+
+WITH unioned_data AS (
+
 select
     fh_policycategory,
     policycode,
     cast(policygroupcode as VARCHAR(50)) as policygroupcode,
-    fh_servicingagtcode,
+    cast (fh_commissioningagtcode as VARCHAR(50)) as fh_servicingagtcode,
     fh_servicingagtsplit,
     cast(fh_commissioningagtcode as VARCHAR(50)) as fh_commissioningagtcode,
     fh_commissioningagtsplit,
@@ -70,7 +73,7 @@ select
     'NEW POLICY' as fh_policycategory,
     null as policycode,
     current_contract_policy_number as policygroupcode,
-    null as fh_servicingagtcode,
+    try_cast(advisor_agreement_group_identifier as varchar(50)) as fh_servicingagtcode,
     null as fh_servicingagtsplit,
     try_cast(advisor_agreement_group_identifier as varchar(50)) as fh_commissioningagtcode,
     null as fh_commissioningagtsplit,
@@ -83,6 +86,7 @@ select
     WHEN product_kind = 'Disability' THEN 'DI'
     WHEN product_kind = 'Universal Life' THEN 'UL'
     WHEN product_kind = 'Perm' THEN 'Permanent'
+    WHEN product_kind = 'Permanent' THEN 'Permanent'
     ELSE product_kind
 END AS fh_plantype,
     product_type as fh_plannameeng,
@@ -116,16 +120,32 @@ END AS fh_plantype,
     null as firstownerclientcode,
     null as firstinsuredclientcode,
     null as ismaincoverage,
-    try_cast(settlement_date as date) as fh_settlementdate,
-    null as fh_startdate,
-    null as fh_premium,
-    try_cast(
-        replace(replace(placed_total_sales_measure, '$', ''), ',', '') as float
-    ) + try_cast(
-        replace(replace(pending_decided_total_sales_measure, '$', ''), ',', '') as float
-    ) as fh_prem_commwgt,
-    null as fh_prem_servwgt,
-    try_cast(application_date as date) as applicationdate,
-    try_cast(first_commission_date as date) as fh_placeddate,
-    null as fh_fycplaced
-from {{ source("acdirect", "daily_insurance_acdirect") }}
+    try_cast (SETTLEMENT_DATE as Date) as FH_SETTLEMENTDATE,
+    try_cast (application_date as date) as	FH_STARTDATE,
+null as	FH_PREMIUM,
+CASE 
+    WHEN current_policy_status IN ('Pending', 'Decided') THEN 
+        try_cast(REPLACE(REPLACE(placed_total_sales_measure, '$',''),',','') AS FLOAT) +
+        try_cast(REPLACE(REPLACE(pending_decided_total_sales_measure, '$',''),',','') AS FLOAT)
+    ELSE NULL
+END AS FH_PREM_SERVWGT,
+CASE 
+    WHEN current_policy_status IN ('Pending', 'Decided') THEN 
+        try_cast(REPLACE(REPLACE(placed_total_sales_measure, '$',''),',','') AS FLOAT)
+    ELSE NULL
+END AS FH_PREM_COMMWGT	,
+null as APPLICATIONDATE,
+try_cast (first_commission_date as date) as FH_PLACEDDATE,
+null as	FH_FYCPLACED
+
+from
+{{ source("acdirect", "daily_insurance_acdirect") }}
+)
+Select u.*, B.BrokerID,  H.REGION, H.Market, B.COS_SALES_BDC, B.COS_SALES_BDD, B.COS_SALES_RVP, B.USERDEFINED2, H.LOCATION, B.SEGMENTTAGWS
+from unioned_data u
+left join {{ ref('broker_fh_cl_integrate_insurance') }} B
+on u. FH_COMMISSIONINGAGTCODE = B.AGENTCODE
+left join {{ ref('hierarchy_fh_cl_integrate_insurance') }} H
+on u. FH_COMMISSIONINGAGTCODE = H.AGENTCODE
+
+
