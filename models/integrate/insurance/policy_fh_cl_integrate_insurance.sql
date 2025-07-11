@@ -141,7 +141,15 @@ null as	FH_FYCPLACED
 from
 {{ source("acdirect", "daily_insurance_acdirect") }}
 )
-Select u.*, B.BrokerID,  H.REGION, H.Market, B.COS_SALES_BDC, B.COS_SALES_BDD, B.COS_SALES_RVP, B.USERDEFINED2, H.LOCATION, B.SEGMENTTAGWS
+Select u.*, B.BrokerID,  
+    H.REGION, 
+    H.Market, 
+    B.COS_SALES_BDC, 
+    B.COS_SALES_BDD, 
+    B.COS_SALES_RVP, 
+    REGEXP_REPLACE(B.USERDEFINED2, '^FH', '') AS USERDEFINED2, 
+    H.LOCATION, 
+    B.SEGMENTTAGWS
 from unioned_data u
 left join {{ ref('broker_fh_cl_integrate_insurance') }} B
 on u. FH_COMMISSIONINGAGTCODE = B.AGENTCODE
