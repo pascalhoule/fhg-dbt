@@ -155,5 +155,6 @@ sources:
     schema: prod_insurance
     tables:
       - name: ac_direct_advisor_info
-      - name: acdirect_advisor_info_agreement
+      - name: acdirect_advisor_info
+
 
