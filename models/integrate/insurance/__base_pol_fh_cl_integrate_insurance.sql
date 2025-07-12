@@ -12,7 +12,7 @@ select
     fh_policycategory,
     policycode,
     cast(policygroupcode as VARCHAR(50)) as policygroupcode,
-    cast (fh_servicingagtcode as VARCHAR(50)) as fh_servicingagtcode,
+    cast(fh_servicingagtcode as VARCHAR(50)) as fh_servicingagtcode,
     fh_servicingagtsplit,
     cast(fh_commissioningagtcode as VARCHAR(50)) as fh_commissioningagtcode,
     fh_commissioningagtsplit,
@@ -69,22 +69,24 @@ select
     'NEW POLICY' as fh_policycategory,
     null as policycode,
     current_contract_policy_number as policygroupcode,
-    try_cast(advisor_agreement_group_identifier as varchar(50)) as fh_servicingagtcode,
+    try_cast(advisor_agreement_group_identifier as VARCHAR(50))
+        as fh_servicingagtcode,
     null as fh_servicingagtsplit,
-    try_cast(advisor_agreement_group_identifier as varchar(50)) as fh_commissioningagtcode,
+    try_cast(advisor_agreement_group_identifier as VARCHAR(50))
+        as fh_commissioningagtcode,
     null as fh_commissioningagtsplit,
     'CL Direct' as fh_carriereng,
     'CL Direct' as fh_carrierfr,
     current_contract_policy_number as policynumber,
     null as planid,
-    Case     
-    WHEN product_kind = 'Critical Illness' THEN 'CI'
-    WHEN product_kind = 'Disability' THEN 'DI'
-    WHEN product_kind = 'Universal Life' THEN 'UL'
-    WHEN product_kind = 'Perm' THEN 'Permanent'
-    WHEN product_kind = 'Permanent' THEN 'Permanent'
-    ELSE product_kind
-END AS fh_plantype,
+    case
+        when product_kind = 'Critical Illness' then 'CI'
+        when product_kind = 'Disability' then 'DI'
+        when product_kind = 'Universal Life' then 'UL'
+        when product_kind = 'Perm' then 'Permanent'
+        when product_kind = 'Permanent' then 'Permanent'
+        else product_kind
+    end as fh_plantype,
     product_type as fh_plannameeng,
     product_type as fh_plannamefr,
     null as premiumamount,
@@ -105,22 +107,23 @@ END AS fh_plantype,
     null as fh_statusnameeng,
     null as fh_statusnamefr,
     current_policy_status as fh_statuscategory,
-    COALESCE(
-    CASE 
-        WHEN current_policy_status IN ('Pending', 'Decided') 
-        THEN pending_policy_count 
-        ELSE 0
-    END, 0
-        ) +
-    COALESCE(
-    CASE 
-        WHEN current_policy_status NOT IN ('Pending', 'Decided') 
-        THEN placed_policy_count
-        ELSE 0
-    END, 0
-        ) AS appcount,
+    coalesce(
+        case
+            when current_policy_status in ('Pending', 'Decided')
+                then pending_policy_count
+            else 0
+        end, 0
+    )
+    + coalesce(
+        case
+            when current_policy_status not in ('Pending', 'Decided')
+                then placed_policy_count
+            else 0
+        end, 0
+    ) as appcount,
     null as fh_fycservamt,
-    try_cast(replace(replace(fyc_amount, '$', ''), ',', '') as float) as fh_fyccommamt,
+    try_cast(replace(replace(fyc_amount, '$', ''), ',', '') as FLOAT)
+        as fh_fyccommamt,
     null as mgafyoamount,
     null as issueprovince,
     null as fh_appsource,
@@ -129,31 +132,58 @@ END AS fh_plantype,
     null as firstownerclientcode,
     null as firstinsuredclientcode,
     null as ismaincoverage,
-    try_cast (SETTLEMENT_DATE as Date) as FH_SETTLEMENTDATE,
-    try_cast (application_date as date) as	FH_STARTDATE,
-    null as	FH_PREMIUM,
-    COALESCE(
-    CASE 
-        WHEN current_policy_status IN ('Pending', 'Decided') 
-        THEN TRY_CAST(REPLACE(REPLACE(pending_decided_total_sales_measure, '$',''),',','') AS FLOAT)
-        ELSE 0
-    END, 0
-        ) +
-    COALESCE(
-    CASE 
-        WHEN current_policy_status NOT IN ('Pending', 'Decided') 
-        THEN TRY_CAST(REPLACE(REPLACE(placed_total_sales_measure, '$',''),',','') AS FLOAT)
-        ELSE 0
-    END, 0
-        ) AS FH_PREM_SERVWGT,
-    CASE 
-    WHEN current_policy_status NOT IN ('Pending', 'Decided') 
-    THEN TRY_CAST(REPLACE(REPLACE(placed_total_sales_measure, '$',''),',','') AS FLOAT)
-    ELSE 0
-END AS FH_PREM_COMMWGT	,
-null as APPLICATIONDATE,
-try_cast (first_commission_date as date) as FH_PLACEDDATE,
-null as	FH_FYCPLACED
+    try_cast(settlement_date as DATE) as fh_settlementdate,
+    try_cast(application_date as DATE) as fh_startdate,
+    null as fh_premium,
+    coalesce(
+        case
+            when current_policy_status in ('Pending', 'Decided')
+                then
+                    try_cast(
+                        replace(
+                            replace(
+                                pending_decided_total_sales_measure, '$', ''
+                            ),
+                            ',',
+                            ''
+                        ) as FLOAT
+                    )
+            else 0
+        end, 0
+    )
+    + coalesce(
+        case
+            when current_policy_status not in ('Pending', 'Decided')
+                then
+                    try_cast(
+                        replace(
+                            replace(placed_total_sales_measure, '$', ''),
+                            ',',
+                            ''
+                        ) as FLOAT
+                    )
+            else 0
+        end, 0
+    ) as fh_prem_servwgt,
+    case
+        when current_policy_status not in ('Pending', 'Decided')
+            then
+                try_cast(
+                    replace(
+                        replace(placed_total_sales_measure, '$', ''), ',', ''
+                    ) as FLOAT
+                )
+        else 0
+    end as fh_prem_commwgt,
+    null as applicationdate,
+    try_cast(first_commission_date as DATE) as fh_placeddate,
+    null as fh_fycplaced
 
 from
-{{ source("acdirect", "daily_insurance_ac_direct_agreement") }}
+    {{ source("acdirect", "daily_insurance_ac_direct_agreement") }}
+where
+    current_contract_policy_number not in
+    (
+        select distinct current_contract_policy_number
+        from {{ ref('__base_CL_pol_duplicates_integrate_insurance') }}
+    )
