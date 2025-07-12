@@ -3,8 +3,7 @@
         materialized="view",
         alias="__policy_fh_cl_map1",
         database="integrate",
-        schema="insurance",
-        grants={"ownership": ["FH_READER"]}
+        schema="insurance" 
     )
 }}
 
