@@ -12,7 +12,7 @@ select
     fh_policycategory,
     policycode,
     cast(policygroupcode as VARCHAR(50)) as policygroupcode,
-    cast (fh_commissioningagtcode as VARCHAR(50)) as fh_servicingagtcode,
+    cast (fh_servicingagtcode as VARCHAR(50)) as fh_servicingagtcode,
     fh_servicingagtsplit,
     cast(fh_commissioningagtcode as VARCHAR(50)) as fh_commissioningagtcode,
     fh_commissioningagtsplit,
