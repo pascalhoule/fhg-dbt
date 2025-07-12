@@ -12,7 +12,7 @@ select
     fh_policycategory,
     policycode,
     cast(policygroupcode as VARCHAR(50)) as policygroupcode,
-    cast (fh_commissioningagtcode as VARCHAR(50)) as fh_servicingagtcode,
+    cast (fh_servicingagtcode as VARCHAR(50)) as fh_servicingagtcode,
     fh_servicingagtsplit,
     cast(fh_commissioningagtcode as VARCHAR(50)) as fh_commissioningagtcode,
     fh_commissioningagtsplit,
@@ -156,4 +156,4 @@ try_cast (first_commission_date as date) as FH_PLACEDDATE,
 null as	FH_FYCPLACED
 
 from
-{{ source("acdirect", "daily_insurance_acdirect") }}
+{{ source("acdirect", "daily_insurance_ac_direct_agreement") }}
