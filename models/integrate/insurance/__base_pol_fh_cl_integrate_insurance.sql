@@ -156,4 +156,4 @@ try_cast (first_commission_date as date) as FH_PLACEDDATE,
 null as	FH_FYCPLACED
 
 from
-{{ source("acdirect", "daily_insurance_acdirect") }}
+{{ source("acdirect", "daily_insurance_ac_direct_agreement") }}
