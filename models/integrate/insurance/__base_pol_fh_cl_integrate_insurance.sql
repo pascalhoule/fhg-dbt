@@ -55,8 +55,8 @@ select
     fh_settlementdate,
     fh_startdate,
     fh_premium,
-    fh_prem_commwgt,
     fh_prem_servwgt,
+    fh_prem_commwgt,
     applicationdate,
     fh_placeddate,
     fh_fycplaced
