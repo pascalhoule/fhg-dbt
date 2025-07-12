@@ -135,46 +135,52 @@ select
     try_cast(settlement_date as DATE) as fh_settlementdate,
     try_cast(application_date as DATE) as fh_startdate,
     null as fh_premium,
-    coalesce(
-        case
-            when current_policy_status in ('Pending', 'Decided')
-                then
-                    try_cast(
-                        replace(
-                            replace(
-                                pending_decided_total_sales_measure, '$', ''
-                            ),
-                            ',',
-                            ''
-                        ) as FLOAT
-                    )
-            else 0
-        end, 0
-    )
-    + coalesce(
-        case
-            when current_policy_status not in ('Pending', 'Decided')
-                then
-                    try_cast(
-                        replace(
-                            replace(placed_total_sales_measure, '$', ''),
-                            ',',
-                            ''
-                        ) as FLOAT
-                    )
-            else 0
-        end, 0
-    ) as fh_prem_servwgt,
-    case
-        when current_policy_status not in ('Pending', 'Decided')
-            then
-                try_cast(
-                    replace(
-                        replace(placed_total_sales_measure, '$', ''), ',', ''
-                    ) as FLOAT
-                )
-        else 0
-    end as fh_prem_commwgt,
+    -- coalesce(
+    --     case
+    --         when current_policy_status in ('Pending', 'Decided')
+    --             then
+    --                 try_cast(
+    --                     replace(
+    --                         replace(
+    --                             pending_decided_total_sales_measure, '$', ''
+    --                         ),
+    --                         ',',
+    --                         ''
+    --                     ) as FLOAT
+    --                 )
+    --         else 0
+    --     end, 0
+    -- )
+    -- + coalesce(
+    --     case
+    --         when current_policy_status not in ('Pending', 'Decided')
+    --             then
+    --                 try_cast(
+    --                     replace(
+    --                         replace(placed_total_sales_measure, '$', ''),
+    --                         ',',
+    --                         ''
+    --                     ) as FLOAT
+    --                 )
+    --         else 0
+    --     end, 0
+    -- ) as fh_prem_servwgt,
+    CASE 
+    WHEN current_policy_status in ('Pending', 'Decided') THEN pending_decided_total_sales_measure 
+    WHEN current_policy_status not in ('Pending', 'Decided') THEN placed_total_sales_measure
+    ELSE 0 END
+    AS fh_prem_servwgt,
+    -- case
+    --     when current_policy_status not in ('Pending', 'Decided')
+    --         then
+    --             try_cast(
+    --                 replace(
+    --                     replace(placed_total_sales_measure, '$', ''), ',', ''
+    --                 ) as FLOAT
+    --             )
+    --     else 0
+    -- end as fh_prem_commwgt,
+    CASE WHEN current_policy_status not in ('Pending', 'Decided') THEN placed_total_sales_measure ELSE 0 END AS fh_prem_commwgt,
     null as applicationdate,
     try_cast(first_commission_date as DATE) as fh_placeddate,
     null as fh_fycplaced
