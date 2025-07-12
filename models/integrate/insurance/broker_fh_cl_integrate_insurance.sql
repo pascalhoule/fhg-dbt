@@ -123,7 +123,7 @@ SELECT
     CAST(NULL AS VARCHAR) AS COS_SALES_WS,
     CAST(NULL AS VARCHAR) AS COS_OPS_RMO, 
     CAST(NULL AS VARCHAR) AS COS_CONTRACT_RMCC
-FROM {{ source('acdirect_broker', 'acdirect_advisor_info_agreement') }}
+FROM {{ source('acdirect_broker', 'acdirect_advisor_info') }}
 
 
 
