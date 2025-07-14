@@ -11,6 +11,7 @@
 select
     fh_policycategory,
     policycode,
+    CAST (Null as varchar) as CL_Advisor_Group_Identifier,
     cast(policygroupcode as VARCHAR(50)) as policygroupcode,
     cast(fh_servicingagtcode as VARCHAR(50)) as fh_servicingagtcode,
     fh_servicingagtsplit,
@@ -68,11 +69,12 @@ union all
 select
     'NEW POLICY' as fh_policycategory,
     null as policycode,
+    ADVISOR_AGREEMENT_GROUP_IDENTIFIER as CL_Advisor_Group_Identifier ,
     current_contract_policy_number as policygroupcode,
-    try_cast(advisor_agreement_group_identifier as VARCHAR(50))
+    try_cast(advisor_agreement_number as VARCHAR(50))
         as fh_servicingagtcode,
     null as fh_servicingagtsplit,
-    try_cast(advisor_agreement_group_identifier as VARCHAR(50))
+    try_cast(advisor_agreement_number as VARCHAR(50))
         as fh_commissioningagtcode,
     null as fh_commissioningagtsplit,
     'CL Direct' as fh_carriereng,
