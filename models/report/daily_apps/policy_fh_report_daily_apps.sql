@@ -1,6 +1,6 @@
 {{			
     config (			
-        materialized="view",			
+        materialized="table",			
         alias='policy_fh', 			
         database='report', 			
         schema='daily_apps',
