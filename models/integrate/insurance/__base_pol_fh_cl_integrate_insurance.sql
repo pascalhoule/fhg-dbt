@@ -69,7 +69,7 @@ union all
 select
     'NEW POLICY' as fh_policycategory,
     null as policycode,
-    ADVISOR_AGREEMENT_GROUP_IDENTIFIER as CL_Advisor_Group_Identifier ,
+    ADVISOR_AGREEMENT_GROUP_IDENTIFIER as CL_Advisor_Group_Identifier,
     current_contract_policy_number as policygroupcode,
     try_cast(advisor_agreement_number as VARCHAR(50))
         as fh_servicingagtcode,
