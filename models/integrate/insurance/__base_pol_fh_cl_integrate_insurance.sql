@@ -69,10 +69,10 @@ select
     'NEW POLICY' as fh_policycategory,
     null as policycode,
     current_contract_policy_number as policygroupcode,
-    try_cast(advisor_agreement_group_identifier as VARCHAR(50))
+    try_cast(advisor_agreement_number as VARCHAR(50))
         as fh_servicingagtcode,
     null as fh_servicingagtsplit,
-    try_cast(advisor_agreement_group_identifier as VARCHAR(50))
+    try_cast(advisor_agreement_number as VARCHAR(50))
         as fh_commissioningagtcode,
     null as fh_commissioningagtsplit,
     'CL Direct' as fh_carriereng,
