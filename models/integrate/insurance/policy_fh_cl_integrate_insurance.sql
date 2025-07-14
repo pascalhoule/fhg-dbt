@@ -1,7 +1,7 @@
 {{
     config(
         materialized="view",
-        alias="__policy_fh_cl_map1",
+        alias="policy_fh_cl",
         database="integrate",
         schema="insurance" 
     )
@@ -9,21 +9,50 @@
 
 WITH
 
+U_CODE_MAPPING AS (
+    SELECT DISTINCT
+        B.CL_ADVISOR_GROUP_IDENTIFIER,
+        B.USERDEFINED2,
+        B.BROKERID,
+        B.SEGMENTTAGWS AS SEGMENT,
+        B.COS_SALES_BDC,
+        B.COS_SALES_BDD,
+        B.COS_SALES_RVP,
+        H.REGION,
+        H.MARKET,
+        H.LOCATION
+    FROM
+        {{ ref('broker_fh_cl_integrate_insurance') }} AS B
+        JOIN {{ ref('hierarchy_fh_cl_integrate_insurance') }} AS H
+        ON
+            B.AGENTCODE = H.AGENTCODE
+            AND B.CL_ADVISOR_GROUP_IDENTIFIER IS NOT null
+),
+
 POL_WITH_UD2 AS (
     SELECT
         POL_BASE.*,
-        B_SERV.USERDEFINED2 AS FH_SERVICINGAGT_UD2,
-        B_COMM.USERDEFINED2 AS FH_COMMISSIONINGAGT_UD2
+        COALESCE(B_SERV.USERDEFINED2, B_SERV_UCODE.USERDEFINED2)
+            AS FH_SERVICINGAGT_UD2,
+        COALESCE(B_COMM.USERDEFINED2, B_COMM_UCODE.USERDEFINED2)
+            AS FH_COMMISSIONINGAGT_UD2
     FROM
         {{ ref('__base_pol_fh_cl_integrate_insurance') }} AS POL_BASE
     LEFT JOIN
         {{ ref('broker_fh_cl_integrate_insurance') }} AS B_COMM
         ON POL_BASE.FH_COMMISSIONINGAGTCODE = B_COMM.AGENTCODE
     LEFT JOIN
+        U_CODE_MAPPING AS B_COMM_UCODE
+        ON
+            POL_BASE.FH_COMMISSIONINGAGTCODE
+            = B_COMM_UCODE.CL_ADVISOR_GROUP_IDENTIFIER
+    LEFT JOIN
         {{ ref('broker_fh_cl_integrate_insurance') }} AS B_SERV
         ON POL_BASE.FH_SERVICINGAGTCODE = B_SERV.AGENTCODE
+    LEFT JOIN
+        U_CODE_MAPPING AS B_SERV_UCODE
+        ON POL_BASE.FH_SERVICINGAGTCODE = B_SERV_UCODE.CL_ADVISOR_GROUP_IDENTIFIER
 ),
-
 
 HIER_W_UD2 AS (
     SELECT
@@ -212,7 +241,7 @@ SELECT
         AS FH_SERVICINGAGT_NAME
 
 FROM POL_WITH_UD2
-LEFT JOIN HIER_W_UD2 H_COMM
+LEFT JOIN HIER_W_UD2 AS H_COMM
     ON POL_WITH_UD2.FH_COMMISSIONINGAGTCODE = H_COMM.AGENTCODE
 LEFT JOIN BROKER_ACTIVE AS B_COMM
     ON POL_WITH_UD2.FH_COMMISSIONINGAGT_UD2 = B_COMM.USERDEFINED2
@@ -224,4 +253,3 @@ LEFT JOIN BROKER_ACTIVE AS B_SERV
     ON POL_WITH_UD2.FH_SERVICINGAGT_UD2 = B_SERV.USERDEFINED2
 LEFT JOIN REST_OF_BROKER_LIST AS B_SERV_INACTIVE
     ON POL_WITH_UD2.FH_SERVICINGAGT_UD2 = B_SERV_INACTIVE.USERDEFINED2
-
