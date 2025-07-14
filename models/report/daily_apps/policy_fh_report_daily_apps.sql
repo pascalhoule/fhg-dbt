@@ -1,11 +1,10 @@
 {{			
     config (			
-        materialized="view",			
+        materialized="table",			
         alias='policy_fh', 			
         database='report', 			
         schema='daily_apps',
         grants = {'ownership': ['FH_READER']},
-        materialized = 'table',
         tags=["daily_apps", "large_case"]			
     )			
 }}
