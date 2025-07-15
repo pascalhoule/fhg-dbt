@@ -96,6 +96,7 @@ SELECT
     WHEN SEGMENTS  = 'A' THEN 'Segment A'
     WHEN SEGMENTS  = 'B' THEN 'Segment B'
     WHEN SEGMENTS  = 'C' THEN 'Segment C'
+    WHEN SEGMENTS  = '-' THEN 'Unsegmented'
     ELSE SEGMENTS 
   END as SEGMENTTAGWS,
     CAST(NULL AS VARCHAR) AS AAP_TAG, 
