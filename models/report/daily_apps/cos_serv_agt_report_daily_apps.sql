@@ -19,26 +19,29 @@ SELECT
             COS_SALES_BDD IN ('Vlad Dumitrescu')
             THEN 'Vladimir Dumitrescu' ELSE
             INITCAP(COS_SALES_BDD)
-    END AS EMPLOYEE
+    END AS EMPLOYEE,
+    AGENTCODE
 FROM {{ ref('broker_fh_cl_integrate_insurance') }}
 WHERE EMPLOYEE IS NOT null AND EMPLOYEE != '-'
-GROUP BY 1, 2
+GROUP BY 1, 2, 3
 
 UNION
 
 SELECT
     'BDC' AS ROLE,
-    INITCAP(COS_SALES_BDC) AS EMPLOYEE
+    INITCAP(COS_SALES_BDC) AS EMPLOYEE,
+    AGENTCODE
 FROM {{ ref('broker_fh_cl_integrate_insurance') }}
 WHERE EMPLOYEE IS NOT null AND EMPLOYEE != '-'
-GROUP BY 1, 2
+GROUP BY 1, 2, 3
 
 UNION
 
 SELECT
     'RVP' AS ROLE,
-    INITCAP(COS_SALES_RVP) AS EMPLOYEE
+    INITCAP(COS_SALES_RVP) AS EMPLOYEE,
+    AGENTCODE
 FROM {{ ref('broker_fh_cl_integrate_insurance') }}
 WHERE EMPLOYEE IS NOT null AND EMPLOYEE != '-'
-GROUP BY 1, 2
-ORDER BY 1, 2
+GROUP BY 1, 2, 3
+ORDER BY 1, 2, 3
