@@ -96,6 +96,7 @@ SELECT
     WHEN SEGMENTS  = 'A' THEN 'Segment A'
     WHEN SEGMENTS  = 'B' THEN 'Segment B'
     WHEN SEGMENTS  = 'C' THEN 'Segment C'
+    WHEN SEGMENTS  = '-' THEN 'Unsegmented'
     ELSE SEGMENTS 
   END as SEGMENTTAGWS,
     CAST(NULL AS VARCHAR) AS AAP_TAG, 
@@ -123,7 +124,7 @@ SELECT
     CAST(NULL AS VARCHAR) AS COS_SALES_WS,
     CAST(NULL AS VARCHAR) AS COS_OPS_RMO, 
     CAST(NULL AS VARCHAR) AS COS_CONTRACT_RMCC
-FROM {{ source('acdirect_broker', 'acdirect_advisor_info') }}
+FROM {{ source('acdirect_broker', 'acdirect_info_current') }}
 
 
 
