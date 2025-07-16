@@ -188,7 +188,7 @@ select
     null as fh_fycplaced
 
 from
-    {{ source("acdirect", "daily_insurance_ac_direct_agreement") }}
+    {{ source("acdirect_policy", "daily_insurance_AC_Direct_agreement_20250716") }}
 where
     current_contract_policy_number not in
     (
