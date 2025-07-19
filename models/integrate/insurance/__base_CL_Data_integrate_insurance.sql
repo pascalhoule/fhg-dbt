@@ -8,7 +8,6 @@
     )
 }}
 
-
 WITH
 
 CL_EXTRACT AS (
