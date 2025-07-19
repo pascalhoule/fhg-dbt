@@ -146,12 +146,6 @@ sources:
     tables:
       - name: daily_insurance_acdirect
       - name: daily_insurance_ac_direct_agreement
-
-  - name: acdirect_policy
-    database: sandbox
-    schema: leo
-    tables:
-      - name: daily_insurance_AC_Direct_agreement_20250716    
      
 
   - name: acdirect_broker
