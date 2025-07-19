@@ -14,7 +14,7 @@ CL_EXTRACT AS (
     SELECT
         *,
         CONCAT(PRODUCT_KIND, '-', PRODUCT_TYPE) AS CVG_NAME
-    FROM {{ source('acdirect_sandbox', 'daily_insurance_ac_direct_agreement') }}
+    FROM {{ ref('daily_insurance_policy_cl_detail') }}
 ),
 
 FH_APP_COUNT AS (
@@ -22,7 +22,7 @@ FH_APP_COUNT AS (
         CURRENT_CONTRACT_POLICY_NUMBER AS POLICYNUMBER,
         1 AS R,
         COUNT(DISTINCT ADVISOR_AGREEMENT_NUMBER) AS C
-    FROM {{ source('acdirect_sandbox', 'daily_insurance_ac_direct_agreement') }}
+    FROM {{ ref('daily_insurance_policy_cl_detail') }}
     GROUP BY 1
 ),
 
@@ -38,7 +38,7 @@ CL_DATA_WITH_CVG AS (
                 ORDER BY
                     CONCAT(PRODUCT_KIND, '-', PRODUCT_TYPE)
             ) AS COVERAGE_NUMBER
-    FROM {{ source('acdirect_sandbox', 'daily_insurance_ac_direct_agreement') }}
+    FROM {{ ref('daily_insurance_policy_cl_detail') }}
     GROUP BY 1, 2, 3
 ),
 
