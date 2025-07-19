@@ -162,4 +162,14 @@ sources:
       - name: acdirect_advisor_info
       - name: acdirect_info_current
 
+  - name: acdirect_sandbox
+    database: sandbox
+    schema: leo
+    tables:
+      - name: daily_insurance_acdirect
+      - name: daily_insurance_ac_direct_agreement
 
+      
+     
+
+  
