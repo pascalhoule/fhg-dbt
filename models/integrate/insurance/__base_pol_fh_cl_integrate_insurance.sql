@@ -128,7 +128,10 @@ select
     null as firstownerclientcode,
     null as firstinsuredclientcode,
     null as ismaincoverage,
-    try_cast(settlement_date as DATE) as fh_settlementdate,
+    --try_cast(settlement_date as DATE) as fh_settlementdate,
+    CASE 
+    WHEN cl.current_policy_status in ('Pending', 'Decided') THEN null
+    ELSE try_cast(settlement_date as DATE) END as fh_settlementdate,
     try_cast(cl.application_date as DATE) as fh_startdate,
     null as fh_premium,
     CASE 
