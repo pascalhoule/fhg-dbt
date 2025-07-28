@@ -163,7 +163,15 @@ sources:
       - name: daily_insurance_acdirect
       - name: daily_insurance_ac_direct_agreement
 
-      
+  - name: ren_comm
+    database: clean_comm
+    schema: extracts
+    tables:
+      - name: bmo
+      - name: canadalife
+      - name: manulife
+      - name: sli
+
      
 
   
