@@ -2,7 +2,7 @@
     database='integrate_comm', 
     schema='extracts', 
     materialization = "view",
-    grants = {'ownership': ['COMMISION']},)  
+    grants = {'ownership': ['COMMISSION']},)  
 }} 
 
 SELECT
