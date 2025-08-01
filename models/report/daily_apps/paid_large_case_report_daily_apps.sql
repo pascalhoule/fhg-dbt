@@ -14,7 +14,7 @@ SELECT
     POLICYGROUPCODE,
     SUM(COMMPREMIUMAMOUNT*FH_COMMISSIONINGAGTSPLIT) AS PAID_COMM_PREM
 FROM
-    {{ ref('__base_cos_policy_fh_cl_integrate_insurance') }}
+    {{ ref('policy_fh_cl_integrate_insurance') }}
 WHERE
     FH_SETTLEMENTDATE BETWEEN '2020-01-01'
     AND CURRENT_DATE
@@ -34,7 +34,7 @@ SELECT
     POLICYGROUPCODE,
     SUM(FH_PREM_COMMWGT) AS PAID_COMM_PREM
 FROM
-    {{ ref('__base_cos_policy_fh_cl_integrate_insurance') }}
+    {{ ref('policy_fh_cl_integrate_insurance') }}
 WHERE
     FH_SETTLEMENTDATE BETWEEN '2020-01-01'
     AND CURRENT_DATE
