@@ -1,7 +1,7 @@
 {{
     config(
         materialized="view",
-        alias="policy_fh_cl",
+        alias="__base_cos_policy_fh_cl",
         database="integrate",
         schema="insurance" 
     )
@@ -37,7 +37,7 @@ POL_WITH_UD2 AS (
         COALESCE(B_COMM.USERDEFINED2, B_COMM_UCODE.USERDEFINED2)
             AS FH_COMMISSIONINGAGT_UD2
     FROM
-        INTEGRATE.PROD_INSURANCE.__BASE_POL_FH_CL AS POL_BASE
+        {{ ref('__base_pol_fh_cl_integrate_insurance') }}  AS POL_BASE
     LEFT JOIN
         {{ ref('broker_fh_cl_integrate_insurance') }} AS B_COMM
         ON POL_BASE.FH_COMMISSIONINGAGTCODE = B_COMM.AGENTCODE
