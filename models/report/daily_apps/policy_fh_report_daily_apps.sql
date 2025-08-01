@@ -110,7 +110,7 @@
         WHEN PLACE_NORM.POLICYGROUPCODE IS NOT NULL THEN PLACE_NORM.PLACED_COMM_PREM
     END AS PLACED_NORMAL_CASE_COMM_PREM
 FROM
-    {{ ref('policy_fh_cl_integrate_insurance') }} POL
+    {{ ref('__base_cos_policy_fh_cl_integrate_insurance') }} POL
     LEFT JOIN {{ ref('written_large_case_report_daily_apps') }} WRIT ON POL.POLICYGROUPCODE = WRIT.POLICYGROUPCODE
     AND POL.FH_STARTDATE = WRIT.FH_STARTDATE
     LEFT JOIN {{ ref('paid_large_case_report_daily_apps') }}  PD ON POL.POLICYGROUPCODE = PD.POLICYGROUPCODE
