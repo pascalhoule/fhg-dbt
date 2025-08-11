@@ -1,4 +1,4 @@
-{{ config(alias='sunlife', 
+{{ config(alias='speciality_life', 
     database='integrate_comm', 
     schema='extracts', 
     materialization = "view",
