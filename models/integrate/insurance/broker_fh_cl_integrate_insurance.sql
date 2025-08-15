@@ -1,6 +1,6 @@
 {{			
     config (			
-        materialized="view",			
+        materialized="table",			
         alias='broker_fh_cl', 			
         database='integrate', 			
         schema='insurance',
