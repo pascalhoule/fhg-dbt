@@ -1,6 +1,6 @@
 {{			
     config (			
-        materialized="view",			
+        materialized="table",			
         alias='broker_fh_cl', 			
         database='integrate', 			
         schema='insurance',
@@ -135,7 +135,8 @@ AGTS_TO_ADJUST AS (
     FROM
         ORIGINAL
     WHERE
-        AGENTSTATUS = 'Active'
+    --     AGENTSTATUS = 'Active'
+    USERDEFINED2 is not null and CONTAINS(USERDEFINED2,'/') = false and CONTAINS(USERDEFINED2, '-') = false and left(userdefined2, 4) in ('3268', '3162', '1111')
     GROUP BY
         1
     HAVING
@@ -143,18 +144,19 @@ AGTS_TO_ADJUST AS (
     ORDER BY
         2 DESC
 ),
+
 ADJUSTMENT AS (
     SELECT
         DISTINCT USERDEFINED2,
         FIRST_VALUE(FIRSTNAME) OVER (
-            PARTITION BY userdefined2
+            PARTITION BY userdefined2, agentstatus
             ORDER BY
-                firstname
+                firstname, createddate desc
         ) AS FIRSTNAME,
         FIRST_VALUE(LASTNAME) OVER (
-            PARTITION BY userdefined2
+            PARTITION BY userdefined2, agentstatus
             ORDER BY
-                lastname
+                lastname, createddate desc
         ) AS LASTNAME
     FROM
         ORIGINAL
@@ -165,8 +167,15 @@ ADJUSTMENT AS (
             FROM
                 AGTS_TO_ADJUST
         )
-)
---Adjustment has 2,275 agents in it. Aug 14 2025
+),
+
+ADJUSTMENT_TWO AS
+(SELECT
+DISTINCT USERDEFINED2,
+FIRST_VALUE(FIRSTNAME) OVER (PARTITION BY USERDEFINED2 ORDER BY firstname) AS FIRSTNAME ,
+FIRST_VALUE(LASTNAME) OVER (PARTITION BY USERDEFINED2 ORDER BY lastname) AS LASTNAME
+FROM ADJUSTMENT)
+
 SELECT
     PARENTNODEID,
     AGENTCODE,
@@ -225,4 +234,5 @@ SELECT
     INITCAP(COS_CONTRACT_RMCC) AS COS_CONTRACT_RMCC
 FROM
     ORIGINAL O
-    LEFT JOIN ADJUSTMENT A on O.USERDEFINED2 = A.USERDEFINED2
+    LEFT JOIN ADJUSTMENT_TWO A on O.USERDEFINED2 = A.USERDEFINED2
+GROUP BY ALL
