@@ -1,6 +1,6 @@
 {{			
     config (			
-        materialized="view",			
+        materialized="table",			
         alias='broker', 			
         database='report', 			
         schema='sales',
