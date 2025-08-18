@@ -4,7 +4,8 @@
         alias='broker', 			
         database='report', 			
         schema='sales',
-        tags=["sales"]			
+        tags=["sales"],	
+        grants = {'ownership': ['FH_READER']}		
     )			
 }}	
 
