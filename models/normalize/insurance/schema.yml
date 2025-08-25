@@ -37,11 +37,12 @@ models:
               store_failures: true
               database: NORMALIZE
          - accepted_values:
-             values: ['NEW POLICY', 'NEW RIDER', 'SERVICE']
-             config:
-              severity: warn
-              store_failures: true
-              database: NORMALIZE
+            arguments:
+              values: ['NEW POLICY', 'NEW RIDER', 'SERVICE']
+              config:
+                severity: warn
+                store_failures: true
+                database: NORMALIZE
       - name: appcount
         data_tests: 
           - dbt_utils.accepted_range:
