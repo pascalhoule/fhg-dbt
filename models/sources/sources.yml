@@ -6,32 +6,67 @@ sources:
     database: fh_prod
     schema: wealthserv_ins_curated_secure
     tables:
-      - name: hierarchy_vc
-      - name: recursivehierarchy_vc
+      - name: assistant_vc
+      - name: assistantaddress_vc
+      - name: assistantemail_vc
       - name: broker_vc
       - name: brokeradvanced_vc
       - name: brokeraddress_vc
+      - name: brokerassistant_vc
       - name: brokercarrierdebt_vc
       - name: brokercontractprovince_vc
       - name: brokercontractstatus_vc
       - name: brokercontracttype_vc
       - name: brokercontract_vc
       - name: brokercos_vc
-      - name: brokerphone_vc
+      - name: brokereo_vc
       - name: brokeremail_vc
-      - name: brokertags_vc
-      - name: brokerledgersummary_vc 
+      - name: brokergroupcategory_vc
+      - name: brokergroupmembership_vc
+      - name: brokergroup_vc
+      - name: brokerledgersummary_vc
+      - name: brokermarketingoffice_vc
+      - name: brokerphone_vc
+      - name: brokerreplink_vc
+      - name: brokertags_vc 
+      - name: brokertasks_vc
+      - name: carrierplan_vc
+      - name: cascadedbrokertags_vc
+      - name: cascadedclienttags_vc
+      - name: cascadedhierearchytags_vc
+      - name: cascadedpolicytags_vc
+      - name: clientstatus_vc
+      - name: clienttype_vc
+      - name: client_vc
       - name: commission_vc
       - name: commissiongrid_vc
-      - name: representatives_vc
-      - name: representativeaddress_vc
-      - name: policy_vc
-      - name: policystatus_vc
-      - name: policytags_vc
+      - name: commissiongriddetails_vc
       - name: cosrole_vc
       - name: employee_vc
       - name: employeerole_vc
+      - name: employers_vc
+      - name: entitytags_vc
+      - name: hierarchycontract_vc
+      - name: hierarchyeo_vc
+      - name: hierarchy_vc
       - name: ic_vc
+      - name: insuranceuser_vc
+      - name: marketingoffice_vc
+      - name: mga_vc
+      - name: planmodalfactor_vc
+      - name: policybridge_vc
+      - name: policycos_vc
+      - name: policyrider_vc
+      - name: policytasks_vc
+      - name: policy_vc
+      - name: policystatus_vc
+      - name: policytags_vc
+      - name: rider_vc
+      - name: taskpriority_vc
+      - name: taskstatus_vc
+      - name: tasks_vc
+      - name: tasktype_vc
+      - name: usergroup_vc
   
   - name: investment_curated
     database: fh_prod
@@ -39,15 +74,22 @@ sources:
     tables:
       - name: aua_vc
       - name: branches_vc
+      - name: dealer_vc
       - name: fundaccount_vc
       - name: fundproducts_vc
       - name: jointrepresentatives_vc
+      - name: processedcommissions_vc
+      - name: processedtrailfees_vc
+      - name: purchases_vc
       - name: region_vc
       - name: representatives_vc
       - name: representativeaddress_vc
+      - name: representativeemail_vc
       - name: sponsors_vc
+      - name: trailingfees_vc
       - name: transactions_vc
       - name: transactiontypes_vc
+      - name: users_vc
       
   - name: insurance
     database: fh_prod
