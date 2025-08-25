@@ -1,8 +1,7 @@
 {{ config(alias='canadalife', 
     database='agt_comm', 
     schema='commission', 
-    materialization = "view",
-    grants = {'ownership': ['COMMISSION'],'select': ['comm_data_user']}  
+    materialization = "view"
 )
 }} 
 
