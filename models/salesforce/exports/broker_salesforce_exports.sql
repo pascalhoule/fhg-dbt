@@ -122,7 +122,7 @@ LEFT JOIN {{ ref('recursivehierarchy_vc_salesforce_insurance') }} AS RH
 LEFT JOIN {{ ref('brokertags_vc_salesforce_insurance') }} AS BT
     ON B.AGENTCODE = BT.AGENTCODE
 WHERE
-    LEFT(BADV.USERDEFINED2, 4) IN ('3162', '3268')
+    LEFT(BADV.USERDEFINED2, 4) IN ('3162', '3268', '1111')
     AND LENGTH(BADV.USERDEFINED2) <= 10
     AND B.AGENTSTATUS NOT IN ('Deleted', 'Service Only')
     AND B.AGENTTYPE <> 'Financial Horizons'

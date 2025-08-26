@@ -21,7 +21,7 @@ FROM (
     LEFT JOIN {{ ref('brokeradvanced_vc_salesforce_insurance') }} AS BA
         ON BC.AGENTCODE = BA.AGENTCODE
     WHERE
-        LEFT(BA.USERDEFINED2, 4) IN ('3162', '3268')
+        LEFT(BA.USERDEFINED2, 4) IN ('3162', '3268', '1111')
         AND LENGTH(BA.USERDEFINED2) < 10
 ) AS FILTEREDDATA
 WHERE R = 1

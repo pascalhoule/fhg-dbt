@@ -9,4 +9,5 @@
 }}
 
 select * FROM
-{{ source('acdirect_policy', 'daily_insurance_AC_Direct_agreement_20250716') }}
+
+{{ source('acdirect_sandbox', 'daily_insurance_ac_direct_agreement') }}

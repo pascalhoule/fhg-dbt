@@ -61,16 +61,15 @@ select
     applicationdate,
     fh_placeddate,
     fh_fycplaced
-from {{ ref("policy_fh_integrate_insurance") }}
-
+from {{ ref('policy_fh_integrate_insurance') }}
 union all
 
 
 select
-    'NEW POLICY' as fh_policycategory,
+    coalesce(serv.fh_policycategory, 'NEW POLICY') as fh_policycategory,
     null as policycode,
     ADVISOR_AGREEMENT_GROUP_IDENTIFIER as CL_Advisor_Group_Identifier,
-    current_contract_policy_number as policygroupcode,
+    cl.current_contract_policy_number as policygroupcode,
     try_cast(advisor_agreement_number as VARCHAR(50))
         as fh_servicingagtcode,
     null as fh_servicingagtsplit,
@@ -79,7 +78,7 @@ select
     null as fh_commissioningagtsplit,
     'CL Direct' as fh_carriereng,
     'CL Direct' as fh_carrierfr,
-    current_contract_policy_number as policynumber,
+    cl.current_contract_policy_number as policynumber,
     null as planid,
     case
         when product_kind = 'Critical Illness' then 'CI'
@@ -108,23 +107,18 @@ select
     null as fh_statuscode,
     null as fh_statusnameeng,
     null as fh_statusnamefr,
-    current_policy_status as fh_statuscategory,
-    coalesce(
-        case
-            when current_policy_status in ('Pending', 'Decided')
-                then pending_policy_count
-            else 0
-        end, 0
-    )
-    + coalesce(
-        case
-            when current_policy_status not in ('Pending', 'Decided')
-                then placed_policy_count
-            else 0
-        end, 0
-    ) as appcount,
+    cl.current_policy_status as fh_statuscategory,
+    
+    CASE 
+    WHEN coalesce(serv.fh_policycategory, 'NEW POLICY') = 'SERVICE' THEN FH_APPCOUNT
+    WHEN count_fix.use_fh_appcount = true THEN FH_APPCOUNT
+    WHEN cl.current_policy_status in ('Pending', 'Decided') THEN ABS(pending_policy_count)
+    WHEN cl.current_policy_status in ('Placed') THEN cl.sales_count_credit 
+    WHEN cl.current_policy_status in ('Declined', 'Not Proceeded With', 'Decided', 'Not Taken', 'Postponed', 'Closed out as Incomplete', '-') THEN FH_APPCOUNT
+    ELSE 0
+    END AS APPCOUNT,
     null as fh_fycservamt,
-    try_cast(replace(replace(fyc_amount, '$', ''), ',', '') as FLOAT)
+    try_cast(replace(replace(cl.fyc_amount, '$', ''), ',', '') as FLOAT)
         as fh_fyccommamt,
     null as mgafyoamount,
     null as issueprovince,
@@ -134,64 +128,30 @@ select
     null as firstownerclientcode,
     null as firstinsuredclientcode,
     null as ismaincoverage,
-    try_cast(settlement_date as DATE) as fh_settlementdate,
-    try_cast(application_date as DATE) as fh_startdate,
-    null as fh_premium,
-    -- coalesce(
-    --     case
-    --         when current_policy_status in ('Pending', 'Decided')
-    --             then
-    --                 try_cast(
-    --                     replace(
-    --                         replace(
-    --                             pending_decided_total_sales_measure, '$', ''
-    --                         ),
-    --                         ',',
-    --                         ''
-    --                     ) as FLOAT
-    --                 )
-    --         else 0
-    --     end, 0
-    -- )
-    -- + coalesce(
-    --     case
-    --         when current_policy_status not in ('Pending', 'Decided')
-    --             then
-    --                 try_cast(
-    --                     replace(
-    --                         replace(placed_total_sales_measure, '$', ''),
-    --                         ',',
-    --                         ''
-    --                     ) as FLOAT
-    --                 )
-    --         else 0
-    --     end, 0
-    -- ) as fh_prem_servwgt,
+    --try_cast(settlement_date as DATE) as fh_settlementdate,
     CASE 
-    WHEN current_policy_status in ('Pending', 'Decided') THEN pending_decided_total_sales_measure 
-    WHEN current_policy_status not in ('Pending', 'Decided') THEN placed_total_sales_measure
+    WHEN cl.current_policy_status in ('Pending', 'Decided') THEN null
+    ELSE try_cast(settlement_date as DATE) END as fh_settlementdate,
+    try_cast(cl.application_date as DATE) as fh_startdate,
+    null as fh_premium,
+    CASE 
+    WHEN cl.current_policy_status in ('Pending', 'Decided') THEN pending_decided_total_sales_measure 
+    WHEN cl.current_policy_status not in ('Pending', 'Decided') THEN cl.placed_total_sales_measure
     ELSE 0 END
     AS fh_prem_servwgt,
-    -- case
-    --     when current_policy_status not in ('Pending', 'Decided')
-    --         then
-    --             try_cast(
-    --                 replace(
-    --                     replace(placed_total_sales_measure, '$', ''), ',', ''
-    --                 ) as FLOAT
-    --             )
-    --     else 0
-    -- end as fh_prem_commwgt,
-    CASE WHEN current_policy_status not in ('Pending', 'Decided') THEN placed_total_sales_measure ELSE 0 END AS fh_prem_commwgt,
-    null as applicationdate,
+    CASE WHEN cl.current_policy_status not in ('Pending', 'Decided') THEN cl.placed_total_sales_measure ELSE 0 END AS fh_prem_commwgt,
+    cl.application_date as applicationdate,
     try_cast(first_commission_date as DATE) as fh_placeddate,
     null as fh_fycplaced
 
 from
-    {{ source("acdirect_policy", "daily_insurance_AC_Direct_agreement_20250716") }}
+    {{ ref('__base_CL_Data_integrate_insurance') }} cl
+    left join {{ ref('__base_CL_service_integrate_insurance') }}  serv on cl.current_contract_policy_number = serv.current_contract_policy_number
+    left join {{ ref('__base_cl_fix_app_count_integrate_insurance') }} count_fix on count_fix.current_contract_policy_number = cl.current_contract_policy_number
 where
-    current_contract_policy_number not in
+    cl.current_contract_policy_number not in
     (
         select distinct current_contract_policy_number
-        from {{ ref('__base_CL_pol_duplicates_integrate_insurance') }}
+        from {{ ref('__base_CL_pol_duplicates_integrate_insurance') }} 
     )
+  

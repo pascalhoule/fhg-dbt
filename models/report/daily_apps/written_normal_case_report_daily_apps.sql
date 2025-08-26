@@ -14,7 +14,7 @@ SELECT
     FH_STARTDATE,
     SUM(COMMPREMIUMAMOUNT*FH_SERVICINGAGTSPLIT) AS WRITTEN_COMM_PREM
 FROM
-    {{ ref('policy_fh_cl_integrate_insurance') }} 
+   {{ ref('policy_fh_cl_integrate_insurance') }}
 WHERE
     FH_STARTDATE BETWEEN '2020-01-01'
     AND CURRENT_DATE
@@ -33,7 +33,7 @@ SELECT
     FH_STARTDATE,
     SUM(FH_PREM_COMMWGT) AS WRITTEN_COMM_PREM
 FROM
-    {{ ref('policy_fh_cl_integrate_insurance') }} 
+    {{ ref('policy_fh_cl_integrate_insurance') }}
 WHERE
     FH_STARTDATE BETWEEN '2020-01-01'
     AND CURRENT_DATE

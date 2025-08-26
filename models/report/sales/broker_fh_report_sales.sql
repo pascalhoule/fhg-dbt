@@ -1,14 +1,68 @@
 {{			
     config (			
-        materialized="view",			
+        materialized="table",			
         alias='broker', 			
         database='report', 			
         schema='sales',
-        tags=["sales"]			
+        tags=["sales"],	
+        grants = {'ownership': ['FH_READER']}		
     )			
 }}	
 
 SELECT
-    *
+    PARENTNODEID,
+    CAST(AGENTCODE AS NUMBER) AS AGENTCODE,
+    FIRSTNAME,
+    MIDDLENAME,
+    LASTNAME,
+    AGENTNAME,
+    --CL_ADVISOR_GROUP_IDENTIFIER,
+    COMPANYNAME,
+    MGACODE,
+    AGACODE,
+    DATEOFBIRTH,
+    PROVINCE,
+    COMPANYPROVINCE,
+    AGENTSTATUS,
+    AGENTTYPE,
+    LANGUAGEPREFERENCE,
+    SERVICELEVEL,
+    CREATEDDATE,
+    BROKERID,
+    LASTMODIFIEDDATE,
+    USERDEFINED2,
+    EMAIL,
+    CASLAPPROVED,
+    -- SEGMENTA,
+    -- SEGMENTB,
+    -- SEGMENTC,
+    SEGMENTTAGWS,
+    AAP_TAG,
+    ADSL_TAG,
+    ELEVATED,
+    PENDINGTERMINATION,
+    TERMINATED,
+    TRANSFERRINGOUT,
+    COS_SALES_RSC,
+    COS_SALES_BDC,
+    COS_SALES_BDD,
+    COS_SALES_SVP,
+    COS_SALES_RVP,
+    COS_SALES_VP,
+    COS_CONTRACT_CC,
+    COS_CONTRACT_CS,
+    COS_COMPLIANCE_RCM,
+    -- COS_OPS_BOC,
+    -- COS_OPS_NBS_INV,
+    -- COS_OPS_NBS_CM,
+    -- COS_OPS_NBS_INF,
+    -- COS_OPS_ROM,
+    COS_RAM,
+    COS_SALESIS,
+    COS_SALES_WS,
+    COS_OPS_RMO,
+    COS_CONTRACT_RMCC
 FROM
-    {{ ref('broker_fh_report_insurance') }}
+    {{ ref('broker_fh_cl_report_insurance') }} 
+WHERE
+    CL_ADVISOR_GROUP_IDENTIFIER is null   
