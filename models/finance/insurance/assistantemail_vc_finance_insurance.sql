@@ -6,3 +6,4 @@
 SELECT * 
   
 FROM {{ ref ('assistantemail_vc_clean_insurance')  }}
+
