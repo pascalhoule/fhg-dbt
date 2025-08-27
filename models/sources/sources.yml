@@ -214,6 +214,7 @@ sources:
       - name: manulife
       - name: sli
       - name: rbc
+      - name: equitable
 
      
 
