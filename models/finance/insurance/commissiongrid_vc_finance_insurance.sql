@@ -6,4 +6,4 @@
 
 SELECT
   *
-FROM {{ ref('comissiongrid_vc_clean_insurance') }}
+FROM {{ ref('commissiongrid_vc_clean_insurance') }}
