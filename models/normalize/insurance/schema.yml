@@ -46,21 +46,23 @@ models:
       - name: appcount
         data_tests: 
           - dbt_utils.accepted_range:
-             min_value: 0
-             max_value: 1
-             config:
-              severity: warn
-              store_failures: true
-              database: NORMALIZE
+              arguments:
+                min_value: 0
+                max_value: 1
+                config:
+                  severity: warn
+                  store_failures: true
+                  database: NORMALIZE
       - name: splitrate
         data_tests:
           - dbt_utils.accepted_range:
-             min_value: 0
-             max_value: 1
-             config:
-              severity: warn
-              store_failures: true
-              database: NORMALIZE
+              arguments:
+                min_value: 0
+                max_value: 1
+                config:
+                  severity: warn
+                  store_failures: true
+                  database: NORMALIZE
       - name: policycode
         data_tests:
          - relationships:
