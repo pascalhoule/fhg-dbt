@@ -205,6 +205,12 @@ sources:
       - name: daily_insurance_acdirect
       - name: daily_insurance_ac_direct_agreement
 
+  - name: rls_users
+    database: report
+    schema: prod_rls
+    tables:
+      - name: users
+
   - name: ren_comm
     database: clean_comm
     schema: extracts
