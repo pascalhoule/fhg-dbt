@@ -198,6 +198,12 @@ sources:
       - name: acdirect_advisor_info
       - name: acdirect_info_current
 
+  - name: ac_direct_current
+    database: report_cl
+    schema: dev_la
+    tables:
+      - name: acdirect_info_current
+
   - name: acdirect_sandbox
     database: sandbox
     schema: leo
