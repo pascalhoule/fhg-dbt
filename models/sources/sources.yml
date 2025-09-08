@@ -204,6 +204,12 @@ sources:
     tables:
       - name: acdirect_info_current
 
+  - name: budget_2025
+    database: report
+    schema: prod_daily_apps
+    tables:
+      - name: budget_2025
+
   - name: acdirect_sandbox
     database: sandbox
     schema: leo
