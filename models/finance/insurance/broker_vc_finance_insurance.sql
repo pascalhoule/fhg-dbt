@@ -34,14 +34,14 @@ SELECT
                 '123 456 789'
             )
         ) THEN SHA2(
-            'b^.SG9h*W\\]7q3FEtP=7rB(fVt&JnA}2' || ':' || REGEXP_REPLACE(b.sin, '[^0-9]', '') || ':' || REVERSE('b^.SG9h*W\\]7q3FEtP=7rB(fVt&JnA}2'),
+            'b^.SG9h*W\\]7q3FEtP=7rB(fVt&JnA}2' || ':' || REGEXP_REPLACE(B.sin, '[^0-9]', '') || ':' || REVERSE('b^.SG9h*W\\]7q3FEtP=7rB(fVt&JnA}2'),
             256
         )
         ELSE NULL
     END AS HASHEDID,
     CASE
         WHEN (
-            b.SIN IS NOT NULL
+            B.SIN IS NOT NULL
             AND TRIM(B.SIN) not in (
                 '000 000 000',
                 '0',
@@ -52,10 +52,10 @@ SELECT
             )
         ) THEN UPPER(
             SHA2(
-                'b^.SG9h*W\\]7q3FEtP=7rB(fVt&JnA}2' || ':' || REGEXP_REPLACE(b.sin, '[^0-9]', '') || ':' || REVERSE('b^.SG9h*W\\]7q3FEtP=7rB(fVt&JnA}2'),
+                'b^.SG9h*W\\]7q3FEtP=7rB(fVt&JnA}2' || ':' || REGEXP_REPLACE(B.sin, '[^0-9]', '') || ':' || REVERSE('b^.SG9h*W\\]7q3FEtP=7rB(fVt&JnA}2'),
                 256
             )
         )
         ELSE null
     END AS UPPERCASE_HASHEDID
-FROM {{ ref ('broker_vc_clean_insurance')  }}
+FROM {{ ref ('broker_vc_clean_insurance')  }} B
