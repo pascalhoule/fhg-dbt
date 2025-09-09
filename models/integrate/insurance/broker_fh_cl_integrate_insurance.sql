@@ -8,6 +8,7 @@
     )			
 }}
 
+
 WITH --original is your query as it is now
 ORIGINAL AS (
     SELECT
