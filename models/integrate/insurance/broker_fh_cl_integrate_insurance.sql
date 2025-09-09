@@ -127,7 +127,7 @@ ORIGINAL AS (
         CAST(NULL AS VARCHAR) AS COS_OPS_RMO,
         CAST(NULL AS VARCHAR) AS COS_CONTRACT_RMCC
     FROM
-        {{ source('acdirect_broker', 'acdirect_info_current') }} 
+        {{ source('ac_direct_current', 'acdirect_info_current') }} 
 ),
 AGTS_TO_ADJUST AS (
     SELECT
