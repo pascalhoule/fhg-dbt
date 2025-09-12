@@ -234,6 +234,21 @@ sources:
       - name: rbc
       - name: equitable
 
+  - name: finance
+    database: finance
+    schema: archive
+    tables:
+      - name: advisors
+      - name: aum
+      - name: aummfd
+      - name: infovr
+      - name: insurance
+      - name: mfd
+      - name: ncfmfd
+      - name: ncfmga
+      - name: rbc
+
+
      
 
   
