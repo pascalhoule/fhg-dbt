@@ -171,6 +171,8 @@ sources:
     schema: prod_loi
     tables:
       - name: loi_tracking
+      - name: fundserv_daily_metrics
+      - name: ws_inv_cleanup_monthly
 
   - name: contest
     database: agt_comm
