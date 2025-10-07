@@ -174,6 +174,13 @@ sources:
       - name: fundserv_daily_metrics
       - name: ws_inv_cleanup_monthly
 
+  - name: fs_app_tables
+    database: applications
+    schema: fundserv_data
+    tables:
+      - name: fundserv_daily_metrics
+      - name: ws_inv_cleanup_monthly
+
   - name: contest
     database: agt_comm
     schema: prod_contest
