@@ -83,3 +83,30 @@ exposures:
     owner:
       name: Joshua Oresanya
       email: Joshua.Oresanya@financialhorizons.ca
+
+  - name: sales
+    label: Sales
+    type: dashboard
+    maturity: medium
+    url: 
+    description: >
+      Provides summary and detailed information about life insurance sales. It's on the Advice Canada site.
+
+    depends_on:
+      - ref('broker_fh_report_sales')
+      - ref('brokeradvanced_report_sales')
+      - ref('brokercos_fh_report_sales')
+      - ref('brokertags_report_sales')
+      - ref('calendar_report_sales')
+      - ref('hierarchy_fh_report_sales')
+      - ref('paid_large_case_report_sales')
+      - ref('paid_normal_case_report_sales')
+      - ref('placed_large_case_report_sales')
+      - ref('placed_normal_case_report_sales')
+      - ref('policy_fh_report_sales')
+      - ref('written_large_case_report_sales')
+      - ref('written_normal_case_report_sales')
+
+    owner:
+      name: Joshua Oresanya
+      email: Joshua.Oresanya@financialhorizons.ca
