@@ -3,7 +3,7 @@ version: 2
 exposures:
   - name: advisor_details
     label: Advisor Details
-    type: report
+    type: dashboard
     maturity: medium
     url: 
     description: >
@@ -30,7 +30,7 @@ exposures:
 
   - name: daily_apps
     label: Daily Apps
-    type: report
+    type: dashboard
     maturity: medium
     url: 
     description: >
