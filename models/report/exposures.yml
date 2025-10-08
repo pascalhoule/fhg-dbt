@@ -58,7 +58,7 @@ exposures:
 
   - name: in_the_mill
     label: In the Mill
-    type: report
+    type: dashboard
     maturity: medium
     url: 
     description: >
