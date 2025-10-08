@@ -110,3 +110,24 @@ exposures:
     owner:
       name: Joshua Oresanya
       email: Joshua.Oresanya@financialhorizons.ca
+
+  - name: segfund
+    label: Segfund
+    type: dashboard
+    maturity: low
+    url: 
+    description: >
+      Not yet published. Provides segfund information tracked to plan. It's on the Advice Canada site.
+
+    depends_on:
+      - ref('aua_report_segfund')
+      - ref('day_seg_production_report_segfund')
+      - ref('mth_seg_production_report_segfund')
+      - ref('segbudget_fin_report_segfund')
+      - ref('transact_map_report_segfund')
+
+    owner:
+      name: Joshua Oresanya
+      email: Joshua.Oresanya@financialhorizons.ca
+
+  
