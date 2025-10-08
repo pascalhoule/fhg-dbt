@@ -8,4 +8,4 @@
     }} 
 
 SELECT *
-FROM {{ ref('hierarchy_fh_report_insurance') }}
+FROM {{ ref('hierarchy_fh_cl_integrate_insurance') }}
