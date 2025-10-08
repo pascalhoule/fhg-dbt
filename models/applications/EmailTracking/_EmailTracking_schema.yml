@@ -1,0 +1,20 @@
+version: 2
+
+exposures:
+  - name: emailtracking
+    label: Email Tracking
+    type: application
+    maturity: medium
+    url: 
+    description: >
+      Used to track e-mail changes.
+
+    depends_on:
+      - ref('brokeremailtracking_applications_emailtracking')
+      - ref('history_brokeremailtracking_emailtracking_applications')
+      - ref('broker_fh_exports_applications')
+      - ref('brokeremail_vc_exports_applications')
+
+    owner:
+      name: Ramil Sharapov
+      email: ramil.sharapov@financialhorizons.ca

@@ -1,0 +1,85 @@
+version: 2
+
+exposures:
+  - name: advisor_details
+    label: Advisor Details
+    type: report
+    maturity: medium
+    url: 
+    description: >
+      Provides listing of advisors and some information about them. It's on the Advice Canada site.
+
+    depends_on:
+      - ref('broker_fh_report_advisor_details')
+      - ref('brokeraddress_fh_advisor_details')
+      - ref('brokeradvanced_fh_report_advisor_details')
+      - ref('brokercontract_fh_report_advisor_details')
+      - ref('brokercontractstatus_fh_report_advisor_details')
+      - ref('brokercos_fh_report_advisor_details')
+      - ref('brokeremail_fh_report_advisor_details')
+      - ref('brokerphone_fh_report_advisor_details')
+      - ref('brokertags_fh_advisor_details')
+      - ref('employee_fh_report_advisor_details')
+      - ref('firms_fh_report_advisor_details')
+      - ref('hierarchy_fh_report_advisor_details')
+      - ref('policy_fh_report_advisor_details')
+
+    owner:
+      name: Arzoo Mor
+      email: arzoo.mor@financialhorizons.ca
+
+  - name: daily_apps
+    label: Daily Apps
+    type: report
+    maturity: medium
+    url: 
+    description: >
+      Provides summary and detailed information about daily life insurance production. It's on the Advice Canada site.
+
+    depends_on:
+      - ref('broker_report_daily_apps')
+      - ref('brokeradvanced_report_daily_apps')
+      - ref('brokertags_report_daily_apps')
+      - ref('calendar_report_daily_apps')
+      - ref('cos_comm_agt_report_daily_apps')
+      - ref('cos_serv_agt_report_daily_apps')
+      - ref('hierarchy_fh_report_daily_apps')
+      - ref('paid_large_case_report_daily_apps')
+      - ref('paid_normal_case_report_daily_apps')
+      - ref('placed_large_case_report_daily_apps')
+      - ref('placed_normal_case_report_daily_apps')
+      - ref('policy_fh_report_daily_apps')
+      - ref('written_large_case_report_daily_apps')
+      - ref('written_normal_case_report_daily_apps')
+
+    owner:
+      name: Joshua Oresanya
+      email: Joshua.Oresanya@financialhorizons.ca
+
+  - name: in_the_mill
+    label: In the Mill
+    type: report
+    maturity: medium
+    url: 
+    description: >
+      Provides summary and detailed information about the status of life insurance policies. It's on the Advice Canada site.
+
+    depends_on:
+      - ref('broker_fh_report_in_the_mill')
+      - ref('brokeradvanced_report_in_the_mill')
+      - ref('brokertags_fh_report_in_the_mill')
+      - ref('brokertags_vc_report_in_the_mill')
+      - ref('calendar_report_in_the_mill')
+      - ref('hierarchy_fh_report_in_the_mill')
+      - ref('paid_large_case_report_in_the_mill')
+      - ref('paid_normal_case_report_in_the_mill')
+      - ref('placed_large_case_report_in_the_mill')
+      - ref('placed_normal_case_report_in_the_mill')
+      - ref('policy_fh_report_in_the_mill')
+      - ref('policytags_fh_report_in_the_mill')
+      - ref('written_large_case_report_in_the_mill')
+      - ref('written_normal_case_report_in_the_mill')
+
+    owner:
+      name: Joshua Oresanya
+      email: Joshua.Oresanya@financialhorizons.ca
