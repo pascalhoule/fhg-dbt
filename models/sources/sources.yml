@@ -212,6 +212,7 @@ sources:
     schema: dev_la
     tables:
       - name: acdirect_info_current
+      - name: ipc_fh_advisor_metrics_mth_new
 
   - name: budget_2025
     database: report
