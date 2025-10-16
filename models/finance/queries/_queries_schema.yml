@@ -1,0 +1,21 @@
+version: 2
+
+exposures:
+  - name: monthly_financial_reporting
+    label: Monthly Financial Reporting
+    type: dashboard
+    maturity: medium
+    url: 
+    description: >
+      Provides views which are used to extract data to run the FH monthly financial reports.
+
+    depends_on:
+      - ref('broker_id_detailed_fyc_fyb_finance_queries')
+      - ref('detailed_FYC_FYB_finance_queries')
+      - ref('detailed_FYC_FYB_rpt_finance_queries')
+      - ref('firm_finance_queries')
+      - ref('plancategory_map_finance_queries')
+
+    owner:
+      name: Evelyn Wynen
+      email: evelyn.wynen@financialhorizons.ca

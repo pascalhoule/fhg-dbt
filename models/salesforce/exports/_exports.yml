@@ -1,0 +1,28 @@
+version: 2
+
+exposures:
+  - name: salesforce
+    label: Salesforce
+    type: application
+    maturity: high
+    url: 
+    description: >
+      These are the views which were created to expose data in Salesforce.
+
+    depends_on:
+      - ref('GA_accounts_child_salesforce_exports')
+      - ref('GA_accounts_global_salesforce_exports')
+      - ref('GA_broker_salesforce_exports')
+      - ref('GA_brokercos_salesforce_exports')
+      - ref('GA_brokerdebt_salesforce_exports')
+      - ref('GA_carriercontract_salesforce_exports')
+      - ref('GA_carriercontractdeleted_salesforce_exports')
+      - ref('GA_carriercontractfull_salesforce_exports')
+      - ref('GA_carrierdebt_salesforce_exports')
+      - ref('GA_commissiongrid_salesforce_exports')
+      - ref('GA_GACOS_salesforce_exports')
+      - ref('GA_provinciallicenses_salesforce_exports')
+
+    owner:
+      name: Arzoo Mor
+      email: Arzoo.Mor@financialhorizons.ca

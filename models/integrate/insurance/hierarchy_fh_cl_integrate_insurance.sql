@@ -65,7 +65,7 @@ CASE
   END as MARKET,   
   AC_LOCATION AS LOCATION,
   ADVISOR_REPORTING_FIRM_NAME AS FIRM  
-FROM {{ source('acdirect', 'daily_insurance_ac_direct_agreement') }} 
+FROM {{ ref('daily_insurance_policy_cl_detail') }} 
 
 
 

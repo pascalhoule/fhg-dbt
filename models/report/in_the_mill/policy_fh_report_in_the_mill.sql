@@ -97,16 +97,16 @@
     END AS FUNNEL_TAG
     FROM
         {{ ref('policy_itm_fh_insurance_report') }} POL
-    LEFT JOIN {{ ref('written_large_case_report_sales') }} WRIT ON POL.POLICYGROUPCODE = WRIT.POLICYGROUPCODE
+    LEFT JOIN {{ ref('written_large_case_report_in_the_mill') }} WRIT ON POL.POLICYGROUPCODE = WRIT.POLICYGROUPCODE
     AND POL.FH_STARTDATE = WRIT.FH_STARTDATE
-    LEFT JOIN {{ ref('paid_large_case_report_sales') }} PD ON POL.POLICYGROUPCODE = PD.POLICYGROUPCODE
+    LEFT JOIN {{ ref('paid_large_case_report_in_the_mill') }} PD ON POL.POLICYGROUPCODE = PD.POLICYGROUPCODE
     AND POL.FH_POLICYCATEGORY = PD.FH_POLICYCATEGORY
-    LEFT JOIN {{ ref('written_normal_case_report_sales') }} WRIT_NORM ON POL.POLICYGROUPCODE = WRIT_NORM.POLICYGROUPCODE
+    LEFT JOIN {{ ref('written_normal_case_report_in_the_mill') }} WRIT_NORM ON POL.POLICYGROUPCODE = WRIT_NORM.POLICYGROUPCODE
     AND POL.FH_STARTDATE = WRIT_NORM.FH_STARTDATE
-    LEFT JOIN {{ ref('paid_normal_case_report_sales') }} PD_NORM ON POL.POLICYGROUPCODE = PD_NORM.POLICYGROUPCODE
+    LEFT JOIN {{ ref('paid_normal_case_report_in_the_mill') }} PD_NORM ON POL.POLICYGROUPCODE = PD_NORM.POLICYGROUPCODE
     AND POL.FH_POLICYCATEGORY = PD_NORM.FH_POLICYCATEGORY
-    LEFT JOIN {{ ref('placed_large_case_report_sales') }} PLACE ON  POL.POLICYGROUPCODE = PLACE.POLICYGROUPCODE 
+    LEFT JOIN {{ ref('placed_large_case_report_in_the_mill') }} PLACE ON  POL.POLICYGROUPCODE = PLACE.POLICYGROUPCODE 
     AND POL.FH_POLICYCATEGORY = PLACE.FH_POLICYCATEGORY
-    LEFT JOIN {{ ref('placed_normal_case_report_sales') }} PLACE_NORM ON POL.POLICYGROUPCODE = PLACE_NORM.POLICYGROUPCODE
+    LEFT JOIN {{ ref('placed_normal_case_report_in_the_mill') }} PLACE_NORM ON POL.POLICYGROUPCODE = PLACE_NORM.POLICYGROUPCODE
     AND POL.FH_POLICYCATEGORY = PLACE_NORM.FH_POLICYCATEGORY
  
