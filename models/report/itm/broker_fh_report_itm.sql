@@ -10,4 +10,4 @@
 SELECT
     *
 FROM
-    {{ ref ('broker_fh_report_insurance') }}
+    {{ ref ('broker_fh_cl_report_insurance') }}
