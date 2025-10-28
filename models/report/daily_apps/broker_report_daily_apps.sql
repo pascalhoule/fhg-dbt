@@ -46,5 +46,5 @@ SELECT
     COS_SALES_BDD,
     COS_SALES_RVP
 FROM
-    {{ ref('broker_fh_cl_integrate_insurance') }}
+    {{ ref('broker_fh_cl_report_insurance') }}
 GROUP BY ALL
