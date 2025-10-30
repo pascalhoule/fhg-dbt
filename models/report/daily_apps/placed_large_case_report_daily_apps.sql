@@ -14,7 +14,7 @@ SELECT
     POLICYGROUPCODE,
     SUM(COMMPREMIUMAMOUNT*FH_SERVICINGAGTSPLIT) AS PLACED_COMM_PREM
 FROM
-   {{ ref('policy_fh_cl_integrate_insurance') }}
+   {{ ref('policy_fh_cl_report_insurance') }}
 WHERE
     FH_PLACEDDATE BETWEEN '2020-01-01'
     AND CURRENT_DATE
