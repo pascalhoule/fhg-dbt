@@ -1,11 +1,11 @@
 {{			
     config (			
-        materialized="view",			
+        materialized="table",			
         alias='policy_fh', 			
         database='report', 			
         schema='sales',
         grants = {'ownership': ['FH_READER']},	
-        tags=["sales", "large_case"]			
+        tags=["sales", "large_case"],			
     )			
 }}
 
