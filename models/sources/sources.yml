@@ -245,6 +245,7 @@ sources:
       - name: equitable
       - name: empire
       - name: ia
+      - name: ivari
 
   - name: finance
     database: finance
