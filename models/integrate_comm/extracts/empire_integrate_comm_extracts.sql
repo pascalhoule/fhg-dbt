@@ -42,7 +42,10 @@ SELECT
         WHEN TRIM("PRODUCT NAME") = 'nan' THEN NULL
         ELSE TRIM("PRODUCT NAME")
     END AS PRODUCT_NAME,
-    DATE("ISSUE DT.") AS ISSUE_DATE,
+    CASE
+        WHEN TRIM("ISSUE DT.") = 'nan' THEN NULL
+        ELSE DATE("ISSUE DT.") 
+    END AS ISSUE_DATE,
     CASE 
         WHEN TRIM("MODE") = 'nan' THEN NULL
         ELSE TRIM("MODE")
