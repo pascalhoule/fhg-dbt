@@ -134,6 +134,7 @@ sources:
       - name: cheque
       - name: sponsor
       - name: fund_products
+      - name: groups
       - name: producttypes
       - name: state
       - name: registration
@@ -246,6 +247,7 @@ sources:
       - name: empire
       - name: ia
       - name: ivari
+      - name: sunlife
 
   - name: finance
     database: finance
