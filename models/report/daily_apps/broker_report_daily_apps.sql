@@ -32,7 +32,7 @@ SELECT
     USERDEFINED2,
     EMAIL,
     CASLAPPROVED,
-    SuperUID
+    SuperUID,
     SEGMENTA,
     SEGMENTB,
     SEGMENTC,
