@@ -107,7 +107,7 @@ select
     null as fh_statuscode,
      CASE
         WHEN cl.current_policy_status = 'Decided' THEN 'Approved'
-        WHEN cl.current_policy_status = 'Pending' THEN 'Pending UW'
+        WHEN cl.current_policy_status = 'Pending' THEN 'Pending - UW'
         ELSE cl.current_policy_status
     END as fh_statusnameeng,
     null as fh_statusnamefr,
