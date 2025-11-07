@@ -105,10 +105,13 @@ select
     null as maileddate,
     null as fh_finpostdate,
     null as fh_statuscode,
-    null as fh_statusnameeng,
+     CASE
+        WHEN cl.current_policy_status = 'Decided' THEN 'Approved'
+        WHEN cl.current_policy_status = 'Pending' THEN 'Pending UW'
+        ELSE cl.current_policy_status
+    END as fh_statusnameeng,
     null as fh_statusnamefr,
-    cl.current_policy_status as fh_statuscategory,
-    
+    null as fh_statuscategory,
     CASE 
     WHEN coalesce(serv.fh_policycategory, 'NEW POLICY') = 'SERVICE' THEN FH_APPCOUNT
     WHEN count_fix.use_fh_appcount = true THEN FH_APPCOUNT

@@ -19,6 +19,7 @@ ORIGINAL AS (
         LASTNAME,
         AGENTNAME,
         CAST (Null as varchar) as CL_Advisor_Group_Identifier,
+        CAST (Null as varchar) as SuperUID,
         COMPANYNAME,
         CAST(MGACODE AS Number) as MGACODE,
         CAST(AGACODE AS Number) as AGACODE,
@@ -75,6 +76,7 @@ ORIGINAL AS (
         CAST(NULL AS VARCHAR) AS LASTNAME,
         CAST(AGENTNAME AS VARCHAR) AS AGENTNAME,
         CL_Advisor_Group_Identifier,
+        CAST (Null as varchar) as SuperUID,
         CAST(COMPANYNAME AS VARCHAR) AS COMPANYNAME,
         CAST(NULL AS Number) AS MGACODE,
         CAST(NULL AS Number) AS AGACODE,
@@ -183,9 +185,17 @@ SELECT
     O.FIRSTNAME,
     O.MIDDLENAME,
     O.LASTNAME,
+    --CASE
+      --  WHEN A.LASTNAME IS NOT null THEN CONCAT(INITCAP(A.LASTNAME), ', ', INITCAP(A.FIRSTNAME))
+      --  ELSE INITCAP(O.AGENTNAME)
+   -- END AS AGENTNAME,
     CASE
-        WHEN A.LASTNAME IS NOT null THEN CONCAT(INITCAP(A.LASTNAME), ', ', INITCAP(A.FIRSTNAME))
-        ELSE INITCAP(O.AGENTNAME)
+    WHEN COALESCE(O.AGENTNAME, '') LIKE '%,%' THEN
+        CONCAT(
+            INITCAP(SPLIT_PART(COALESCE(O.AGENTNAME, ''), ',', 2)), ' ',
+            INITCAP(SPLIT_PART(COALESCE(O.AGENTNAME, ''), ',', 1))
+        )
+    ELSE INITCAP(COALESCE(O.AGENTNAME, CONCAT(INITCAP(A.FIRSTNAME), ' ', INITCAP(A.LASTNAME))))
     END AS AGENTNAME,
     CL_Advisor_Group_Identifier,
     COMPANYNAME,
@@ -202,6 +212,8 @@ SELECT
     BROKERID,
     LASTMODIFIEDDATE,
     O.USERDEFINED2,
+    COALESCE(
+    NULLIF(REGEXP_REPLACE(O.USERDEFINED2, '^FH', ''), '-'),CL_Advisor_Group_Identifier) AS SuperUID,
     EMAIL,
     CASLAPPROVED,
     SEGMENTA,
