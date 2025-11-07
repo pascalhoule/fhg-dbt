@@ -246,6 +246,7 @@ sources:
       - name: empire
       - name: ia
       - name: ivari
+      - name: sunlife
 
   - name: finance
     database: finance
