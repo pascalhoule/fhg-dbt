@@ -134,6 +134,7 @@ sources:
       - name: cheque
       - name: sponsor
       - name: fund_products
+      - name: groups
       - name: producttypes
       - name: state
       - name: registration
