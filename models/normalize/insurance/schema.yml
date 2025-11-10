@@ -1,5 +1,4 @@
 version: 2
-
 models:
 - name: __POLICYCATEGORY_insurance
   description: View where the FH_policycategory is determined for life policies.
