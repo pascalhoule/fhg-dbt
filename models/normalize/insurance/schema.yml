@@ -103,114 +103,114 @@ models:
     database: NORMALIZE
   data_tests:
   - dbt_expectations.expect_table_aggregation_to_equal_other_table:
-      expression: SUM(FYCAMOUNT)
-      compare_model: ref("policy_vc_normalize_insurance")
-      compare_expression: SUM(FYCAMOUNT)
-      group_by:
-      - APPLICATIONDATE
-      compare_group_by:
-      - APPLICATIONDATE
-      row_condition: APPLICATIONDATE >= '2018-01-01'
-      compare_row_condition: APPLICATIONDATE >= '2018-01-01' AND PLANTYPE IN ('CI', 'DI', 'Life', 'Permanent', 'Term', 'UL', 'LTC', 'Health', 'HealthSickness', 'SERVICE', 'Travel', 'WL')
-      tolerance_percent: 0.01
+      arguments:
+        expression: SUM(FYCAMOUNT)
+        compare_model: ref("policy_vc_normalize_insurance")
+        compare_expression: SUM(FYCAMOUNT)
+        group_by:
+          - APPLICATIONDATE
+        compare_group_by:
+          - APPLICATIONDATE
+        row_condition: APPLICATIONDATE >= '2018-01-01'
+        compare_row_condition: APPLICATIONDATE >= '2018-01-01' AND PLANTYPE IN ('CI', 'DI', 'Life', 'Permanent', 'Term', 'UL', 'LTC', 'Health', 'HealthSickness', 'SERVICE', 'Travel', 'WL')
+        tolerance_percent: 0.01
       config:
         store_values: true
         database: NORMALIZE
         alias: __POSTDATE_FYC_TOTAL
         severity: warn
   - dbt_expectations.expect_table_aggregation_to_equal_other_table:
-      expression: COUNT(DISTINCT POLICYCODE)
-      compare_model: ref("policy_vc_normalize_insurance")
-      compare_expression: COUNT(DISTINCT POLICYCODE)
-      group_by:
-      - APPLICATIONDATE
-      compare_group_by:
-      - APPLICATIONDATE
-      row_condition: APPLICATIONDATE >= '2018-01-01'
-      compare_row_condition: APPLICATIONDATE >= '2018-01-01' AND PLANTYPE IN ('CI', 'DI', 'Life', 'Permanent', 'Term', 'UL', 'LTC', 'Health', 'HealthSickness', 'SERVICE', 'Travel', 'WL')
-      tolerance_percent: 0.01
+      arguments:
+        expression: COUNT(DISTINCT POLICYCODE)
+        compare_model: ref("policy_vc_normalize_insurance")
+        compare_expression: COUNT(DISTINCT POLICYCODE)
+        group_by:
+          - APPLICATIONDATE
+        compare_group_by:
+          - APPLICATIONDATE
+        row_condition: APPLICATIONDATE >= '2018-01-01'
+        compare_row_condition: APPLICATIONDATE >= '2018-01-01' AND PLANTYPE IN ('CI', 'DI', 'Life', 'Permanent', 'Term', 'UL', 'LTC', 'Health', 'HealthSickness', 'SERVICE', 'Travel', 'WL')
+        tolerance_percent: 0.01
       config:
         store_values: true
         database: NORMALIZE
         alias: __POSTDATE_POLICYCODE_COUNT
         severity: warn
   columns:
-  - name: FH_SERVICINGAGTCODE
-    description: The agentcode field in the policy_vc table.
-  - name: FH_FINPOSTDATE
-    description: The earliest postdate which appears in the cheque table.  This is the data used by finance.
-  - name: FH_SERVICINGAGTSPLIT
-    description: The splitrate field in the policy_vc table.
-  - name: FH_SETTLEMENTDATE
-    description: FH_FINPOSTDATE where it is available, otherwise SETTLEMENTDATE.  This is the date the policy is considered to be inforce.  It is the "end date" for the In the Mill calc.
+    - name: FH_SERVICINGAGTCODE
+      description: The agentcode field in the policy_vc table.
+    - name: FH_FINPOSTDATE
+      description: The earliest postdate which appears in the cheque table.  This is the data used by finance.
+    - name: FH_SERVICINGAGTSPLIT
+      description: The splitrate field in the policy_vc table.
+    - name: FH_SETTLEMENTDATE
+      description: FH_FINPOSTDATE where it is available, otherwise SETTLEMENTDATE.  This is the date the policy is considered to be inforce.  It is the "end date" for the In the Mill calc.
 - name: __FHFORMAT_insurance
   description: Derives the FH_STARTDATE and FH_PREMIUM and has changes to format data for reporting.
   columns:
-  - name: FH_CARRIERENG
-    description: The English portion of the CARRIER field from policy_vc
-  - name: FH_CARRIERFR
-    description: The French portion of the CARRIER field from policy_vc
-  - name: FH_PLANTYPE
-    description: The PLANTYPE field from policy_vc with 'HealthSickness' replaced with 'H&S' and 'SERVICE' replaced with 'Service'
-  - name: FH_PLANNAMEENG
-    description: The English portion of the PLANNAME field from policy_vc
-  - name: FH_PLANNAMEFR
-    description: The French portion of the PLANNAME field from policy_vc
-  - name: FH_STATUSCODE
-    description: The STATUS from the policy_vc table
-  - name: FH_STATUSNAMEENG
-    description: The English description of the FH_STATUSCODE from policystatus_vc
-      table
-  - name: FH_STATUSNAMEFR
-    description: The French description of the FH_STATUSCODE from policystatus_vc
-      table
-  - name: FH_STATUSCATEGORY
-    description: One of INFORCE, PENDING, TERMINATED  based on the FH_STATUSCODE
-  - name: FH_APPSOURCE
-    description: The APPSOURCE field from policy_vc with the first letter of the field
-      changed to upper case.
-  - name: FH_APPTYPE
-    description: The APPTYPE field from policy_vc with the first letter of the field
-      changed to upper case.
-  - name: FH_STARTDATE
-    description: The earlier of APPLICATIONDATE and CREATEDDATE from the policy_vc
-      table.
-  - name: FH_PREMIUM
-    description: COMMPREMIUMAMOUNT from the policy_vc table unless the commpremiumamnount = 0 then the annualpremiumamount is used instead. When commpremamount is null then 0
+    - name: FH_CARRIERENG
+      description: The English portion of the CARRIER field from policy_vc
+    - name: FH_CARRIERFR
+      description: The French portion of the CARRIER field from policy_vc
+    - name: FH_PLANTYPE
+      description: The PLANTYPE field from policy_vc with 'HealthSickness' replaced with 'H&S' and 'SERVICE' replaced with 'Service'
+    - name: FH_PLANNAMEENG
+      description: The English portion of the PLANNAME field from policy_vc
+    - name: FH_PLANNAMEFR
+      description: The French portion of the PLANNAME field from policy_vc
+    - name: FH_STATUSCODE
+      description: The STATUS from the policy_vc table
+    - name: FH_STATUSNAMEENG
+      description: The English description of the FH_STATUSCODE from policystatus_vc table
+    - name: FH_STATUSNAMEFR
+      description: The French description of the FH_STATUSCODE from policystatus_vc table
+    - name: FH_STATUSCATEGORY
+      description: One of INFORCE, PENDING, TERMINATED  based on the FH_STATUSCODE
+    - name: FH_APPSOURCE
+      description: The APPSOURCE field from policy_vc with the first letter of the field changed to upper case.
+    - name: FH_APPTYPE
+      description: The APPTYPE field from policy_vc with the first letter of the field changed to upper case.
+    - name: FH_STARTDATE
+      description: The earlier of APPLICATIONDATE and CREATEDDATE from the policy_vc table.
+    - name: FH_PREMIUM
+      description: COMMPREMIUMAMOUNT from the policy_vc table unless the commpremiumamnount = 0 then the annualpremiumamount is used instead. When commpremamount is null then 0
 - name: __COMM_WGTS_insurance
   description: '{{ doc("__COMM_WGTS_insurance") }}'
   config:
     database: NORMALIZE
   data_tests:
   - wgt_eq_one:
-      column_name: policycode
-      col_measure_to_test: corr_pd_agt_split
-      database: normalize
-      alias: wgt_eq_one
-      severity: warn
-      store_failures: true
+      arguments:
+        column_name: policycode
+        col_measure_to_test: corr_pd_agt_split
+      config:
+        database: normalize
+        alias: wgt_eq_one
+        severity: warn
+        store_failures: true
 - name: __COMM_AGT_MAPPED_insurance
   columns:
-  - name: OWNERCODE
-    description: This is the commissioning agent code.
-  - name: CORR_PD_AGT_SPLIT
-    description: This is the split between the commissioning agents on the policycode.  These are normalized to add to 1 where necessary.
-  - name: PAID
-    description: The commission paid to the agent.  Matches Wealthserv.
+    - name: OWNERCODE
+      description: This is the commissioning agent code.
+    - name: CORR_PD_AGT_SPLIT
+      description: This is the split between the commissioning agents on the policycode.  These are normalized to add to 1 where necessary.
+    - name: PAID
+      description: The commission paid to the agent.  Matches Wealthserv.
 - name: __COMM_AGT_MAPPED_CORRECTED_insurance
   description: This is a continuation of __COMM_AGT_MAPPED_insurance in order to break up the code.  These are the last few cases normalized so there are usable weights.
   data_tests:
   - dbt_expectations.expect_table_aggregation_to_equal_other_table:
-      expression: SUM(FH_FYCSERVAMT)
-      compare_model: ref("policy_vc_normalize_insurance")
-      compare_expression: SUM(FYCAMOUNT)
-      group_by:
-      - APPLICATIONDATE
-      compare_group_by:
-      - APPLICATIONDATE
-      row_condition: APPLICATIONDATE >= '2018-01-01'
-      compare_row_condition: APPLICATIONDATE >= '2018-01-01' AND PLANTYPE IN ('CI', 'DI', 'Life', 'Permanent', 'Term', 'UL', 'LTC', 'Health', 'HealthSickness', 'SERVICE', 'Travel', 'WL')
-      tolerance_percent: 0.01
+      arguments:
+        expression: SUM(FH_FYCSERVAMT)
+        compare_model: ref("policy_vc_normalize_insurance")
+        compare_expression: SUM(FYCAMOUNT)
+        group_by:
+          - APPLICATIONDATE
+        compare_group_by:
+          - APPLICATIONDATE
+        row_condition: APPLICATIONDATE >= '2018-01-01'
+        compare_row_condition: APPLICATIONDATE >= '2018-01-01' AND PLANTYPE IN ('CI', 'DI', 'Life', 'Permanent', 'Term', 'UL', 'LTC', 'Health', 'HealthSickness', 'SERVICE', 'Travel', 'WL')
+        tolerance_percent: 0.01
       config:
         store_values: true
         database: NORMALIZE
