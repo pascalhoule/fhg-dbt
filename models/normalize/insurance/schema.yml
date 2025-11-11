@@ -6,10 +6,11 @@ models:
     database: NORMALIZE
   data_tests:
   - dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B:
-      column_A: COMMPREMIUMAMOUNT
-      column_B: FYCAMOUNT
-      or_equal: false
-      row_condition: policycode is not null and COMMPREMIUMAMOUNT > 0
+      arguments:
+        column_A: COMMPREMIUMAMOUNT
+        column_B: FYCAMOUNT
+        or_equal: false
+        row_condition: policycode is not null and COMMPREMIUMAMOUNT > 0
       config:
         store_values: true
         database: NORMALIZE
@@ -17,9 +18,10 @@ models:
         alias: COMMPREM_GT_FYC__POLICYCATEGORIES
         severity: warn
   - dbt_utils.unique_combination_of_columns:
-      combination_of_columns:
-      - policycode
-      - agentcode
+      arguments:
+        combination_of_columns:
+        - policycode
+        - agentcode
       config:
         store_values: true
         database: NORMALIZE
@@ -41,43 +43,44 @@ models:
           - NEW POLICY
           - NEW RIDER
           - SERVICE
-          config:
-            severity: warn
-            store_failures: true
-            database: NORMALIZE
+        config:
+          severity: warn
+          store_failures: true
+          database: NORMALIZE
   - name: appcount
     data_tests:
     - dbt_utils.accepted_range:
         arguments:
           min_value: 0
           max_value: 1
-          config:
-            severity: warn
-            store_failures: true
-            database: NORMALIZE
+        config:
+          severity: warn
+          store_failures: true
+          database: NORMALIZE
   - name: splitrate
     data_tests:
     - dbt_utils.accepted_range:
         arguments:
           min_value: 0
           max_value: 1
-          config:
-            severity: warn
-            store_failures: true
-            database: NORMALIZE
-  - name: policycode
-    data_tests:
-    - relationships:
         config:
           severity: warn
           store_failures: true
           database: NORMALIZE
+  - name: policycode
+    data_tests:
+    - relationships:
         arguments:
           field: policycode
           to: ref('policy_vc_clean_insurance')
+        config:
+          severity: warn
+          store_failures: true
+          database: NORMALIZE        
   - name: policygroupcode
     data_tests:
     - not_null:
+        arguments: {}
         config:
           severity: warn
           store_failures: true
@@ -85,13 +88,15 @@ models:
   - name: commpremiumamount
     data_tests:
     - not_null:
+        arguments: {}
         config:
           severity: warn
           store_failures: true
           database: NORMALIZE
   - name: fycamount
     data_tests:
-    - not_null
+    - not_null:
+        arguments: {}
 - name: __POSTDATE_insurance
   description: The view where FH_postdate from and FH_settlement date are created.
   config:
