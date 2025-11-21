@@ -19,7 +19,7 @@ FROM
 UNION
 
 SELECT
-  CAST(agentstatus AS VARCHAR) AS agentcode, 
+  CAST(agentcode AS VARCHAR) AS agentcode, 
   CL_Advisor_Group_Identifier ,
   CAST(USERDEFINED2 AS VARCHAR) AS USERDEFINED2,
   CAST(NULL AS VARCHAR) AS USERDEFINED1,
