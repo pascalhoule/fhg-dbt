@@ -19,7 +19,7 @@ WITH CORR_PRODUCT_KIND AS (
         AC_MARKET,
         AC_LOCATION,
         CASE
-            WHEN PK.revised_product_kind IS NOT NULL THEN PK.revised_product_kind
+            WHEN PK.REVISED_PRODUCT_KIND IS NOT NULL THEN PK.REVISED_PRODUCT_KIND
             ELSE PRODUCT_KIND
         END AS PRODUCT_KIND,
         PRODUCT_TYPE,
