@@ -1,6 +1,6 @@
 {{			
     config (			
-        materialized="view",			
+        materialized="table",			
         alias='policy_fh_cl', 			
         database='integrate', 			
         schema='insurance',
