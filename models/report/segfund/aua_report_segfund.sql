@@ -10,7 +10,7 @@
 
 SELECT
     REPCODE,
-    REPRESENTIATIVECODE,
+    REPRESENTATIVECODE,
     INSAGENTCODE,
     REPID,
     REP.CODE,
@@ -28,7 +28,7 @@ SELECT
     SUM(MARKETVALUE) AS TOTAL_MARKET_VALUE
 FROM
     {{ ref('aua_vc_report_investment') }} AUA
-    join {{ ref('representatives_vc_report_investment') }} REP ON AUA.REPCODE = REP.REPRESENTIATIVECODE
+    join {{ ref('representatives_vc_report_investment') }} REP ON AUA.REPCODE = REP.REPRESENTATIVECODE
     join {{ ref('fundproducts_vc_report_investment') }} FUNDPRODUCT on AUA.FUNDPRODUCTCODE = FUNDPRODUCT.FUNDPRODUCTCODE
     JOIN {{ ref('sponsor_vc_report_investment') }} SPONSOR ON SPONSOR.SPONSORID = FUNDPRODUCT.SPONSORID
 WHERE

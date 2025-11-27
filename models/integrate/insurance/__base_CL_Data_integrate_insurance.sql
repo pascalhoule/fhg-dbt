@@ -1,6 +1,6 @@
 {{
     config(
-        materialized="view",
+        materialized="table",
         alias="__base_CL_Data",
         database="integrate",
         schema="insurance",
@@ -43,7 +43,7 @@ CL_EXTRACT AS (
             ELSE FIRST_COMMISSION_DATE
         END AS FIRST_COMMISSION_DATE,
         CONCAT(PRODUCT_KIND, '-', PRODUCT_TYPE) AS CVG_NAME
-    FROM {{ ref('daily_insurance_policy_cl_detail') }}
+    FROM {{ ref('__base_put_on_one_row_disability_integrate_insurance') }}
 ),
 
 FH_APP_COUNT AS (
@@ -51,7 +51,7 @@ FH_APP_COUNT AS (
         CURRENT_CONTRACT_POLICY_NUMBER AS POLICYNUMBER,
         1 AS R,
         COUNT(DISTINCT ADVISOR_AGREEMENT_NUMBER) AS C
-    FROM {{ ref('daily_insurance_policy_cl_detail') }}
+    FROM {{ ref('__base_put_on_one_row_disability_integrate_insurance') }}
     GROUP BY 1
 ),
 
@@ -67,7 +67,7 @@ CL_DATA_WITH_CVG AS (
                 ORDER BY
                     CONCAT(PRODUCT_KIND, '-', PRODUCT_TYPE)
             ) AS COVERAGE_NUMBER
-    FROM {{ ref('daily_insurance_policy_cl_detail') }}
+    FROM {{ ref('__base_put_on_one_row_disability_integrate_insurance') }}
     GROUP BY 1, 2, 3
 ),
 

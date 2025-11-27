@@ -17,7 +17,7 @@ SELECT
     T.CLIENTREPCODE,
     REP.REPID,
     REP.INSAGENTCODE,
-    REP.REPRESENTIATIVECODE,
+    REP.REPRESENTATIVECODE,
     CONCAT(REP.LAST_NAME, ',', REP.FIRST_NAME) AS FULLNAME,
     REP.LAST_NAME,
     REP.FIRST_NAME,
@@ -34,7 +34,7 @@ SELECT
     SUM(T.GROSSCOMMISSION) AS GROSSCOMMISSION
 FROM
     {{ ref('transactions_vc_report_investment') }} T
-    JOIN {{ ref('representatives_vc_report_investment') }} REP ON REP.REPRESENTIATIVECODE = T.CLIENTREPCODE
+    JOIN {{ ref('representatives_vc_report_investment') }} REP ON REP.REPRESENTATIVECODE = T.CLIENTREPCODE
     JOIN {{ ref('transact_map_report_segfund') }} MAP ON T.TRANSACTIONTYPECODE = MAP.TRANSACTIONTYPECODE
     JOIN {{ ref('fundproducts_vc_report_investment') }} FUNDPRODUCT ON T.FUNDPRODUCTCODE = FUNDPRODUCT.FUNDPRODUCTCODE
     JOIN {{ ref('sponsor_vc_report_investment') }} SPONSOR ON SPONSOR.SPONSORID = FUNDPRODUCT.SPONSORID 
@@ -60,7 +60,7 @@ UNION
     T.CLIENTREPCODE,
     REP.REPID,
     REP.INSAGENTCODE,
-    REP.REPRESENTIATIVECODE,
+    REP.REPRESENTATIVECODE,
     CONCAT(REP.LAST_NAME, ',', REP.FIRST_NAME) AS FULLNAME,
     REP.LAST_NAME,
     REP.FIRST_NAME,
@@ -77,7 +77,7 @@ UNION
     SUM(T.GROSSCOMMISSION) AS GROSSCOMMISSION
 FROM
     {{ ref('transactions_vc_report_investment') }} T
-    JOIN {{ ref('representatives_vc_report_investment') }} REP ON REP.REPRESENTIATIVECODE = T.CLIENTREPCODE
+    JOIN {{ ref('representatives_vc_report_investment') }} REP ON REP.REPRESENTATIVECODE = T.CLIENTREPCODE
     JOIN {{ ref('transact_map_report_segfund') }} MAP ON T.TRANSACTIONTYPECODE = MAP.TRANSACTIONTYPECODE
     JOIN {{ ref('fundproducts_vc_report_investment') }} FUNDPRODUCT ON T.FUNDPRODUCTCODE = FUNDPRODUCT.FUNDPRODUCTCODE
     JOIN {{ ref('sponsor_vc_report_investment') }} SPONSOR ON SPONSOR.SPONSORID = FUNDPRODUCT.SPONSORID 
