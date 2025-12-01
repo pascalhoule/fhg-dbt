@@ -1,6 +1,6 @@
 {{
     config(
-        materialized="view",
+        materialized="table",
         alias="__base_pol_fh_cl",
         database="integrate",
         schema="insurance",
@@ -134,7 +134,7 @@ select
     --try_cast(settlement_date as DATE) as fh_settlementdate,
     CASE 
     WHEN cl.current_policy_status in ('Pending', 'Decided') THEN null
-    ELSE try_cast(settlement_date as DATE) END as fh_settlementdate,
+    ELSE coalesce(first_commission_date,settlement_date ) END as fh_settlementdate,
     try_cast(cl.application_date as DATE) as fh_startdate,
     null as fh_premium,
     CASE 
