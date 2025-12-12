@@ -1,8 +1,8 @@
-{{ config(alias='bmo', 
+{{ config(
+    alias='bmo', 
     database='agt_comm', 
     schema='commission', 
-    materialization = "view"
-)
-}} 
+    materialized="view"
+) }} 
 
 SELECT * FROM {{ ref('bmo_integrate_comm_extracts') }}
