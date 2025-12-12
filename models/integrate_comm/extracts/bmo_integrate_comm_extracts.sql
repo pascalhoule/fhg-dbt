@@ -1,9 +1,10 @@
-{{ config(alias='bmo', 
+{{ config(
+    alias='bmo', 
     database='integrate_comm', 
     schema='extracts', 
-    materialization = "view",
-    grants = {'ownership': ['COMMISSION']},)  
-}} 
+    materialized='view',
+    grants={'ownership': ['COMMISSION']},
+)  }} 
 
 SELECT
     'BMO' as "COMPANY",

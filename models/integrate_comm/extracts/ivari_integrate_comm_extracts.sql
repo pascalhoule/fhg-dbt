@@ -1,9 +1,10 @@
-{{ config(alias='ivari', 
+{{ config(
+    alias='ivari', 
     database='integrate_comm', 
     schema='extracts', 
-    materialization = "view",
-    grants = {'ownership': ['COMMISSION']},)  
-}} 
+    materialized='view',
+    grants={'ownership': ['COMMISSION']},
+) }} 
 
 SELECT
     TRIM("BRANCH CODE") AS BRANCH_CODE,

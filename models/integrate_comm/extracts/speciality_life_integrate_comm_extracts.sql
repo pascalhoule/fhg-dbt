@@ -1,9 +1,10 @@
-{{ config(alias='speciality_life', 
+{{ config(
+    alias='speciality_life', 
     database='integrate_comm', 
     schema='extracts', 
-    materialization = "view",
-    grants = {'ownership': ['COMMISSION']},)  
-}} 
+    materialized='view',
+    grants={'ownership': ['COMMISSION']},
+) }} 
 
 SELECT
     DATE,
