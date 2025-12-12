@@ -1,9 +1,9 @@
-{{ config(alias='canadalife_fh', 
+{{ config(
+    alias='canadalife_fh', 
     database='agt_comm', 
     schema='commission', 
-    materialization = "view"
-)
-}} 
+    materialized="view"
+) }} 
 
 SELECT * FROM {{ ref('canadalife_integrate_comm_extracts') }}
 

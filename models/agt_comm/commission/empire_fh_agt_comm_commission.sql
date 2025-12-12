@@ -1,9 +1,9 @@
-{{ config(alias='empire_fh', 
+{{ config(
+    alias='empire_fh', 
     database='agt_comm', 
     schema='commission', 
-    materialization = "view"
-)
-}} 
+    materialized="view"
+) }} 
 
 SELECT * FROM {{ ref('empire_integrate_comm_extracts') }}
 
