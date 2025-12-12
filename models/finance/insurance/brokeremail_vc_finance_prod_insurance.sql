@@ -2,7 +2,7 @@
     alias = 'brokeremail_vc', 
     database = 'finance', 
     schema = 'insurance', 
-    materialization = "view") }} 
+    materialized = "view") }} 
 
 SELECT
   AGENTCODE, 
