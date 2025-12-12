@@ -1,8 +1,8 @@
 {{ config(
     alias = 'brokercontract_vc', 
     database = 'finance', 
-    schema = 'insurance', 
-    materialization = "view") }} 
+    schema = 'insurance',
+    materialized = 'view') }} 
 
 SELECT
    BROKERCONTRACTCODE, 
