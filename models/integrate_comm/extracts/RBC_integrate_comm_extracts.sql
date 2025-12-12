@@ -1,9 +1,10 @@
-{{ config(alias='rbc', 
+{{ config(
+    alias='rbc', 
     database='integrate_comm', 
     schema='extracts', 
-    materialization = "view",
-    grants = {'ownership': ['COMMISSION']},)  
-}} 
+    materialized='view',
+    grants={'ownership': ['COMMISSION']},
+) }} 
 
 SELECT
     "ADVISOR'S CODE" AS ADVISOR_CODE,

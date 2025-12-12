@@ -1,9 +1,10 @@
-{{ config(alias='sunlife', 
+{{ config(
+    alias='sunlife', 
     database='integrate_comm', 
     schema='extracts', 
-    materialization = "view",
-    grants = {'ownership': ['COMMISSION']},)  
-}} 
+    materialized='view',
+    grants={'ownership': ['COMMISSION']},
+) }} 
 
 SELECT
     'Sunlife' as "COMPANY",
