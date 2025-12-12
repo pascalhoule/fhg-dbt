@@ -1,4 +1,4 @@
-{{  config(alias='taskpriority_vc', database='finance', schema='insurance', materialization = "view")  }} 
+{{  config(alias='taskpriority_vc', database='finance', schema='insurance', materialized = "view")  }} 
 
 SELECT * 
   
