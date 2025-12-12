@@ -1,9 +1,10 @@
-{{ config(alias='ia', 
+{{ config(
+    alias='ia', 
     database='integrate_comm', 
     schema='extracts', 
-    materialization = "view",
-    grants = {'ownership': ['COMMISSION']},)  
-}} 
+    materialized='view',
+    grants={'ownership': ['COMMISSION']},
+) }} 
 
 SELECT
     TRIM(TRANSREFGUID) AS TRANSREFGUID,

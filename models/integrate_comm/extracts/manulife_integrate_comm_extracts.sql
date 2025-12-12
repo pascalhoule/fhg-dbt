@@ -1,10 +1,10 @@
-{{ config(alias='manulife', 
+{{ config(
+    alias='manulife', 
     database='integrate_comm', 
     schema='extracts', 
-    materialization = "view",
-    grants = {'ownership': ['COMMISSION']},)  
-}}
-
+    materialized='view',
+    grants={'ownership': ['COMMISSION']},
+) }}
 
 SELECT
     'Manulife' as "COMPANY",

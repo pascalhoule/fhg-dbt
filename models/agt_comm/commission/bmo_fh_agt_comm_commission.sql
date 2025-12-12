@@ -1,9 +1,9 @@
-{{ config(alias='bmo_fh', 
+{{ config(
+    alias='bmo_fh', 
     database='agt_comm', 
     schema='commission', 
-    materialization = "view"
-)
-}} 
+    materialized="view"
+) }} 
 
 SELECT * FROM {{ ref('bmo_integrate_comm_extracts') }}
 WHERE ("BUSINESS SURNAME" ILIKE '%Horizons%' OR "BUSINESS FIRST NAME" ILIKE '%Horizons%')
