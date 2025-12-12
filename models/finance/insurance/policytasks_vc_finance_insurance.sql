@@ -1,4 +1,4 @@
-{{  config(alias='policytasks_vc', database='finance', schema='insurance', materialization = "view")  }} 
+{{  config(alias='policytasks_vc', database='finance', schema='insurance', materialized = "view")  }} 
 
 SELECT * 
   

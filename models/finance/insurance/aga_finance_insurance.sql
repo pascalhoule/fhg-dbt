@@ -1,4 +1,4 @@
-{{  config(alias='aga', database='finance', schema='insurance', materialization = "view")  }} 
+{{  config(alias='aga', database='finance', schema='insurance', materialized = "view")  }} 
 
 SELECT * 
   
