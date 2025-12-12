@@ -1,7 +1,7 @@
 {{  config(alias='fundproducts_vc', 
     database='finance', 
     schema='investment', 
-    materialization = "view")  }} 
+    materialized = "view")  }} 
 
 SELECT * 
   

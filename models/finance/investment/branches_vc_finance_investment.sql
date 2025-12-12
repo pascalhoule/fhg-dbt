@@ -1,7 +1,7 @@
 {{  config(alias='branches_vc', 
     database='finance', 
     schema='investment', 
-    materialization = "view")  }} 
+    materialized = "view")  }} 
 
 SELECT * 
   
