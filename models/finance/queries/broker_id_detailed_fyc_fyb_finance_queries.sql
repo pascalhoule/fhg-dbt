@@ -3,7 +3,7 @@
     database = 'finance', 
     schema = 'queries', 
     grants = {'ownership': ['FINANCE']},
-    materialization = "view") }} 
+    materialized = "view") }} 
 
 WITH ACCRUAL_COMM_AGT_SPLIT AS (
     SELECT DISTINCT
