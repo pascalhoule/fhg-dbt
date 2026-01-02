@@ -9,7 +9,7 @@ FROM
     {{ ref('__base_seg_aua_for_contest_agt_comm_contest') }} AS AUA
 LEFT JOIN
     {{ ref('representatives_vc_agt_comm_investment') }} AS REP
-    ON AUA.REPCODE = REP.REPRESENTIATIVECODE
+    ON AUA.REPCODE = REP.REPRESENTATIVECODE
 INNER JOIN
     {{ ref('a_dim_agt_comm_contest') }} AS BA
     ON REP.INSAGENTCODE = BA.AGENTCODE
