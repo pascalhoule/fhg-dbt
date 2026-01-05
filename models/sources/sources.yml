@@ -263,6 +263,15 @@ sources:
       - name: ncfmga
       - name: rbc
 
+  - name: norm
+    database: normalize
+    schema: prod_investment
+    tables:
+      - name: carrier_fin_fh
+      - name: region_fin_fh
+     
+     
+
 
      
 
