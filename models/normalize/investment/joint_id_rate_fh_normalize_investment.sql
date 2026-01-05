@@ -31,7 +31,7 @@ SELECT
     LAST_NAME,
     FIRST_NAME,
     REPID,
-    INITIAL_ID,
+    INITIAL_ID AS JOINTID,
     SHARE
 FROM
     {{ ref('representatives_vc_normalize_investment') }} RE
