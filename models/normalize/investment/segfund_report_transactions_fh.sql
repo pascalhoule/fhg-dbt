@@ -29,7 +29,7 @@ SELECT
     NULL AS SF_PROD_TRANSACTION_DATE,
     COMM_DATA.COMMISSION_CHEQUE_DATE AS SEGFUND_REPORT_DATE
 FROM
-    {{ ref('transactions_normalize_investment') }} T
+    {{ ref('__base_transactions_remove_splitcode_normalize_investment') }} T
     JOIN {{ ref('transactiontypes_fh_normalize_investment') }} TT ON T.EXT_TYPE_CODE = TT.TRANSACTIONTYPECODE
     JOIN {{ ref('commissionable_data_summary_extract_transaction_normalize_investment') }} COMM_DATA ON T.CODE = COMM_DATA.TRANSACTION_CODE
 WHERE
@@ -62,7 +62,7 @@ SELECT
     SF_PROD.TRANSACTION_DATE,
     SF_PROD.TRANSACTION_DATE AS SEGFUND_REPORT_DATE
 FROM
-    {{ ref('transactions_normalize_investment') }} T
+    {{ ref('__base_transactions_remove_splitcode_normalize_investment') }} T
     JOIN {{ ref('segfund_production_report_transaction_normalize_investment') }} SF_PROD ON T.CODE = SF_PROD.TRANSACTION_ID
 GROUP BY
     ALL
