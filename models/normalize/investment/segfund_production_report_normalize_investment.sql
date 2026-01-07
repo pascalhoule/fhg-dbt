@@ -7,71 +7,88 @@
     )			
 }}
 
-
 WITH T1 AS (
     SELECT
-        TRANS.CODE,
-        REP.LAST_NAME,
-        REP.FIRST_NAME,
-        FA.ACCOUNTTYPE AS PLAN_TYPE,
-        SPONSOR.NAME AS SPONSOR_NAME,
-        FPROD.FUNDID,
-        FPROD.LOADTYPE AS LOAD_TYPE,
-        TRANS.TRADE_DATE::DATE AS TRANSACTION_DATE,
-        TRANS.TRANSACTION_TYPE AS TRANSACTION_STATUS_CODE,
-        STAT.MAPPEDTRANSACTIONSTATUS AS TRANSACTION_STATUS,
-        T_TYPE.TRANSACTIONTYPENAME AS TRANSACTION_TYPE,
-        TRANS.AMOUNT * T_TYPE.DBSIGN AS TRANSACTION_AMOUNT
-    FROM {{ ref('transactions_clean_investment') }} AS TRANS
-    INNER JOIN
-        {{ ref('transactiontypes_fh_normalize_investment') }} AS T_TYPE
-        ON TRANS.EXT_TYPE_CODE = T_TYPE.TRANSACTIONTYPECODE
-    INNER JOIN
-        {{ ref('representatives_vc_clean_investment') }} AS REP
-        ON TRANS.REP_CODE = REP.REPRESENTIATIVECODE
-    INNER JOIN
-        {{ ref('fundaccount_vc_clean_investment') }} AS FA
-        ON TRANS.FUNDACCOUNT_CODE = FA.FUNDACCOUNTCODE
-    INNER JOIN
-        {{ ref('fundproducts_vc_clean_investment') }} AS FPROD
-        ON FA.FUNDPRODUCT_CODE = FPROD.FUNDPRODUCTCODE
-    INNER JOIN
-        {{ ref('sponsors_vc_clean_investment') }} AS SPONSOR
-        ON FPROD.SPONSORID = SPONSOR.SPONSORID
-    INNER JOIN
-        {{ ref('transactionstatus_clean_investment') }} AS STAT
-        ON TRANS.TRANSACTION_FLAG = STAT.TRANSACTIONFLAG
-    WHERE EXT_TYPE_CODE IN ('308', '314', '315', '316', '429', '378')
+        CASE
+            WHEN J.REPID IS NOT NULL THEN J.REPID
+            ELSE S.REP_ID
+        END AS BROKER_ID,
+        REP AS BROKER_NAME,
+        CLIENT,
+        ACCOUNT_NUMBER,
+        BRANCH_NAME,
+        SUB_REGION,
+        PLAN_TYPE,
+        SPONSOR_NAME,
+        FUNDID,
+        FUNDNAME,
+        LOAD_TYPE,
+        TRANSACTION_DATE,
+        TRANSACTION_STATUS_CODE,
+        TRANSACTION_STATUS,
+        TRANSACTION_TYPE,
+        TRANSACTION_AMOUNT,
+        NET_COMMISSION
+    FROM
+        {{ ref('segfund_production_report_transaction_normalize_investment') }} S
+        LEFT JOIN {{ ref('joint_id_rate_fh_normalize_investment') }} J ON S.REP_ID = J.JOINTID
+        AND REP = CONCAT(J.LAST_NAME, ' ', J.FIRST_NAME)
+),
+T2 AS (
+    SELECT
+        BROKER_ID,
+        BROKER_NAME,
+        ACCOUNT_NUMBER,
+        BRANCH_NAME,
+        REPLACE(SUB_REGION, 'LOC Brokers', '') AS BRANCH,
+        0 AS TOTAL_FYC,
+        0 AS BROKER_FYC,
+        0 AS BRANCH_REVENUE,
+        0 AS REGION_REVENUE,
+        PLAN_TYPE,
+        CARRI.CARRIER_DATABASE_NAME AS CARRIER,
+        FUNDID,
+        FUNDNAME,
+        LOAD_TYPE AS BLUE_SUN_LOAD_TYPE,
+        'No Load' AS MY_LOAD_TYPE,
+        'Actual' AS LEDGER,
+        'WS Investments' AS SOURCE,
+        'FY Commission' AS TRANS_TYPE,
+        NULL AS SUB_BRANCH,
+        YEAR(TRANSACTION_DATE) AS TRANSACTION_YEAR,
+        MONTH(TRANSACTION_DATE) AS TRANSACTION_MONTH,
+        TRANSACTION_STATUS_CODE,
+        TRANSACTION_STATUS,
+        TRANSACTION_TYPE,
+        TRANSACTION_AMOUNT AS Deposit,
+        NET_COMMISSION
+    FROM
+        T1
+        JOIN {{ source('norm', 'carrier_fin_fh') }} AS CARRI ON UPPER(CARRI.SPONSORNAME) = UPPER(T1.SPONSOR_NAME)
 )
-
 SELECT
-    T1.CODE,
-    T1.LAST_NAME,
-    T1.FIRST_NAME,
-    BCH.NAME AS BRANCH_NAME,
-    REG.NAME AS SUB_REGION,
-    PLAN_TYPE,
-    SPONSOR_NAME,
+    BROKER_ID,
+    BROKER_NAME,
+    T2.BRANCH AS BRANCH,
+    SUB_BRANCH,
+    SF_REG.REGION AS REGION,
+    TRANS_TYPE,
+    CARRIER,
+    BROKER_FYC,
+    BRANCH_REVENUE,
+    REGION_REVENUE,
+    TOTAL_FYC,
+    TRANSACTION_YEAR,
+    TRANSACTION_MONTH,
+    ACCOUNT_NUMBER,
     FUNDID,
-    LOAD_TYPE,
-    TRANSACTION_DATE,
-    TRANSACTION_STATUS_CODE,
-    TRANSACTION_STATUS,
-    TRANSACTION_TYPE,
-    T_VC.AMOUNT * T_TYPE.DBSIGN AS TRANSACTION_AMOUNT
-FROM T1
-INNER JOIN
-    {{ ref('__base_trans_remove_splitcode_normalize_investment') }} AS T_VC
-    ON T1.CODE = T_VC.TRANSACTIONCODE
-INNER JOIN
-    {{ ref('transactiontypes_fh_normalize_investment') }} AS T_TYPE
-    ON T_VC.TRANSACTIONTYPECODE = T_TYPE.TRANSACTIONTYPECODE
-INNER JOIN
-    {{ ref('representatives_vc_clean_investment') }} AS REP
-    ON T_VC.TRANSACTIONREPCODE = REP.REPRESENTIATIVECODE
-INNER JOIN
-    {{ ref('branches_vc_clean_investment') }} AS BCH
-    ON BCH.CODE = REP.BRANCH_CODE
-INNER JOIN
-    {{ ref('region_vc_clean_investment') }} AS REG
-    ON BCH.SUBREGIONCODE = REG.SUBREGIONCODE
+    FUNDNAME,
+    DEPOSIT,
+    BLUE_SUN_LOAD_TYPE,
+    MY_LOAD_TYPE,
+    SOURCE,
+    LEDGER
+FROM
+    T2
+    LEFT JOIN {{ source('norm', 'region_fin_fh') }} AS SF_REG ON TRIM(SF_REG.BRANCH) = TRIM(T2.BRANCH)
+
