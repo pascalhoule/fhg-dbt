@@ -14,7 +14,6 @@ WITH T1 AS (
             ELSE S.REP_ID
         END AS BROKER_ID,
         REP AS BROKER_NAME,
-        CLIENT,
         ACCOUNT_NUMBER,
         BRANCH_NAME,
         SUB_REGION,
@@ -30,7 +29,7 @@ WITH T1 AS (
         TRANSACTION_AMOUNT,
         NET_COMMISSION
     FROM
-        {{ ref('segfund_production_report_transaction_normalize_investment') }} S
+        {{ ref('__base_sf_prod_transactions_normalize_investment') }} S
         LEFT JOIN {{ ref('joint_id_rate_fh_normalize_investment') }} J ON S.REP_ID = J.JOINTID
         AND REP = CONCAT(J.LAST_NAME, ' ', J.FIRST_NAME)
 ),
@@ -64,7 +63,7 @@ T2 AS (
         NET_COMMISSION
     FROM
         T1
-        JOIN {{ source('norm', 'carrier_fin_fh') }} AS CARRI ON UPPER(CARRI.SPONSORNAME) = UPPER(T1.SPONSOR_NAME)
+        JOIN {{ source('norm', 'carrier_fin_fh') }} AS CARRI ON UPPER(CARRI.SPONSOR_NAME) = UPPER(T1.SPONSOR_NAME)
 )
 SELECT
     BROKER_ID,
