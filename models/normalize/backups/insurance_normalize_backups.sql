@@ -2,6 +2,7 @@
     alias='insurance', 
     database='normalize', 
     schema='backups', 
-    materialized = "table")  }} 
+    materialized = "table",
+    transient = false)  }} 
 
 select * from {{ source('finance', 'insurance') }}
