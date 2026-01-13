@@ -1,9 +1,10 @@
-{{ config(alias='canadalife', 
+{{ config(
+    alias='canadalife', 
     database='integrate_comm', 
     schema='extracts', 
-    materialization = "view",
-    grants = {'ownership': ['COMMISSION']},)  
-}} 
+    materialized='view',
+    grants={'ownership': ['COMMISSION']},
+) }} 
 
 SELECT
     'Canadalife' as "COMPANY",
@@ -68,12 +69,12 @@ SELECT
     END AS "BUSINESS SURNAME",
     DATE("PROCESSED DATE") AS "PROCESSED DATE",
     CASE
-        WHEN LEFT("COMMISSION TYPE", POSITION(' ' in "COMMISSION TYPE") - 1) IN ('FYC', 'FOV') THEN 'First Year'
-        WHEN LEFT("COMMISSION TYPE", POSITION(' ' in "COMMISSION TYPE") - 1) IN ('REN', 'ROV') THEN 'Renewal'
-        WHEN LEFT("COMMISSION TYPE", POSITION(' ' in "COMMISSION TYPE") - 1) IN ('DEB') THEN 'Debt'
-        WHEN LEFT("COMMISSION TYPE", POSITION(' ' in "COMMISSION TYPE") - 1) IN ('MSC') THEN 'Other'
+        WHEN TRIM("COMMISSION TYPE") IN ('FYC', 'FOV') THEN 'First Year'
+        WHEN TRIM("COMMISSION TYPE") IN ('REN', 'ROV') THEN 'Renewal'
+        WHEN TRIM("COMMISSION TYPE") IN ('DEB') THEN 'Debt'
+        WHEN TRIM("COMMISSION TYPE") IN ('MSC') THEN 'Other'
         ELSE 'N/A'
-    END AS "COMMISSION TAG",   
+    END AS "COMMISSION TAG",  
     FH_FILENAME, 
     FH_TIMESTAMP
 FROM {{ source('ren_comm', 'canadalife') }}

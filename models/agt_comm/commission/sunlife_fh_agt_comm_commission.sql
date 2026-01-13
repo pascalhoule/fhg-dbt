@@ -1,9 +1,9 @@
-{{ config(alias='sunlife_fh', 
+{{ config(
+    alias='sunlife_fh', 
     database='agt_comm', 
     schema='commission', 
-    materialization = "view"
-    ) 
-}} 
+    materialized="view"
+) }} 
 
 SELECT * FROM {{ ref('sunlife_integrate_comm_extracts') }}
 

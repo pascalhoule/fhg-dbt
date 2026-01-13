@@ -68,4 +68,4 @@ SELECT
     T.*
 FROM
     JOINT_REP_CODES_REPLACED T
-    JOIN {{ ref ('representatives_vc_agt_comm_investment') }} REP ON T.TRANSACTIONREPCODE = REP.REPRESENTIATIVECODE
+    JOIN {{ ref ('representatives_vc_agt_comm_investment') }} REP ON T.TRANSACTIONREPCODE = REP.REPRESENTATIVECODE

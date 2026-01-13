@@ -1,9 +1,9 @@
-{{ config(alias='manulife_fh', 
+{{ config(
+    alias='manulife_fh', 
     database='agt_comm', 
     schema='commission', 
-    materialization = "view" 
-)
-}} 
+    materialized="view" 
+) }} 
 
 SELECT 
 

@@ -38,37 +38,37 @@ models:
   financial_horizons:
     # Applies to all files under models/example/
     analyze:
-      materialized: view
-      copy_grants: true
+      +materialized: view
+      +copy_grants: true
     applications:
-      materialized: table
-      copy_grants: true
+      +materialized: table
+      +copy_grants: true
     clean:
-      materialized: table
+      +materialized: table
     clean_insurance_secure:
-      copy_grants: true
-      materialized: view
-      secure: true
+      +copy_grants: true
+      +materialized: view
+      +secure: true
     finance:
-      materialized: view
-      copy_grants: true
+      +materialized: view
+      +copy_grants: true
     integrate:
-      materialized: view
-      copy_grants: true
+      +materialized: view
+      +copy_grants: true
     normalize:
-      materialized: view
-      copy_grants: true
+      +materialized: view
+      +copy_grants: true
     report:
-      materialized: view
-      copy_grants: true
+      +materialized: view
+      +copy_grants: true
     agt_comm:
-      materialized: view
-      copy_grants: true
+      +materialized: view
+      +copy_grants: true
     report_cl:
-      materialized: view
-      copy_grants: true
+      +materialized: view
+      +copy_grants: true
     salesforce:
-      materialized: table
-      copy_grants: true
+      +materialized: table
+      +copy_grants: true
     
 

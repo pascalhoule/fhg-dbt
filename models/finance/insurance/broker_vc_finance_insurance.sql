@@ -1,4 +1,4 @@
-{{  config(alias='broker_vc', database='finance', schema='insurance', materialization = "view")  }} 
+{{  config(alias='broker_vc', database='finance', schema='insurance', materialized = "view")  }} 
 
 SELECT
     B.PARENTNODEID,

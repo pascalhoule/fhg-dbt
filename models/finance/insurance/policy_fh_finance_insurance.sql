@@ -2,7 +2,7 @@
     alias = 'policy_fh', 
     database = 'finance', 
     schema = 'insurance', 
-    materialization = "view") }} 
+    materialized = "view") }} 
 
 SELECT
   *

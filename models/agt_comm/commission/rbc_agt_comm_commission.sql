@@ -1,8 +1,8 @@
-{{ config(alias='rbc', 
+{{ config(
+    alias='rbc', 
     database='agt_comm', 
     schema='commission', 
-    materialization = "view"
-    ) 
-}} 
+    materialized="view"
+) }} 
 
 SELECT * FROM {{ ref('RBC_integrate_comm_extracts') }}

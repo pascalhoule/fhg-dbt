@@ -1,7 +1,7 @@
 {{  config(alias='transactions', 
     database='finance', 
     schema='investment', 
-    materialization = "view")  }} 
+    materialized = "view")  }} 
 
 SELECT * 
   

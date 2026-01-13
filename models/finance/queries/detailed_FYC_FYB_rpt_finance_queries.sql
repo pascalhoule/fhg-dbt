@@ -1,7 +1,7 @@
 {{  config(alias='detailed_FYC_FYB_rpt', 
     database='finance', 
     schema='queries',
-    materialization = "view")  }} 
+    materialized = "view")  }} 
 
 SELECT
     ACCURALCODE AS ACCRUALCODE,

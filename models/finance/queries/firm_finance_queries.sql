@@ -1,7 +1,7 @@
 {{  config(alias='firm', 
 database='finance', 
 schema='queries', 
-materialization = "view")  }} 
+materialized = "view")  }} 
 
 WITH FF55_MAP AS (
         SELECT

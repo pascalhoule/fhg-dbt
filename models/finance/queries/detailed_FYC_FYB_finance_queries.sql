@@ -1,4 +1,4 @@
-{{  config(alias='detailed_FYC_FYB', database='finance', schema='queries', materialization = "view")  }} 
+{{  config(alias='detailed_FYC_FYB', database='finance', schema='queries', materialized = "view")  }} 
 
 WITH MOST_DATA AS (
         SELECT

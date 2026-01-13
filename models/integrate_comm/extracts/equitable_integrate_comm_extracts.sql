@@ -1,9 +1,10 @@
-{{ config(alias='equitable', 
+{{ config(
+    alias='equitable', 
     database='integrate_comm', 
     schema='extracts', 
-    materialization = "view",
-    grants = {'ownership': ['COMMISSION']},)  
-}} 
+    materialized='view',
+    grants={'ownership': ['COMMISSION']},
+) }} 
 
 SELECT
     TRIM(MGA) AS MGA, 
