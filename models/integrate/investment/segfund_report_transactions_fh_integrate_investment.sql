@@ -4,4 +4,4 @@
     schema='investment')  
 }} 
 
-SELECT * FROM {{ ref('segfund_report_transactions_fh') }}
+SELECT * FROM {{ ref('segfund_report_transactions_fh_normalize_investment') }}

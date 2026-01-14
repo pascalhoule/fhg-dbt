@@ -27,7 +27,8 @@ SELECT
     COMM_DATA.INVESTMENT_AMOUNT AS COMM_DATA_INVESTMENT_AMOUNT_FH,
     COMM_DATA.COMMISSION_CHEQUE_DATE AS COMMISSION_CHEQUE_DATE_FH,
     NULL AS SF_PROD_TRANSACTION_DATE_FH,
-    COMM_DATA.COMMISSION_CHEQUE_DATE AS SEGFUND_REPORT_DATE_FH
+    COMM_DATA.COMMISSION_CHEQUE_DATE AS SEGFUND_REPORT_DATE_FH,
+    'DEPOSIT' AS FINANCE_CATEGORY_FH
 FROM
     {{ ref('__base_transactions_remove_splitcode_normalize_investment') }} T
     JOIN {{ ref('transactiontypes_fh_normalize_investment') }} TT ON T.EXT_TYPE_CODE = TT.TRANSACTIONTYPECODE
@@ -60,9 +61,58 @@ SELECT
     NULL AS COMM_DATA_INVESTMENT_AMOUNT_FH,
     NULL AS COMMISSION_CHEQUE_DATE_FH,
     SF_PROD.TRANSACTION_DATE AS SF_PROD_TRANSACTION_DATE_FH,
-    SF_PROD.TRANSACTION_DATE AS SEGFUND_REPORT_DATE_FH
+    SF_PROD.TRANSACTION_DATE AS SEGFUND_REPORT_DATE_FH,
+    'DEPOSIT' AS FINANCE_CATEGORY_FH
 FROM
     {{ ref('__base_transactions_remove_splitcode_normalize_investment') }} T
     JOIN {{ ref('segfund_production_report_transaction_normalize_investment') }} SF_PROD ON T.CODE = SF_PROD.TRANSACTION_ID
 GROUP BY
     ALL
+UNION
+SELECT
+    CODE AS TRANSACTIONCODE,
+    FUNDACCOUNT_CODE AS FUNDACCOUNT_CODE,
+    SOURCE_NUMBER AS SOURCE_NUMBER,
+    REP_CODE AS TRANSACTIONREPCODE,
+    NULL AS CLIENTREPCODE,
+    SETLEMENT_DATE AS SETTLEMENTDATE,
+    TRADE_DATE AS TRADEDATE,
+    SHARES_UNITS AS SHARES_UNITS,
+    UNIT_PRICE AS UNIT_PRICE,
+    AMOUNT AS AMOUNT,
+    NET_AMOUNT AS NETAMOUNT,
+    DEALER_COMMISSION AS GROSSCOMMISSION,
+    DEPOSIT_DATE AS DEPOSIT_DATE,
+    CURRENCYNAME AS CURRENCYNAME,
+    PAYMENT_STATUS AS PAYMENTSTATUS,
+    EXT_TYPE_CODE AS TRANSACTIONTYPECODE,
+    FUNDPRODUCT_CODE AS FUNDPRODUCTCODE,
+    MANUALENTRYFLAG AS MANUALENTRYFLAG,
+    ENTEREDBY AS ENTEREDBYUSERID,
+    NULL AS COMM_DATA_INVESTMENT_AMOUNT_FH,
+    NULL AS COMMISSION_CHEQUE_DATE_FH,
+    NULL AS SF_PROD_TRANSACTION_DATE_FH,
+    TRADE_DATE::date AS SEGFUND_REPORT_DATE_FH,
+    'WITHDRAWAL' AS FINANCE_CATEGORY_FH
+FROM
+    {{ ref('__base_transactions_remove_splitcode_normalize_investment') }}  T 
+    JOIN {{ ref('transactiontypes_fh_normalize_investment') }} tt ON t.EXT_TYPE_CODE = tt.TRANSACTIONTYPECODE
+WHERE TRANSACTIONTYPENAME IN 
+    ('Fee Charge',
+    'Fee Redemption',
+    'Forced Redemption',
+    'Minimum Mandatory Income Plan Redemption',
+    'Product Specific SWP/AWD',
+    'QESI Clawback Redemption',
+    'Redeem Non Wire',
+    'Redeem S.W.P.',
+    'Redeem Wire',
+    'Redemption - Reversal',
+    'Redemption Management Fee Rebate Adjustment',
+    'Redemption of Top-up Purchase',
+    'RESP/RDSP Clawback Redemption',
+    'Seg. Guarantee Maturity Redemption',
+    'Segregated Fund Death Redemption',
+    'Sell',
+    'Withdrawal') 
+AND PAYMENT_STATUS = 0
