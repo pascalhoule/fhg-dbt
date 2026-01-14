@@ -58,13 +58,13 @@
         MANUALENTRYFLAG,
         ENTEREDBY,
         APPROVAL_DATE,
-        APPROVAL_BY
-       
+        APPROVAL_BY  
     FROM
         {{ ref('transactions_normalize_investment') }} t
         LEFT JOIN {{ ref('jointrepresentatives_vc_normalize_investment') }} JREP ON T.REP_CODE = JREP.JOINTREPRESENTATIVECODE
     WHERE
         JREP.SHARE IS NULL
+   
 
 
   
