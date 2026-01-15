@@ -19,6 +19,7 @@
         AMOUNT * (JREP.SHARE / 100) AS AMOUNT,
         JREP.SHARE,
         SETTLEMENTAMOUNT * (JREP.SHARE / 100) AS SETTLEMENTAMOUNT,
+        NET_AMOUNT * (JREP.SHARE / 100) AS NET_AMOUNT,
         DEALER_COMMISSION,
         DEPOSIT_DATE,
         CURRENCYNAME,
@@ -47,6 +48,7 @@
         AMOUNT,
         JREP.SHARE,
         SETTLEMENTAMOUNT,
+        NET_AMOUNT,
         DEALER_COMMISSION,
         DEPOSIT_DATE,
         CURRENCYNAME,
@@ -56,13 +58,13 @@
         MANUALENTRYFLAG,
         ENTEREDBY,
         APPROVAL_DATE,
-        APPROVAL_BY
-       
+        APPROVAL_BY  
     FROM
         {{ ref('transactions_normalize_investment') }} t
         LEFT JOIN {{ ref('jointrepresentatives_vc_normalize_investment') }} JREP ON T.REP_CODE = JREP.JOINTREPRESENTATIVECODE
     WHERE
         JREP.SHARE IS NULL
+   
 
 
   
