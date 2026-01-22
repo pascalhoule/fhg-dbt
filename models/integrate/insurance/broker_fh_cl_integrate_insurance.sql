@@ -137,15 +137,19 @@ ORIGINAL AS (
 
 
 
+
+
 TAGGED AS (
     SELECT
         AGENTCODE,
         CASE
-            WHEN SUM(CASE WHEN Source = 'FH' THEN 1 ELSE 0 END) > 0
-             AND SUM(CASE WHEN Source = 'CL Direct' THEN 1 ELSE 0 END) > 0 THEN 'FH + CL Direct'
-            WHEN SUM(CASE WHEN Source = 'FH' THEN 1 ELSE 0 END) > 0 THEN 'FH Only'
-            WHEN SUM(CASE WHEN Source = 'CL Direct' THEN 1 ELSE 0 END) > 0 THEN 'CL Direct Only'
-            ELSE NULL
+            WHEN MAX(
+                COALESCE(
+                    NULLIF(REGEXP_REPLACE(USERDEFINED2, '^FH', ''), '-'),
+                    CL_Advisor_Group_Identifier
+                )
+            ) LIKE 'U%' THEN 'CL Direct Only'
+            ELSE 'FH Only'
         END AS Advisor_Type_Tag
     FROM ORIGINAL
     GROUP BY AGENTCODE
@@ -217,7 +221,7 @@ SELECT
         )
     ELSE INITCAP(COALESCE(O.AGENTNAME, CONCAT(INITCAP(TRIM(A.FIRSTNAME)), ' ', INITCAP(TRIM(A.LASTNAME)))))
     END AS AGENTNAME,
-    CL_Advisor_Group_Identifier,
+    O.CL_Advisor_Group_Identifier,
     COMPANYNAME,
     MGACODE,
     AGACODE,
@@ -233,7 +237,7 @@ SELECT
     LASTMODIFIEDDATE,
     O.USERDEFINED2,
     COALESCE(
-    NULLIF(REGEXP_REPLACE(O.USERDEFINED2, '^FH', ''), '-'),CL_Advisor_Group_Identifier) AS SuperUID,
+    NULLIF(REGEXP_REPLACE(O.USERDEFINED2, '^FH', ''), '-'),O.CL_Advisor_Group_Identifier) AS SuperUID,
     EMAIL,
     CASLAPPROVED,
     SEGMENTA,
