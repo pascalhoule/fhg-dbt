@@ -45,10 +45,10 @@ SELECT
         ELSE TRIM("BUS. REPORTING NAME")
     END AS "BUSINESS SURNAME",    
     CASE
-    	WHEN LEFT("COMM. TYPE", POSITION(' ' in "COMM. TYPE") - 1) IN ('FYC', 'FOV') THEN 'First Year' 
-	WHEN LEFT("COMM. TYPE", POSITION(' ' in "COMM. TYPE") - 1) IN ('REN', 'ROV') THEN 'Renewal'
-	WHEN LEFT("COMM. TYPE", POSITION(' ' in "COMM. TYPE") - 1) IN ('DEB') THEN 'Debt'
-    	WHEN LEFT("COMM. TYPE", POSITION(' ' in "COMM. TYPE") - 1) IN ('MSC') THEN 'Other'
+    	WHEN LEFT("COMM. TYPE", 3) IN ('FYC', 'FOV') THEN 'First Year' 
+	    WHEN LEFT("COMM. TYPE", 3) IN ('REN', 'ROV') THEN 'Renewal'
+	    WHEN LEFT("COMM. TYPE", 3) IN ('DEB') THEN 'Debt'
+    	WHEN LEFT("COMM. TYPE", 3) IN ('MSC') THEN 'Other'
         ELSE 'N/A'
     END AS "COMMISSION TAG",
     FH_FILENAME, 
