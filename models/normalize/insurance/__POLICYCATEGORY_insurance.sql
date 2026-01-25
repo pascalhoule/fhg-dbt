@@ -1,4 +1,8 @@
-{{  config(alias='__policycategory', database='normalize', schema='insurance', tags=["policy_fh"])  }} 
+{{  config(alias='__policycategory', 
+    database='normalize', 
+    schema='insurance', 
+    materialized = 'table',
+    tags=["policy_fh"])  }} 
 
 WITH 
     LIST_FOR_SERVICE AS (
@@ -12,7 +16,7 @@ WITH
             'SERVICE' AS POLICYCATEGORY,
             SUM(POL_VC.APPCOUNT) AS APPCOUNT
         from
-             {{ ref ('policy_vc_clean_insurance') }} POL_VC
+             {{ source('insurance_curated', 'policy_vc') }} POL_VC
         where
             POL_VC.PLANTYPE IN (
                 'CI',
@@ -85,6 +89,35 @@ WITH
             SUM(POL_VC.APPCOUNT) > 0
             AND POL_VC.APPLICATIONDATE >= '1990-01-01'
     ),
+    POL_FYC AS -- need to change this to use the accounting view for payments.  
+    (SELECT 
+    POLICY_NUMBER AS POLICYNUMBER,
+    SUM(TOTAL_FYC) AS POLICY_TOTAL_FYCAMOUNT    
+    FROM {{ ref('detailed_FYC_FYB_finance_queries') }}
+    WHERE
+            PLANCATEGORY IN (
+                'CI',
+                'DI',
+                'Life',
+                'Permanent',
+                'Term',
+                'UL',
+                'LTC',
+                'Health',
+                'HealthSickness',
+                'SERVICE',
+                'Travel',
+                'WL'
+            )
+    GROUP BY 1),
+    FINAL_LIST_FOR_SERVICE AS
+    (
+        SELECT 
+        LIST_FOR_SERVICE.*
+        FROM LIST_FOR_SERVICE LEFT JOIN POL_FYC ON LIST_FOR_SERVICE.POLICYNUMBER = POL_FYC.POLICYNUMBER
+        WHERE ROUND(POL_FYC.POLICY_TOTAL_FYCAMOUNT,2) = 0  --cases where total commission = 0 in spite of what the policy header record says
+        OR POL_FYC.POLICYNUMBER is null                    --cases where the policy is not in the finance data at all.
+    ),
     LIST_NEW_POL AS (
         SELECT
             POL.POLICYNUMBER,
@@ -136,12 +169,12 @@ WITH
             ISMAINCOVERAGE,
             MAPPING_BASE.POLICYGROUPCODE,
             CASE
-                WHEN LIST_FOR_SERVICE.POLICYCATEGORY = 'SERVICE' THEN 'SERVICE'
+                WHEN FINAL_LIST_FOR_SERVICE.POLICYCATEGORY = 'SERVICE' THEN 'SERVICE'
                 ELSE MAPPING_BASE.POLICYCATEGORY
             END AS POLICYCATEGORY
         from
             MAPPING_BASE
-            LEFT JOIN LIST_FOR_SERVICE ON MAPPING_BASE.POLICYNUMBER = LIST_FOR_SERVICE.POLICYNUMBER
+            LEFT JOIN FINAL_LIST_FOR_SERVICE ON MAPPING_BASE.POLICYNUMBER = FINAL_LIST_FOR_SERVICE.POLICYNUMBER
     ),
     MAPPING_BASE_W_ALL_POLICYCATEGORIES AS (
         SELECT
