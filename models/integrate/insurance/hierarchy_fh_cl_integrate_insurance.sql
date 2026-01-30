@@ -25,7 +25,7 @@ SELECT
   REGION,
   MARKET,
   LOCATION,
-  INITCAP(FIRM)
+  INITCAP(FIRM) AS FIRM
 FROM {{ ref('hierarchy_fh_integrate_insurance') }}
 
 UNION
