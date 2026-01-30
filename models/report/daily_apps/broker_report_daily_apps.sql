@@ -45,7 +45,8 @@ SELECT
     TRANSFERRINGOUT,
     COS_SALES_BDC,
     COS_SALES_BDD,
-    COS_SALES_RVP
+    COS_SALES_RVP,
+    BDA_DISPLAY
 FROM
     {{ ref('broker_fh_cl_report_insurance') }}
 GROUP BY ALL
