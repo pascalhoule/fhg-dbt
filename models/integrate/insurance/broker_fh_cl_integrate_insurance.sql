@@ -49,7 +49,6 @@ ORIGINAL AS (
         COS_SALES_RSC,
         COS_SALES_BDC,
         COS_SALES_BDD,
-        CAST (Null as varchar) as COS_SALES_BDA,
         COS_SALES_SVP,
         COS_SALES_RVP,
         COS_SALES_VP,
@@ -114,7 +113,6 @@ ORIGINAL AS (
         CAST(NULL AS VARCHAR) AS COS_SALES_RSC,
         CAST(COS_BDC AS VARCHAR) AS COS_SALES_BDC,
         CAST(COS_BDD AS VARCHAR) AS COS_SALES_BDD,
-        CAST(COS_BDA AS VARCHAR) AS COS_SALES_BDA,
         CAST(Null AS VARCHAR) AS COS_SALES_SVP,
         CAST(COS_RVP AS VARCHAR) AS COS_SALES_RVP,
         CAST(NULL AS VARCHAR) AS COS_SALES_VP,
@@ -255,7 +253,6 @@ SELECT
     INITCAP(COS_SALES_RSC) AS COS_SALES_RSC,
     INITCAP(COS_SALES_BDC) AS COS_SALES_BDC,
     INITCAP(COS_SALES_BDD) AS COS_SALES_BDD,
-    INITCAP(COS_SALES_BDA) AS COS_SALES_BDA,
     INITCAP(COS_SALES_SVP) AS COS_SALES_SVP,
     INITCAP(COS_SALES_RVP) AS COS_SALES_RVP,
     INITCAP(COS_SALES_VP) AS COS_SALES_VP,
@@ -272,23 +269,6 @@ SELECT
     INITCAP(COS_SALES_WS) AS COS_SALES_WS,
     INITCAP(COS_OPS_RMO) AS COS_OPS_RMO,
     INITCAP(COS_CONTRACT_RMCC) AS COS_CONTRACT_RMCC,
-    
-
-    
-    /* Prefer BDC; if BDC is unusable ('-', '', NULL), fallback to BDA — only for Segment C */
-    CASE
-        WHEN O.SEGMENTTAGWS = 'Segment C' THEN
-            COALESCE(
-                -- Normalize BDC: trim/initcap and nullify literal '-'
-                NULLIF(REGEXP_REPLACE(TRIM(INITCAP(O.COS_SALES_BDC)), '^-$', ''), ''),
-                -- Fallback to normalized BDA
-                NULLIF(REGEXP_REPLACE(TRIM(INITCAP(O.COS_SALES_BDA)), '^-$', ''), '')
-            )
-        ELSE NULL
-    END AS BDA_DISPLAY,
-
-
-
     T.Advisor_Type_Tag
 FROM
     ORIGINAL O
