@@ -25,7 +25,7 @@ SELECT
   REGION,
   MARKET,
   LOCATION,
-  FIRM
+  INITCAP(FIRM) AS FIRM
 FROM {{ ref('hierarchy_fh_integrate_insurance') }}
 
 UNION
@@ -85,7 +85,7 @@ CASE
     WHEN LOCATION  = '-' THEN ''
     ELSE LOCATION 
   END AS LOCATION,
-  FIRM AS FIRM  
+  INITCAP(FIRM) AS FIRM  
 FROM {{ source('ac_direct_current', 'acdirect_info_current') }}  
 
 

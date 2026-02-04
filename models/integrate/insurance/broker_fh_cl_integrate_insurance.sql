@@ -78,7 +78,7 @@ ORIGINAL AS (
         CAST(AGENTNAME AS VARCHAR) AS AGENTNAME,
         CL_Advisor_Group_Identifier,
         CAST (Null as varchar) as SuperUID,
-        CAST(COMPANYNAME AS VARCHAR) AS COMPANYNAME,
+        INITCAP(CAST(COMPANYNAME AS VARCHAR) )AS COMPANYNAME,
         CAST(NULL AS Number) AS MGACODE,
         CAST(NULL AS Number) AS AGACODE,
         CAST(NULL AS timestamp) AS DATEOFBIRTH,

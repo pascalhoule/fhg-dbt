@@ -19,6 +19,13 @@ UNION
 SELECT
 CAST(agentcode AS VARCHAR) AS agentcode, 
 TELEPHONETYPE AS TYPE,
-PHONENUMBER AS number
+
+CONCAT(
+    SUBSTR(REGEXP_REPLACE(PHONENUMBER, '[^0-9]', ''), 1, 3), ' ',
+    SUBSTR(REGEXP_REPLACE(PHONENUMBER, '[^0-9]', ''), 4, 3), ' ',
+    SUBSTR(REGEXP_REPLACE(PHONENUMBER, '[^0-9]', ''), 7, 4)
+) AS number
+
+--PHONENUMBER AS number
 from
     {{ source('ac_direct_current', 'acdirect_info_current') }} 
