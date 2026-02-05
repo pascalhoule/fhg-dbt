@@ -228,7 +228,7 @@ sources:
       - name: daily_insurance_acdirect
       - name: daily_insurance_ac_direct_agreement
 
-  - name: task
+  - name: task_insurance
     database: fh_prod
     schema: WEALTHSERV_INS_ODS_CURRENT_SECURE
     tables:
