@@ -228,6 +228,12 @@ sources:
       - name: daily_insurance_acdirect
       - name: daily_insurance_ac_direct_agreement
 
+  - name: task_insurance
+    database: fh_prod
+    schema: WEALTHSERV_INS_ODS_CURRENT_SECURE
+    tables:
+      - name: task
+
   - name: rls_users
     database: report
     schema: prod_rls
