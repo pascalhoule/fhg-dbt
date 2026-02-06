@@ -151,6 +151,7 @@ sources:
       - name: constants
       - name: beneficiaries
       - name: accountholder
+      - name: product_class
       
   - name: investment_raw
     database: fh_prod
