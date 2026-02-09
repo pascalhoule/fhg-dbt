@@ -41,7 +41,7 @@ inner join {{ ref ('fundaccount_normalize_investment_consultant')  }} fa on fa.i
 
 -- inner join {{ ref ('registration_integrate_investment')  }} reg on reg.code = fa.registration_code
 -- inner join {{ ref ('clients_integrate_investment')  }} cl on cl.code = reg.kyc_code
-left join {{ ref ('fund_products_integrate_investment')  }} fp on fp.investment_fund_products_code = fa.investment_fundaccount_fundproduct_code
+left join {{ ref ('fund_products_integrate_investment_consultant')  }} fp on fp.investment_fund_products_code = fa.investment_fundaccount_fundproduct_code
 left join {{ ref ('constants_integrate_investment') }} loadtype on loadtype.value = fp.investment_fund_products_load_type and loadtype.type = 'LoadType'
 left join {{ ref ('producttypes_integrate_investment')  }} pt on pt.investment_fund_producttypes_fund_subtype = fp.investment_fund_products_fund_subtype
 left join {{ ref ('sponsor_integrate_investment_consultant')  }} s on s.investment_fund_sponsor_code = fp.investment_fund_products_sponsor_code
