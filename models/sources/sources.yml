@@ -277,6 +277,7 @@ sources:
       - name: carrier_fin_fh
       - name: region_fin_fh
       - name: location_fin_fh
+      - name: asset_classes_fh
      
      
 
