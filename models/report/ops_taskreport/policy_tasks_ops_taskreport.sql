@@ -11,7 +11,7 @@ with tf as (
     select
         taskcode,
         assigndate,
-        assignby,
+        assignedby,
         title
     from {{ ref('task_fh_ops_taskreport') }}
 ),
@@ -28,12 +28,21 @@ pt as (
         completiondate,
         policycode
     from {{ ref('policytasks_ops_taskreport') }}
+),
+
+em as (
+
+select 
+    usercode,
+    trim(concat_ws(' ', firstname, lastname)) as AssignedTo
+from {{ ref('employee_vc_clean_insurance') }}
+
 )
 
 select
     tf.taskcode,
     tf.assigndate,
-    tf.assignby,
+    tf.assignedby,
     tf.title,
     pt.tasktype,
     pt.taskpriority,
@@ -42,11 +51,14 @@ select
     pt.usercode,
     pt.duedate,
     pt.completiondate,
-    pt.policycode
+    pt.policycode,
+    em.AssignedTo
 from tf
 -- Use LEFT JOIN to keep all OPS tasks (recommended for reporting completeness)
 left join pt
     on tf.taskcode = pt.taskcode
+left join em
+    on pt.usercode = em.usercode
 
 -- If you only want matched rows, replace the LEFT JOIN with:
 -- inner join pt on tf.taskcode = pt.taskcode
