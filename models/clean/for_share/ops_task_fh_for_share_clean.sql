@@ -2,4 +2,4 @@
 database='clean', 
 schema='for_share')  }} 
 
-SELECT * FROM {{ ref('tasks_fh_clean_insurance') }}
+SELECT * FROM {{ ref('task_fh_ops_taskreport') }}
