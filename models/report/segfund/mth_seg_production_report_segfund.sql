@@ -90,7 +90,8 @@
     CARRIER_MAP AS (
         SELECT
             DISTINCT SPONSOR_ID,
-            CARRIER_DATABASE_NAME
+            CARRIER_DATABASE_NAME,
+            CARRIER_FR
         FROM
             {{ ref('carrier_fin_fh_report_investment') }}
     ),
@@ -129,6 +130,7 @@ SELECT
     FP.DESCRIPTION AS ASSET_CLASS,
     FP.DESCRIPTIONFRENCH AS ASSET_CLASS_FR,
     CARRIER_DATABASE_NAME AS CARRIER,
+    CARRIER_FR,
     SEGMENT,
     COS_SEGMENT_MAP.BRANCH_FH,
     COS_SEGMENT_MAP.REGION_FH,
