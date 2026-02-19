@@ -29,7 +29,7 @@ with src as (
         COMMISSION_REP_NAME,
         GROUP_LEADER_NAME,
         NET_COMMISSION
-    from  {{ ref('commissionable_data_summary_extract_transaction_normalize_investment') }} --REPORT_CL.PROD_INVESTMENT.COMMISSIONABLE_DATA_SUMMARY_EXTRACT_AUG2025
+    from  {{ ref('commissionable_data_summary_extract_transaction_normalize_investment') }} 
 ),
 
 -- ------------------------------------------------------------
@@ -194,7 +194,7 @@ lk_loc_dedup as (
     select
         COMMISSION_REP_NAME,
         max(FHG_BRANCH) as FHG_BRANCH
-    from REPORT_CL.PROD_INVESTMENT.TRANSFORM_COMMDATASUMMARYDETAILS_LOOKUP_LOCATION_STATIC
+    from {{ source('norm', 'location_fin_fh') }} 
     group by COMMISSION_REP_NAME
 ),
 
@@ -202,23 +202,23 @@ lk_reg_dedup as (
     select
         BRANCH,
         max(REGION) as REGION
-    from REPORT_CL.PROD_INVESTMENT.TRANSFORM_COMMDATASUMMARYDETAILS_LOOKUP_REGION_STATIC
+    from {{ source('norm', 'region_fin_fh') }} 
     group by BRANCH
 ),
 
 lk_car_dedup as (
     select
-        SPONSORID,
+        SPONSOR_ID,
         max(CARRIER_DATABASE_NAME) as CARRIER_DATABASE_NAME
-    from REPORT_CL.PROD_INVESTMENT.TRANSFORM_COMMDATASUMMARYDETAILS_LOOKUP_CARRIER_STATIC
-    group by SPONSORID
+    from {{ source('norm', 'carrier_fin_fh') }}   
+    group by SPONSOR_ID
 ),
 
 lk_lt_dedup as (
     select
         OLDNAME,
         max(NEWTYPE) as NEWTYPE
-    from REPORT_CL.PROD_INVESTMENT.TRANSFORM_COMMDATASUMMARYDETAILS_LOOKUP_LOADTYPES_STATIC
+    from {{ source('norm', 'loadtypes_fin_fh') }}   
     group by OLDNAME
 ),
 
@@ -249,7 +249,7 @@ car as (
         coalesce(lk_car.CARRIER_DATABASE_NAME, 'none') as carrier_raw
     from reg r
     left join lk_car_dedup lk_car
-        on r.sponsor_id = lk_car.SPONSORID
+        on r.sponsor_id = lk_car.SPONSOR_ID
 ),
 
 lt as (
@@ -413,17 +413,19 @@ clean_final as (
 split_join as (
     select
         cf.*,
-try_to_number(jr.REPID)::number(38,0)   as new_broker_id,
+--try_to_number(jr.REPID)::number(38,0)   as new_broker_id,
+ jr.repid::text as new_broker_id,
 trim(concat_ws(' ', jr.LAST_NAME, jr.FIRST_NAME)) as new_broker_name,
         coalesce(jr.SHARE / 100.0, 1.0) as split_pct
     from clean_final cf
-    left join REPORT_CL.PROD_INVESTMENT.Joint_id_rate jr
+    left join {{ ref('joint_id_rate_fh_normalize_investment') }} jr
         on try_to_number(cf.broker_id) = try_to_number(jr.JOINTID)
 ),
 
 split_applied as (
     select
-to_varchar(coalesce(new_broker_id, broker_id)::number(38,0)) as "Broker ID",
+--to_varchar(coalesce(new_broker_id, broker_id)::number(38,0)) as "Broker ID",
+  to_varchar(coalesce(new_broker_id, broker_id)::text) as "Broker ID",
         coalesce(new_broker_name, broker_name)         as "Broker Name",
 
         branch as "Branch",
