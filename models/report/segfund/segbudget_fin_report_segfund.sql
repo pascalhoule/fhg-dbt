@@ -22,9 +22,7 @@ SELECT
     AMOUNT AS AMOUNT
 FROM
     {{ ref('segbudget_fin') }}
-
 UNION ALL
-
 SELECT
     'FH' as BUSINESS_STREAM,
     BROKERID::VARCHAR AS FH_BROKERID,

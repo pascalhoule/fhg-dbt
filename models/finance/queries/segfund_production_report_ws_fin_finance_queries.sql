@@ -3,7 +3,7 @@
         materialized="view",			
         alias='segfund_production_report_ws_fin', 			
         database='finance', 			
-        schema='investment'  		
+        schema='queries'  		
     )			
 }}
 
