@@ -18,9 +18,9 @@ WITH RPT AS (
         REP.REPID,
         REP.INSAGENTCODE,
         REP.REPRESENTATIVECODE,
-        CONCAT(REP.LAST_NAME, ',', REP.FIRST_NAME) AS FULLNAME,
-        REP.LAST_NAME,
-        REP.FIRST_NAME,
+        CONCAT(INITCAP(REP.LAST_NAME), ',', INITCAP(REP.FIRST_NAME)) AS FULLNAME,
+        INITCAP(REP.LAST_NAME) AS LAST_NAME,
+        INITCAP(REP.FIRST_NAME) AS FIRST_NAME,
         FUNDPRODUCT.SPONSORID,
         FUNDPRODUCT.FUNDID,
         FUNDPRODUCT.NAME AS FUNDNAME,
@@ -31,10 +31,10 @@ WITH RPT AS (
         SUM(T.GROSSCOMMISSION) AS GROSSCOMMISSION
     FROM
          {{ ref('segfund_report_transactions_fh_report_investment') }} T
-        JOIN {{ ref('representatives_vc_report_investment') }} REP ON REP.REPRESENTATIVECODE = T.TRANSACTIONREPCODE
-        JOIN {{ ref('transact_map_report_segfund') }} MAP ON T.TRANSACTIONTYPECODE = MAP.TRANSACTIONTYPECODE
-        JOIN {{ ref('fundproducts_vc_report_investment') }} FUNDPRODUCT ON T.FUNDPRODUCTCODE = FUNDPRODUCT.FUNDPRODUCTCODE
-        JOIN {{ ref('sponsor_vc_report_investment') }} SPONSOR ON SPONSOR.SPONSORID = FUNDPRODUCT.SPONSORID
+            JOIN {{ ref('representatives_vc_report_investment') }} REP ON REP.REPRESENTATIVECODE = T.TRANSACTIONREPCODE
+            JOIN {{ ref('transact_map_report_segfund') }} MAP ON T.TRANSACTIONTYPECODE = MAP.TRANSACTIONTYPECODE
+            JOIN {{ ref('fundproducts_vc_report_investment') }} FUNDPRODUCT ON T.FUNDPRODUCTCODE = FUNDPRODUCT.FUNDPRODUCTCODE
+            JOIN {{ ref('sponsor_vc_report_investment') }} SPONSOR ON SPONSOR.SPONSORID = FUNDPRODUCT.SPONSORID
     WHERE
         T.SEGFUND_REPORT_DATE_FH::DATE >= IFF(
             CURRENT_DATE() - 7 < DATE_FROM_PARTS(YEAR(CURRENT_DATE), MONTH(CURRENT_DATE), 1),
@@ -55,9 +55,9 @@ WITH RPT AS (
         REP.REPID,
         REP.INSAGENTCODE,
         REP.REPRESENTATIVECODE,
-        CONCAT(REP.LAST_NAME, ',', REP.FIRST_NAME) AS FULLNAME,
-        REP.LAST_NAME,
-        REP.FIRST_NAME,
+        CONCAT(INITCAP(REP.LAST_NAME), ',', INITCAP(REP.FIRST_NAME)) AS FULLNAME,
+        INITCAP(REP.LAST_NAME) AS LAST_NAME,
+        INITCAP(REP.FIRST_NAME) AS FIRST_NAME,
         FUNDPRODUCT.SPONSORID,
         FUNDPRODUCT.FUNDID,
         FUNDPRODUCT.NAME AS FUNDNAME,
@@ -67,11 +67,11 @@ WITH RPT AS (
         SUM(T.AMOUNT) AS SEG_SALES_AMT,
         SUM(T.GROSSCOMMISSION) AS GROSSCOMMISSION
     FROM
-         {{ ref('segfund_report_transactions_fh_report_investment') }} T
-        JOIN {{ ref('representatives_vc_report_investment') }} REP ON REP.REPRESENTATIVECODE = T.TRANSACTIONREPCODE
-        JOIN {{ ref('transact_map_report_segfund') }} MAP ON T.TRANSACTIONTYPECODE = MAP.TRANSACTIONTYPECODE
-        JOIN {{ ref('fundproducts_vc_report_investment') }} FUNDPRODUCT ON T.FUNDPRODUCTCODE = FUNDPRODUCT.FUNDPRODUCTCODE
-        JOIN {{ ref('sponsor_vc_report_investment') }} SPONSOR ON SPONSOR.SPONSORID = FUNDPRODUCT.SPONSORID
+          {{ ref('segfund_report_transactions_fh_report_investment') }} T
+            JOIN {{ ref('representatives_vc_report_investment') }} REP ON REP.REPRESENTATIVECODE = T.TRANSACTIONREPCODE
+            JOIN {{ ref('transact_map_report_segfund') }} MAP ON T.TRANSACTIONTYPECODE = MAP.TRANSACTIONTYPECODE
+            JOIN {{ ref('fundproducts_vc_report_investment') }} FUNDPRODUCT ON T.FUNDPRODUCTCODE = FUNDPRODUCT.FUNDPRODUCTCODE
+            JOIN {{ ref('sponsor_vc_report_investment') }} SPONSOR ON SPONSOR.SPONSORID = FUNDPRODUCT.SPONSORID
     WHERE
         T.SEGFUND_REPORT_DATE_FH::DATE >= IFF(
             CURRENT_DATE() - 7 < DATE_FROM_PARTS(YEAR(CURRENT_DATE), MONTH(CURRENT_DATE), 1),
@@ -86,7 +86,8 @@ WITH RPT AS (
 CARRIER_MAP AS (
     SELECT
         DISTINCT SPONSOR_ID,
-        CARRIER_DATABASE_NAME
+        CARRIER_DATABASE_NAME,
+        CARRIER_FR
     FROM
           {{ ref('carrier_fin_fh_report_investment') }}
 ),
@@ -113,12 +114,13 @@ COS_SEGMENT_MAP AS (
         COS_SALES_WS,
         COS_CONTRACT_RMCC
     FROM
-        {{ ref('repmap_fh_report_investment') }} REPMAP
+       {{ ref('repmap_fh_report_investment') }} REPMAP
         LEFT JOIN {{ ref('broker_fh_report_insurance') }} B ON REPMAP.REPID = B.BROKERID
 ) 
 SELECT
-    RPT.*,
+    RPT.*, FP.DESCRIPTION AS ASSET_CLASS, FP.DESCRIPTIONFRENCH AS ASSET_CLASS_FR,
     CARRIER_DATABASE_NAME AS CARRIER,
+    CARRIER_FR AS CARRIER_FR,
     SEGMENT,
     COS_SEGMENT_MAP.BRANCH_FH, 
     COS_SEGMENT_MAP.REGION_FH,
@@ -143,4 +145,7 @@ SELECT
 FROM
     RPT
     LEFT JOIN COS_SEGMENT_MAP ON RPT.REPID = COS_SEGMENT_MAP.REPID
+    AND RPT.REPRESENTATIVECODE = COS_SEGMENT_MAP.REPRESENTATIVECODE
     LEFT JOIN CARRIER_MAP C ON C.SPONSOR_ID = RPT.SPONSORID
+    LEFT JOIN {{ ref('fundproducts_fh_report_investment') }} FP ON FP.FUNDPRODUCTCODE = RPT.FUNDPRODUCTCODE
+    

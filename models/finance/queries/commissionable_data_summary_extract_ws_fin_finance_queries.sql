@@ -3,7 +3,7 @@
         materialized="view",			
         alias='commissionable_data_summary_extract_ws_fin', 			
         database='finance', 			
-        schema='investment'  		
+        schema='queries'  		
     )			
 }}
 

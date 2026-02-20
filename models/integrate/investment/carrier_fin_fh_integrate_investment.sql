@@ -9,5 +9,4 @@
 
 SELECT 
 *
-FROM
-{{ source('norm', 'carrier_fin_fh') }}
+FROM {{ source('norm', 'carrier_fin_fh') }}
